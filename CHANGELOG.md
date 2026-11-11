@@ -3,7 +3,7 @@
 Las versiones siguen `MAJOR.MINOR`. Un cambio MAJOR altera un pilar o una regla
 obligatoria; un MINOR agrega guías, plantillas o aclaraciones.
 
-## Sin publicar
+## v1.1 — 2026-11-11
 
 - Puerta: ejemplos de `gate.steps` para Go, Java, .NET y monorepos.
 - Puerta: nota de sistemas operativos (macOS, Linux, Windows con WSL o Git Bash).
