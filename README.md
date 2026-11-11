@@ -28,7 +28,7 @@ también se le llama **VDD**.
 2. Copia [`templates/vault/`](templates/vault/) a un repo privado
    `<proyecto>-vault` y [`templates/repo/`](templates/repo/) a tu repo de
    código, uno al lado del otro.
-3. Sigue el checklist de **Día 0** (VERDE.md §7): clave de issues, D-001,
+3. Sigue el checklist de **Día 0** (VERDE.md §9): clave de issues, D-001,
    `gate.steps` para tu stack y `make gate` en verde.
 
 ## Contenido
