@@ -20,19 +20,7 @@ vault no se decidió, y lo que no tiene evidencia no está hecho.
 
 ---
 
-## 1. De dónde viene
-
-VERDE nace de un proyecto real: un SaaS multitenant de gestión de proyectos,
-construido con agentes en unas tres semanas. En 18 días el equipo —una persona
-como dueña del producto, un agente como PM y revisor, y uno o dos agentes como
-desarrolladores— integró 57 entregas en `main`, escribió 9 ADR y registró unas
-140 decisiones, con lint, pruebas, cobertura ≥ 80 % y e2e en verde en todo
-momento.
-
-No salió de una teoría: cada regla de este documento existe porque su ausencia
-costó algo. Las lecciones de la sección 11 cuentan cuánto.
-
-## 2. Principios
+## 1. Principios
 
 1. **El vault manda.** Si no está en el vault, no se decidió. El chat se
    olvida; el vault no.
@@ -51,7 +39,7 @@ costó algo. Las lecciones de la sección 11 cuentan cuánto.
 9. **Los roles no son herramientas.** Un rol puede ocuparlo una persona o
    cualquier agente; el método no cambia.
 
-## 3. Los cinco pilares
+## 2. Los cinco pilares
 
 ### V · Vault
 
@@ -94,7 +82,7 @@ o producto.
 - qué hacer si se bloquea: escribir la pregunta y detenerse.
 
 **Anti-patrón:** el encargo que dice el síntoma sin pedir la causa. El agente
-resolverá el síntoma (ver sección 11).
+resolverá el síntoma (ver sección 10).
 
 ### R · Revisión
 
@@ -176,7 +164,7 @@ RESULT GREEN · log tmp/gate.log
 **Anti-patrón:** "en mi máquina pasa". Si no hay salida de la puerta pegada en
 el PR, no hay evidencia.
 
-## 4. Roles
+## 3. Roles
 
 | Rol | Qué hace | Qué no hace |
 | --- | --- | --- |
@@ -188,7 +176,7 @@ el PR, no hay evidencia.
 Un equipo mínimo es **un PO, un PM y un dev**. Más agentes de desarrollo en
 paralelo sólo ayudan si cada uno tiene su worktree y no comparten el entorno.
 
-## 5. El ciclo
+## 4. El ciclo
 
 ```text
  Backlog ──► Diseño* ──► Encargo ──► Rama + worktree ──► Implementación
@@ -230,7 +218,7 @@ paralelo sólo ayudan si cada uno tiene su worktree y no comparten el entorno.
    `archive/<rama>` y se borra.
 10. **Registro.** El PM actualiza backlog, decisiones y status del día.
 
-## 6. Convenciones
+## 5. Convenciones
 
 | Qué | Formato | Ejemplo |
 | --- | --- | --- |
@@ -252,7 +240,7 @@ Llámalo como prefieras (historia, entrega, *carrier*); el método no lo exige.
 
 Sólo se integra con **squash**: una entrega, un commit en `main`.
 
-## 7. La puerta
+## 6. La puerta
 
 La puerta es el pilar que hace cumplir a los demás. Se implementa con dos
 archivos de la plantilla de repo:
@@ -294,7 +282,7 @@ correrlo solo, se permite **una** re-ejecución de ese paso para el merge, se
 anota en el PR y se abre un encargo de causa raíz. Nunca se agregan reintentos
 ni se suben timeouts para taparlo.
 
-## 8. Día 0 de un proyecto nuevo
+## 7. Día 0 de un proyecto nuevo
 
 - [ ] Crear el repo del vault desde `templates/vault/` y el repo de código desde
       `templates/repo/`, ambos privados, clonados uno al lado del otro.
@@ -316,11 +304,11 @@ ni se suben timeouts para taparlo.
       completo, aunque sea pequeño: así se prueba el proceso antes que el
       producto.
 
-## 9. Higiene de contexto para agentes
+## 8. Higiene de contexto para agentes
 
-Cada paso de un agente vuelve a leer toda la conversación. En el proyecto de
-origen, más del 98 % de los tokens fue relectura, y tres sesiones largas
-consumieron el 82 % del total. Por eso:
+Cada paso de un agente vuelve a leer toda la conversación, así que casi todo
+el consumo de tokens es relectura, y unas pocas sesiones largas concentran la
+mayor parte. Por eso:
 
 - **Una sesión nueva por encargo y por ronda.** El estado vive en la rama y en
   el archivo de PR.
@@ -333,7 +321,7 @@ consumieron el 82 % del total. Por eso:
 - **Modelos pequeños o locales** sirven para cambios de pocos archivos con
   instrucciones exactas, no para diseñar.
 
-## 10. Lanzar un agente
+## 9. Lanzar un agente
 
 ```sh
 git worktree add ../<proyecto>-<KEY>-<n> -b feat/<KEY>-<n>-<slug> origin/main
@@ -350,18 +338,18 @@ cd ../<proyecto>-<KEY>-<n>
 - El PO vigila la terminal del agente; el PM revisa el resultado. Separar esas
   dos tareas evita que el revisor se vuelva coautor.
 
-## 11. Lecciones
+## 10. Lecciones
 
-Lo que el proyecto de origen aprendió pagando:
+Lo que cuesta ignorar estas reglas:
 
-- **El agente resuelve el síntoma si el encargo no pide la causa.** Un check de
-  contraste fallaba en un botón primario; el agente lo cambió a secundario y el
-  check pasó. La causa real era una transición CSS que el test medía a la mitad.
-  Se revirtió y el encargo siguiente pidió la causa.
+- **El agente resuelve el síntoma si el encargo no pide la causa.** Ante un check
+  de contraste que falla en un botón primario, el agente puede cambiarlo a
+  secundario y el check pasa, aunque la causa sea otra (por ejemplo, una
+  transición CSS que el test mide a la mitad).
 - **La evidencia escrita ahorra la mitad de la revisión.** Con comandos y
   salidas en el archivo de PR, revisar es verificar.
-- **Diseño antes que código.** Las pantallas aprobadas antes de implementar
-  llegaron como pulido, no como rediseño.
+- **Diseño antes que código.** Con las pantallas aprobadas antes de
+  implementar, los cambios llegan como pulido, no como rediseño.
 - **Las pruebas intermitentes casi siempre son de orden o de tiempo:** filas
   creadas en la misma transacción con la misma marca de tiempo, el día que
   cambia a mitad del e2e, un timeout corto bajo carga. Se arreglan en la prueba
@@ -370,14 +358,14 @@ Lo que el proyecto de origen aprendió pagando:
   facturación de la CI o el límite mensual de un escáner. La puerta local evita
   que eso detenga el trabajo.
 - **Dos entornos a la vez fallan como si fueran bugs.** Un puerto ocupado por
-  otra instancia hizo fallar el e2e. La puerta debe verificar sus
+  otra instancia hace fallar el e2e. La puerta debe verificar sus
   precondiciones antes de empezar.
-- **Menos agentes, más estables.** Con un solo dev y un PM que revisa, el flujo
-  fue más predecible que con cuatro agentes en roles parecidos.
-- **Integrar sólo con squash.** Un merge commit por error ensucia la historia
+- **Menos agentes, más estables.** Un solo dev y un PM que revisa dan un flujo
+  más predecible que varios agentes en roles parecidos.
+- **Integrar sólo con squash.** Un merge commit ensucia la historia
   de `main` para siempre.
 
-## 12. Glosario
+## 11. Glosario
 
 | Español | Inglés | Qué es |
 | --- | --- | --- |
@@ -393,7 +381,7 @@ Lo que el proyecto de origen aprendió pagando:
 | Dueño del producto | Product owner (PO) | Persona que prioriza y aprueba. |
 | PM y revisor | PM / reviewer | Rol que escribe el vault, revisa e integra. |
 
-## 13. Versión y licencia
+## 12. Versión y licencia
 
 Este documento es **VERDE v1.0**. Los cambios se registran en
 [`CHANGELOG.md`](CHANGELOG.md): un cambio MAJOR altera un pilar o una regla

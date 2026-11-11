@@ -18,16 +18,13 @@ son sus cinco pilares:
 En inglés: Vault · Engagement brief · Review · Decision · Evidence. Al método
 también se le llama **VDD**.
 
-Nació de un proyecto real: un SaaS multitenant construido con agentes en 18
-días, con 57 entregas, 9 ADR y unas 140 decisiones registradas.
-
 ## Empezar
 
 1. Lee [`VERDE.md`](VERDE.md) (unos 20 minutos).
 2. Copia [`templates/vault/`](templates/vault/) a un repo privado
    `<proyecto>-vault` y [`templates/repo/`](templates/repo/) a tu repo de
    código, uno al lado del otro.
-3. Sigue el checklist de **Día 0** (VERDE.md §8): clave de issues, D-001,
+3. Sigue el checklist de **Día 0** (VERDE.md §7): clave de issues, D-001,
    `gate.steps` para tu stack y `make gate` en verde.
 
 ## Contenido
