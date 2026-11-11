@@ -1,0 +1,21 @@
+name: pr-title
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  pr-title:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check title format (KEY-n + description)
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+          KEY: ${{ vars.ISSUE_KEY }}
+        run: |
+          if [ -z "$KEY" ]; then echo "Define the repo variable ISSUE_KEY"; exit 1; fi
+          if printf '%s' "$TITLE" | grep -Eq "^${KEY}-[0-9]+: .{1,72}$"; then
+            echo "ok: $TITLE"
+          else
+            echo "PR title must match '${KEY}-<n>: <description>' (max 72 chars)"; exit 1
+          fi

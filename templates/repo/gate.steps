@@ -1,0 +1,30 @@
+# VERDE · pasos de la puerta local (make gate)
+#
+# Formato: <kind> <name>: <command>
+#   kind     setup | step | teardown
+#   ?name    paso opcional: SKIP si la herramienta (primer token) no existe
+#
+# Los "setup" corren primero; si uno falla, se saltan los "step".
+# Los "teardown" corren siempre. Cualquier FAIL deja el resultado en RED.
+# Mínimo obligatorio en VERDE: formato, lint, test, build, cobertura, e2e y
+# seguridad. Ajusta los comandos a tu stack.
+
+# ---- Ejemplo: Node (activo) ----
+step format: npx prettier --check .
+step lint: npm run lint
+step test: npm test
+step build: npm run build
+step coverage: npm run test:coverage
+setup infra: docker compose up -d --wait
+step e2e: npx playwright test
+teardown infra-down: docker compose down
+step ?snyk: snyk test --severity-threshold=high
+
+# ---- Ejemplo: Python (descomenta y borra el bloque de Node) ----
+# step format: ruff format --check .
+# step lint: ruff check .
+# step test-coverage: pytest --cov --cov-fail-under=80
+# setup infra: docker compose up -d --wait
+# step e2e: pytest tests/e2e
+# teardown infra-down: docker compose down
+# step ?pip-audit: pip-audit
