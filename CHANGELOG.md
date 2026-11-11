@@ -1,0 +1,12 @@
+# Changelog
+
+Las versiones siguen `MAJOR.MINOR`. Un cambio MAJOR altera un pilar o una regla
+obligatoria; un MINOR agrega guías, plantillas o aclaraciones.
+
+## v1.0 — 2026-11-11
+
+- Primera versión pública de VERDE / VDD.
+- Estándar `VERDE.md`: principios, cinco pilares, roles, ciclo, convenciones,
+  puerta de checks, día 0, higiene de contexto, lecciones y glosario ES/EN.
+- Plantilla de vault (Obsidian) y plantilla de repo con la puerta agnóstica de
+  stack (`local-gate.sh` + `gate.steps`).
