@@ -215,26 +215,24 @@ El operador:
 
 ## 4. El ciclo
 
-```text
- Backlog ──► Diseño* ──► Encargo ──► Rama + worktree ──► Implementación
- (PM, PO)    (PO)        (PM)        (dev)                (dev)
-                                                              │
-   ┌──────────────────────────────────────────────────────────┘
-   ▼
- make gate + archivo de PR ──► PR ──► Revisión (diff + Playwright + axe)
- (dev)                         (dev)  (revisor ≠ autor, en el vault)
-                                          │
-                     cambios ◄────────────┤
-                     (ronda N, sesión     │ aprobado
-                      nueva del dev)      ▼
-                                   make gate sobre el commit del PR (PM)
-                                          │ RESULT GREEN
-                                          ▼
-                                   Squash merge ──► tag archive/<rama> ──► Registro
-                                   (PM)                                    (backlog,
-                                                                            decisiones,
-                                                                            status)
- * sólo si hay pantallas nuevas
+```mermaid
+flowchart TD
+    A["Backlog<br/><i>PM redacta · PO aprueba</i>"] --> B{"¿Pantallas nuevas?"}
+    B -- sí --> C["Diseño<br/><i>PO aprueba</i>"]
+    B -- no --> D
+    C --> D["Encargo<br/><i>PM escribe y asigna responsable</i>"]
+    D --> E["Rama + worktree<br/><i>dev</i>"]
+    E --> F["Implementación<br/><i>dev: persona o agente con operador</i>"]
+    F --> G["make gate + archivo de PR<br/><i>dev</i>"]
+    G --> H["PR abierto<br/><i>dev se detiene</i>"]
+    H --> I["Revisión: diff + Playwright + axe<br/><i>revisor ≠ autor, en el vault</i>"]
+    I -- cambios --> J["Ronda N<br/><i>misma rama; agente en sesión nueva</i>"]
+    J --> G
+    I -- aprobado --> K["make gate sobre el commit del PR<br/><i>PM</i>"]
+    K -- RESULT RED --> J
+    K -- RESULT GREEN --> L["Squash merge<br/><i>PM</i>"]
+    L --> M["Tag archive/rama"]
+    M --> N["Registro: backlog, decisiones, status<br/><i>PM</i>"]
 ```
 
 1. **Backlog.** El PM redacta épicas, issues y criterios verificables. El PO
