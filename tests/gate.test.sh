@@ -55,5 +55,8 @@ check outside_git eval 'starts "head unknown · "'
 run_gate log.steps
 check log_capture eval 'hasnt "hola-log" && grep -q "hola-log" "$GATE_TMP/gate.log"'
 
+run_gate crlf.steps
+check crlf_line_endings eval 'has "PASS a" && has "PASS b" && starts "RESULT GREEN" && [ $CODE -eq 0 ]'
+
 echo
 if [ $fails -eq 0 ]; then echo "all tests passed"; exit 0; else echo "$fails test(s) failed"; exit 1; fi

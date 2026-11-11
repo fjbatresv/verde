@@ -8,6 +8,9 @@
 #   name     sin espacios; prefijo "?" = opcional (SKIP si falta la herramienta)
 #   command  se ejecuta con `bash -c`, tal cual
 # Las líneas en blanco y las que empiezan con "#" se ignoran.
+# setup y step corren en el orden del archivo (pon los setup arriba); si un
+# setup falla, se saltan los pasos siguientes. Los teardown corren al final,
+# siempre.
 #
 # Salida: "head …", una línea PASS|FAIL|SKIP por paso y "RESULT GREEN|RED".
 # La salida de los comandos va a GATE_LOG (por defecto tmp/gate.log).
@@ -27,6 +30,7 @@ kinds=() names=() cmds=()
 n=0
 while IFS= read -r line || [ -n "$line" ]; do
   n=$((n + 1))
+  line="${line%$'\r'}" # tolera gate.steps con fin de línea CRLF
   trimmed="${line#"${line%%[![:space:]]*}"}"
   case "$trimmed" in '' | '#'*) continue ;; esac
   if [[ "$trimmed" =~ ^(setup|step|teardown)[[:space:]]+(\??[A-Za-z0-9_.-]+):[[:space:]]*(.+)$ ]]; then

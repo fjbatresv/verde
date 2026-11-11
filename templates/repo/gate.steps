@@ -4,8 +4,10 @@
 #   kind     setup | step | teardown
 #   ?name    paso opcional: SKIP si la herramienta (primer token) no existe
 #
-# Los "setup" corren primero; si uno falla, se saltan los "step".
-# Los "teardown" corren siempre. Cualquier FAIL deja el resultado en RED.
+# "setup" y "step" corren en el orden del archivo: pon cada setup antes de los
+# pasos que lo necesitan. Si un setup falla, se saltan los pasos siguientes.
+# Los "teardown" corren siempre, al final. Cualquier FAIL deja el resultado en RED.
+# En un paso ?opcional, la herramienta debe ser el primer token del comando.
 # Mínimo obligatorio en VERDE: formato, lint, test, build, cobertura, e2e y
 # seguridad. Ajusta los comandos a tu stack.
 

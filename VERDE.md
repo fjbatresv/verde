@@ -271,9 +271,10 @@ teardown infra-down: docker compose down
 step ?snyk: snyk test --severity-threshold=high
 ```
 
-- **`setup`** corre primero; si falla, se saltan los `step` y el resultado es
-  rojo.
-- **`step`** corre siempre, aunque uno anterior haya fallado, para ver todos los
+- **`setup`** y **`step`** corren en el orden del archivo: pon cada `setup`
+  antes de los pasos que lo necesitan. Si un `setup` falla, se saltan los pasos
+  siguientes y el resultado es rojo.
+- Un **`step`** corre aunque uno anterior haya fallado, para ver todos los
   problemas en una corrida.
 - **`teardown`** corre siempre, al final.
 - **`?nombre`** marca un paso opcional: si la herramienta no está instalada, da
