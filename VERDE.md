@@ -365,6 +365,15 @@ step ?snyk: snyk test --severity-threshold=high
 El código de salida es 0 (verde), 1 (rojo) o 2 (`gate.steps` mal escrito). El
 log completo queda en `tmp/gate.log`.
 
+**Cualquier stack.** El ejemplo es Node, pero el script sólo ejecuta los
+comandos que declares. La plantilla trae bloques comentados para Python, Go,
+Java, .NET y monorepos; deja activo el que corresponda.
+
+**Sistemas operativos.** La puerta necesita `bash` y `make`. En macOS y Linux
+ya vienen. En Windows, usa WSL (con `make` instalado) o Git Bash; Git Bash no
+trae `make`, así que ahí se corre `bash tools/ci/local-gate.sh`. Los comandos
+de cada paso deben existir en ese mismo entorno.
+
 **CI remota.** El workflow `ci.yml` corre la misma puerta. Cuando la CI remota
 no está disponible (facturación, límites de un servicio externo), **manda la
 puerta local**: el PM la corre y pega la salida en el PR. La CI remota es un

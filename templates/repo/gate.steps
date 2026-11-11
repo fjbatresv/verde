@@ -9,7 +9,13 @@
 # Los "teardown" corren siempre, al final. Cualquier FAIL deja el resultado en RED.
 # En un paso ?opcional, la herramienta debe ser el primer token del comando.
 # Mínimo obligatorio en VERDE: formato, lint, test, build, cobertura, e2e y
-# seguridad. Ajusta los comandos a tu stack.
+# seguridad. Ajusta los comandos a tu stack: deja activo un solo bloque.
+#
+# Sistemas operativos: la puerta necesita bash y make.
+#   macOS y Linux   ya vienen instalados.
+#   Windows         usa WSL (instala make: sudo apt install make) o Git Bash.
+#                   Git Bash no trae make: corre bash tools/ci/local-gate.sh.
+# Los comandos de cada paso corren en ese bash: deben existir en ese entorno.
 
 # ---- Ejemplo: Node (activo) ----
 step format: npx prettier --check .
@@ -30,3 +36,34 @@ step ?snyk: snyk test --severity-threshold=high
 # step e2e: pytest tests/e2e
 # teardown infra-down: docker compose down
 # step ?pip-audit: pip-audit
+
+# ---- Ejemplo: Go ----
+# step format: test -z "$(gofmt -l .)"
+# step lint: go vet ./...
+# step build: go build ./...
+# step test-coverage: go test -cover ./...
+# setup infra: docker compose up -d --wait
+# step e2e: go test -tags=e2e ./e2e/...
+# teardown infra-down: docker compose down
+# step ?govulncheck: govulncheck ./...
+
+# ---- Ejemplo: Java (Maven; con Gradle usa ./gradlew check) ----
+# step format: mvn -q spotless:check
+# step build-test-coverage: mvn -q verify   # define el umbral en jacoco:check
+# setup infra: docker compose up -d --wait
+# step e2e: mvn -q verify -Pe2e
+# teardown infra-down: docker compose down
+# step ?dependency-check: mvn -q org.owasp:dependency-check-maven:check
+
+# ---- Ejemplo: .NET ----
+# step format: dotnet format --verify-no-changes
+# step build: dotnet build --warnaserror
+# step test-coverage: dotnet test --collect:"XPlat Code Coverage"
+# setup infra: docker compose up -d --wait
+# step e2e: dotnet test tests/E2E
+# teardown infra-down: docker compose down
+# step ?vulnerable: dotnet list package --vulnerable --include-transitive
+
+# ---- Monorepo: cada paso indica su carpeta ----
+# step api-test: cd api && go test ./...
+# step web-test: cd web && npm test
