@@ -8,26 +8,31 @@ Decisión · Evidencia. Esta guía es la versión operativa para este repo.
 | Rol | Quién | Qué hace | Qué no hace |
 | --- | --- | --- | --- |
 | PO | <nombre> | Prioriza; aprueba backlog, diseños, encargos y PRs; decide lo abierto | — |
-| PM y revisor | <nombre o agente> | Escribe backlog, encargos, revisiones y decisiones en el vault; revisa en vivo con Playwright; corre la puerta; hace el squash merge | Merge sin aprobación o con la puerta en rojo |
-| Dev | <agente(s)> | Implementa el encargo, escribe la evidencia, abre el PR | Merge, push a `main`, `--force`, editar el vault |
+| PM | <nombre o agente> | Escribe backlog, encargos, decisiones y status; asigna encargos y revisores; integra | Merge sin aprobación o con la puerta en rojo |
+| Revisor | <nombres o agentes> | Revisa entregas ajenas en vivo con Playwright y escribe la revisión | Revisar lo que escribió |
+| Dev | <personas y agentes> | Implementa el encargo, escribe la evidencia, abre el PR | Merge, push a `main`, `--force`, editar el vault |
+| Operador | <personas> | Lanza y vigila agentes dev; responde por su entrega | Dejar agentes sin supervisión |
 | Arquitecto (opcional) | <nombre o agente> | Diseños y ADR | — |
 
-El vault lo escriben sólo el PO y el PM. Los agentes lo leen.
+El vault lo escriben el PO, el PM y los revisores. Los devs lo leen y proponen
+cambios en su archivo de PR. Un dev humano puede programar a mano o operar
+agentes; en ambos casos sigue el mismo ciclo y su PR lo revisa otro.
 
 ## El ciclo
 
 1. **Backlog.** El PM redacta épicas, issues y criterios de aceptación en el
    vault; el PO aprueba.
 2. **Diseño,** si hay pantallas: se aprueba antes de implementar.
-3. **Encargo.** El PM escribe `03-Encargos/<KEY>-<n>-<agente>-<tema>.md` desde
-   la plantilla. Es todo lo que el agente necesita.
+3. **Encargo.** El PM escribe `03-Encargos/<KEY>-<n>-<responsable>-<tema>.md`
+   desde la plantilla y lo asigna a un dev humano o a un operador con su agente.
+   Es todo lo que el dev necesita.
 4. **Implementación** en su propia worktree y rama, con commits `<KEY>-<n>: …`.
-5. **Evidencia.** El agente corre `make gate`, escribe `docs/prs/<KEY>-<n>-<slug>.md`
+5. **Evidencia.** El dev corre `make gate`, escribe `docs/prs/<KEY>-<n>-<slug>.md`
    y abre el PR. Se detiene.
-6. **Revisión.** El PM lee el diff y la evidencia, **abre la app con
+6. **Revisión.** Un revisor que no es el autor lee el diff y la evidencia, **abre la app con
    Playwright**, recorre el flujo, toma capturas, corre axe y escribe la
    revisión en `06-Revisiones/` con severidades (bloqueante, mayor, menor, nota).
-7. **Rondas,** en sesión nueva del agente, con "Round N" en el archivo de PR.
+7. **Rondas,** en la misma rama (un agente, en sesión nueva), con "Round N" en el archivo de PR.
 8. **Merge.** Con la revisión aprobada, el PM corre `make gate` sobre el commit
    del PR, pega la salida como comentario y, con `RESULT GREEN`, hace
    `gh pr merge --squash --match-head-commit <sha>`. La rama se archiva como
@@ -48,7 +53,7 @@ cd ../<PROJECT>-<KEY>-<n> && cp ../<PROJECT>/.env .env   # si aplica
   (puertos fijos), se turnan.
 - Darle permisos amplios al agente sólo dentro de su worktree y con un encargo
   cerrado.
-- El PO vigila la terminal del agente; el PM revisa el resultado.
+- El operador vigila la terminal del agente; otro revisa el resultado.
 
 ## Cómo escribir un buen encargo
 

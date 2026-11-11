@@ -15,6 +15,10 @@ son sus cinco pilares:
 - **D · Decisión.** Cada decisión se numera (`D-xxx`), se fecha y tiene estado.
 - **E · Evidencia.** Nada se integra sin `make gate` en `RESULT GREEN`.
 
+Funciona con un equipo mínimo (un PO, un PM y agentes) o con varios
+desarrolladores que programan a mano u operan sus propios agentes: los roles son
+responsabilidades, y el autor de una entrega nunca la aprueba.
+
 En inglés: Vault · Engagement brief · Review · Decision · Evidence. Al método
 también se le llama **VDD**.
 

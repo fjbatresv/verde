@@ -2,7 +2,8 @@
 tipo: revision
 issues: [<KEY>-<n>]
 pr: <url o número>
-revisor: <PM>
+revisor: <nombre; nunca el autor>
+autor: <dev o agente + operador>
 resultado: aprobado | cambios-requeridos
 ronda: 1
 fecha: {{date}}

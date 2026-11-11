@@ -24,8 +24,9 @@ vault no se decidió, y lo que no tiene evidencia no está hecho.
 
 1. **El vault manda.** Si no está en el vault, no se decidió. El chat se
    olvida; el vault no.
-2. **Todo trabajo entra por encargo.** Un agente nunca recibe "arregla esto" en
-   el chat: recibe un archivo con objetivo, alcance y criterios.
+2. **Todo trabajo entra por encargo.** Nadie, persona o agente, recibe
+   "arregla esto" en el chat: recibe un archivo con objetivo, alcance y
+   criterios.
 3. **Quien entrega escribe la evidencia.** El revisor verifica lo escrito en vez
    de redescubrirlo.
 4. **El revisor ve la aplicación.** Un cambio de UI no se aprueba leyendo código.
@@ -36,8 +37,11 @@ vault no se decidió, y lo que no tiene evidencia no está hecho.
    callar un check.
 8. **Una sesión por encargo, un agente por worktree.** El estado vive en la rama
    y en el archivo de PR, no en la conversación.
-9. **Los roles no son herramientas.** Un rol puede ocuparlo una persona o
-   cualquier agente; el método no cambia.
+9. **Los roles no son herramientas.** Un rol puede ocuparlo una persona o un
+   agente; el método no cambia.
+10. **Quien escribe no aprueba.** El revisor de una entrega nunca es su autor.
+11. **Todo agente tiene un humano responsable.** Un agente trabaja bajo un
+    operador que lo lanza, lo vigila y responde por su entrega.
 
 ## 2. Los cinco pilares
 
@@ -51,9 +55,11 @@ las reuniones, las decisiones y el status del proyecto.
 clonado al lado del repo de código. No va dentro del repo de código: tiene
 otro ritmo, otros autores y otro nivel de confidencialidad.
 
-**Quién lo escribe:** sólo el PO y el PM, con commit y push directo a `main`.
-Los agentes de desarrollo lo **leen** (su `AGENTS.md` les da la ruta) y nunca lo
-modifican.
+**Quién lo escribe:** el PO, el PM y los revisores, con commit y push directo
+a `main`. Los devs lo **leen**: los agentes, por la ruta de su `AGENTS.md`; las
+personas, con su propio clon. Si un dev necesita cambiar algo del vault (una
+decisión, un criterio), lo propone en su archivo de PR y quien escribe el vault
+lo registra.
 
 **Regla mínima:** cada encargo, revisión, reunión y decisión es una nota del
 vault, creada desde su plantilla.
@@ -63,8 +69,9 @@ está en una conversación, la próxima sesión no lo sabrá.
 
 ### E · Encargo
 
-**Qué es:** el documento que recibe el agente. Es lo **único** que necesita,
-junto con `AGENTS.md`.
+**Qué es:** el documento que recibe el dev, sea persona o agente. Es lo
+**único** que necesita, junto con `AGENTS.md`. Cada encargo tiene **un
+responsable**: un dev humano o un agente con su operador.
 
 **Dónde vive:** `03-Encargos/` del vault.
 
@@ -82,15 +89,17 @@ o producto.
 - qué hacer si se bloquea: escribir la pregunta y detenerse.
 
 **Anti-patrón:** el encargo que dice el síntoma sin pedir la causa. El agente
-resolverá el síntoma (ver sección 10).
+resolverá el síntoma (ver sección 12).
 
 ### R · Revisión
 
-**Qué es:** la verificación del PR por el PM, escrita en el vault.
+**Qué es:** la verificación de un PR, escrita en el vault.
 
 **Dónde vive:** `06-Revisiones/`, una nota por PR y ronda.
 
-**Quién la escribe:** el PM.
+**Quién la escribe:** un revisor que **no es el autor**. En un equipo pequeño
+es el PM; en uno grande, el PM asigna revisores. Un agente puede revisar, pero
+la aprobación final la firma una persona con rol de revisor o PM.
 
 **Regla mínima:**
 
@@ -105,7 +114,7 @@ resolverá el síntoma (ver sección 10).
 **Anti-patrón:** aprobar leyendo el diff. Los problemas de UI (contraste, un
 botón fuera de lugar, un estado vacío roto) no se ven en el código.
 
-**Contrapeso:** el revisor también se equivoca. El agente puede contradecir la
+**Contrapeso:** el revisor también se equivoca. El dev puede contradecir la
 revisión con evidencia y eso es parte del proceso.
 
 ### D · Decisión
@@ -141,8 +150,8 @@ criterio.
 **Dónde vive:** `tools/ci/local-gate.sh` y `gate.steps` en el repo;
 `docs/prs/<KEY>-<n>-<slug>.md` para cada PR.
 
-**Quién la produce:** el agente la corre antes de abrir el PR; el PM la vuelve a
-correr sobre el commit exacto antes del merge.
+**Quién la produce:** el dev la corre antes de abrir el PR; quien integra la
+vuelve a correr sobre el commit exacto antes del merge.
 
 **Regla mínima:** formato, lint, pruebas, build, cobertura (≥ el umbral del
 proyecto, 80 % por defecto), e2e y seguridad. La salida es siempre la misma:
@@ -166,15 +175,43 @@ el PR, no hay evidencia.
 
 ## 3. Roles
 
-| Rol | Qué hace | Qué no hace |
-| --- | --- | --- |
-| **PO** (persona) | Prioriza. Aprueba backlog, diseños, encargos que cambian alcance y PRs. Decide lo abierto. Vigila a los agentes de desarrollo mientras trabajan. | — |
-| **PM y revisor** (persona o agente) | Escribe backlog, encargos, revisiones, decisiones y status en el vault. Revisa en vivo con Playwright. Corre la puerta. Hace el squash merge cuando la revisión está aprobada y la puerta en verde. | Integrar sin aprobación o con la puerta en rojo. |
-| **Dev** (agente) | Implementa su encargo en su worktree. Escribe la evidencia. Abre el PR y se detiene. | Merge, push a `main`, `--force`, `--no-verify`, escribir en el vault, tocar fuera de su alcance. |
-| **Arquitecto** (opcional) | Diseños y ADR que bloquean el trabajo que dependa de ellos. Si no hay, el PM cubre el rol. | — |
+Un rol es una responsabilidad, no una persona ni una herramienta. Una misma
+persona puede tener varios roles (en un equipo pequeño, el PM suele ser también
+revisor), con una sola excepción: **nadie revisa su propia entrega**.
 
-Un equipo mínimo es **un PO, un PM y un dev**. Más agentes de desarrollo en
-paralelo sólo ayudan si cada uno tiene su worktree y no comparten el entorno.
+| Rol | Responsabilidad | Persona o agente | Qué no hace |
+| --- | --- | --- | --- |
+| **PO** | Decide qué se construye y por qué. Aprueba backlog, diseños, encargos que cambian alcance y entregas. Decide lo abierto. | Persona | — |
+| **PM** | Escribe backlog, encargos, decisiones y status en el vault. Asigna encargos y revisores. Integra (squash merge) cuando la revisión está aprobada y la puerta en verde. | Persona o agente | Integrar sin aprobación o con la puerta en rojo. |
+| **Revisor** | Verifica cada entrega contra sus criterios, revisa en vivo con Playwright y escribe la revisión. | Persona o agente (la aprobación final, una persona) | Revisar lo que escribió. |
+| **Dev** | Implementa un encargo en su rama, escribe la evidencia y abre el PR. | Persona o agente | Merge, push a `main`, `--force`, `--no-verify`, tocar fuera de su alcance. |
+| **Operador** | Lanza agentes dev con su encargo, los vigila, los destraba y responde por lo que entregan. | Persona | Dejar un agente sin supervisión o con permisos fuera de su worktree. |
+| **Arquitecto** (opcional) | Diseños y ADR que bloquean el trabajo que depende de ellos. Si no hay, lo cubre el PM. | Persona o agente | — |
+
+### Los desarrolladores
+
+En VERDE, un **desarrollador humano** normalmente trabaja como **operador**:
+recibe uno o varios encargos, los lanza con agentes, los vigila y responde por
+lo que entregan. También puede **escribir código él mismo**; en ese caso es el
+dev de su encargo y sigue exactamente el mismo ciclo:
+
+- trabaja desde un encargo del vault, en su propia rama;
+- corre `make gate` y escribe el archivo de PR con la evidencia;
+- su PR lo revisa otra persona o un agente, con aprobación final de una persona.
+
+Que el código lo escriba una persona o un agente no cambia nada del proceso: la
+evidencia y la revisión son las mismas. Lo que sí cambia es quién responde: el
+operador por sus agentes, el dev humano por su propio código.
+
+El operador:
+
+- elige el agente y el modelo adecuados al encargo (los encargos chicos y
+  exactos admiten modelos pequeños; los de diseño o seguridad, no);
+- prepara la worktree y el entorno, y lanza el agente con el encargo;
+- vigila sin intervenir en el contenido: si el agente se bloquea por algo que
+  el encargo no decide, la pregunta va al PM, no se improvisa;
+- revisa que la entrega esté completa (evidencia, puerta en verde) antes de
+  pedir revisión. No es la revisión: es asegurarse de que el PR está listo.
 
 ## 4. El ciclo
 
@@ -185,7 +222,7 @@ paralelo sólo ayudan si cada uno tiene su worktree y no comparten el entorno.
    ┌──────────────────────────────────────────────────────────┘
    ▼
  make gate + archivo de PR ──► PR ──► Revisión (diff + Playwright + axe)
- (dev)                         (dev)  (PM, en el vault)
+ (dev)                         (dev)  (revisor ≠ autor, en el vault)
                                           │
                      cambios ◄────────────┤
                      (ronda N, sesión     │ aprobado
@@ -204,21 +241,79 @@ paralelo sólo ayudan si cada uno tiene su worktree y no comparten el entorno.
    aprueba.
 2. **Diseño.** Si hay pantallas nuevas, se diseñan y el PO las aprueba antes de
    implementar.
-3. **Encargo.** El PM lo escribe desde la plantilla.
+3. **Encargo.** El PM lo escribe desde la plantilla y lo asigna a un
+   responsable: un dev humano o un operador con su agente.
 4. **Rama y worktree.** El dev crea `feat/<KEY>-<n>-<slug>` desde `main` en una
    worktree propia.
 5. **Implementación.** Commits `<KEY>-<n>: <imperativo>`.
 6. **Evidencia.** El dev corre `make gate`, escribe el archivo de PR y abre el
    PR. Se detiene.
-7. **Revisión.** El PM verifica criterios, revisa en vivo y escribe la revisión.
-8. **Rondas.** Si hay cambios, el dev los hace en una **sesión nueva**, en la
-   misma rama, y agrega "Round N" al archivo de PR.
+7. **Revisión.** Un revisor que no es el autor verifica criterios, revisa en
+   vivo y escribe la revisión.
+8. **Rondas.** Si hay cambios, el dev los hace en la misma rama (un agente, en
+   una **sesión nueva**) y agrega "Round N" al archivo de PR.
 9. **Merge.** El PM corre la puerta sobre el commit del PR, pega la salida en el
    PR y hace squash merge con `--match-head-commit`. La rama se archiva como tag
    `archive/<rama>` y se borra.
 10. **Registro.** El PM actualiza backlog, decisiones y status del día.
 
-## 5. Convenciones
+## 5. Equipos de varios integrantes
+
+VERDE funciona igual con tres integrantes que con quince. Al crecer el equipo
+se agregan estas reglas:
+
+- **Un encargo, un responsable.** Cada encargo tiene un solo dev o un solo
+  operador. El backlog muestra quién lo tiene; nadie toma un encargo asignado.
+- **Límite de trabajo en curso.** Cada operador vigila a la vez sólo los agentes
+  que puede seguir de verdad (dos o tres es lo habitual). Cada dev humano tiene
+  un encargo en curso, más los que esperan revisión.
+- **Revisión cruzada.** El PM asigna los revisores. Autor y revisor son
+  siempre distintos, y nunca dos agentes del mismo operador se aprueban entre sí.
+- **Un vault, un registro.** Todo el producto comparte un vault y una sola
+  numeración de decisiones, aunque haya varios equipos. Si hay varios PM, cada
+  uno escribe los encargos de su área y todos registran en el mismo
+  `Registro-de-decisiones.md`.
+- **Áreas sin solaparse.** Los encargos que corren en paralelo no tocan los
+  mismos módulos. Si es inevitable, se ordenan: uno se integra y el otro parte
+  de `main` actualizado.
+- **Entornos separados.** Cada dev u operador tiene su entorno local; los
+  agentes que comparten máquina se turnan los puertos o usan entornos aislados.
+- **Una sola cola de integración.** Sólo el PM (o los integradores que él
+  designe) hace merge, de a uno, siempre con la puerta corrida sobre el commit
+  exacto.
+- **Status diario.** El status del día en el vault reúne qué entró, qué está en
+  curso, qué está bloqueado y quién tiene cada cosa.
+
+## 6. Cómo se ve en la práctica
+
+**Equipo mínimo: un PO, un PM y agentes.** El PO decide la prioridad del día.
+El PM, que también revisa, escribe dos encargos. El PO hace de operador: lanza
+un agente por encargo, cada uno en su worktree, y vigila sus terminales. Cuando
+un agente abre su PR, el PM lo revisa en vivo, pide una ronda o lo aprueba,
+corre la puerta e integra. Al final del día el PM actualiza backlog, decisiones
+y status.
+
+**Equipo de seis: un PO, un PM y cuatro devs.**
+
+1. Por la mañana el PO y el PM confirman prioridades. El PM ya tiene seis
+   encargos listos en el vault, de áreas distintas, y los asigna.
+2. Tres devs operan agentes: cada uno lanza dos agentes con sus encargos y los
+   vigila. El cuarto dev escribe a mano un encargo delicado (una migración de
+   datos) porque prefiere hacerlo él.
+3. A media mañana un agente se bloquea: el encargo no dice si un campo es
+   obligatorio. Su operador no lo decide: lo pregunta al PM, que lo resuelve
+   con el PO, registra `D-087` y actualiza el encargo. El agente sigue en una
+   sesión nueva.
+4. Cada PR que se abre lo revisa alguien que no lo escribió. El PR del dev que
+   programó a mano lo revisa otro dev, con un agente como apoyo para la revisión
+   en vivo. Los PR de los agentes los revisan el PM o un dev de otra área.
+5. El PM integra en orden: puerta sobre el commit exacto, squash y tag de
+   archivo. Si dos PR tocan lo mismo, integra uno y pide al otro actualizar su
+   rama.
+6. Al cierre, el status del día muestra lo integrado, lo que está en revisión y
+   lo bloqueado, con su responsable.
+
+## 7. Convenciones
 
 | Qué | Formato | Ejemplo |
 | --- | --- | --- |
@@ -240,7 +335,7 @@ Llámalo como prefieras (historia, entrega, *carrier*); el método no lo exige.
 
 Sólo se integra con **squash**: una entrega, un commit en `main`.
 
-## 6. La puerta
+## 8. La puerta
 
 La puerta es el pilar que hace cumplir a los demás. Se implementa con dos
 archivos de la plantilla de repo:
@@ -282,7 +377,7 @@ correrlo solo, se permite **una** re-ejecución de ese paso para el merge, se
 anota en el PR y se abre un encargo de causa raíz. Nunca se agregan reintentos
 ni se suben timeouts para taparlo.
 
-## 7. Día 0 de un proyecto nuevo
+## 9. Día 0 de un proyecto nuevo
 
 - [ ] Crear el repo del vault desde `templates/vault/` y el repo de código desde
       `templates/repo/`, ambos privados, clonados uno al lado del otro.
@@ -292,6 +387,8 @@ ni se suben timeouts para taparlo.
       arranque (stack, alcance, quién ocupa cada rol).
 - [ ] Ajustar `gate.steps` al stack y correr `make gate` hasta `RESULT GREEN`
       con el esqueleto del proyecto.
+- [ ] Asignar los roles: PO, PM, revisores, devs y operadores. Anotarlos en
+      `00-Inicio.md` del vault y en `AGENTS.md`.
 - [ ] Completar `AGENTS.md`: proyecto, ruta del vault, roles, comandos.
 - [ ] En GitHub (o equivalente):
   - definir la variable de repo `ISSUE_KEY`;
@@ -304,7 +401,7 @@ ni se suben timeouts para taparlo.
       completo, aunque sea pequeño: así se prueba el proceso antes que el
       producto.
 
-## 8. Higiene de contexto para agentes
+## 10. Higiene de contexto para agentes
 
 Cada paso de un agente vuelve a leer toda la conversación, así que casi todo
 el consumo de tokens es relectura, y unas pocas sesiones largas concentran la
@@ -321,7 +418,7 @@ mayor parte. Por eso:
 - **Modelos pequeños o locales** sirven para cambios de pocos archivos con
   instrucciones exactas, no para diseñar.
 
-## 9. Lanzar un agente
+## 11. Lanzar un agente
 
 ```sh
 git worktree add ../<proyecto>-<KEY>-<n> -b feat/<KEY>-<n>-<slug> origin/main
@@ -335,10 +432,10 @@ cd ../<proyecto>-<KEY>-<n>
   agente los cree desde `.env.example`.
 - Si dos agentes necesitan el mismo entorno con puertos fijos, se turnan. Dos
   stacks a la vez fallan de formas que parecen bugs.
-- El PO vigila la terminal del agente; el PM revisa el resultado. Separar esas
-  dos tareas evita que el revisor se vuelva coautor.
+- El operador vigila la terminal del agente; otro revisa el resultado. Separar
+  esas dos tareas evita que el revisor se vuelva coautor.
 
-## 10. Lecciones
+## 12. Lecciones
 
 Lo que cuesta ignorar estas reglas:
 
@@ -365,7 +462,7 @@ Lo que cuesta ignorar estas reglas:
 - **Integrar sólo con squash.** Un merge commit ensucia la historia
   de `main` para siempre.
 
-## 11. Glosario
+## 13. Glosario
 
 | Español | Inglés | Qué es |
 | --- | --- | --- |
@@ -379,9 +476,12 @@ Lo que cuesta ignorar estas reglas:
 | Ronda | Round | Iteración de cambios tras una revisión. |
 | Criterio de aceptación | Acceptance criterion (AC) | Condición verificable de un issue. |
 | Dueño del producto | Product owner (PO) | Persona que prioriza y aprueba. |
-| PM y revisor | PM / reviewer | Rol que escribe el vault, revisa e integra. |
+| PM | PM | Rol que escribe el vault, asigna e integra. |
+| Revisor | Reviewer | Rol que verifica una entrega ajena. |
+| Dev | Dev | Quien implementa un encargo, persona o agente. |
+| Operador | Operator | Persona que lanza, vigila y responde por agentes dev. |
 
-## 12. Versión y licencia
+## 14. Versión y licencia
 
 Este documento es **VERDE v1.0**. Los cambios se registran en
 [`CHANGELOG.md`](CHANGELOG.md): un cambio MAJOR altera un pilar o una regla

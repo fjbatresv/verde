@@ -18,9 +18,14 @@ not decided: ask (see "If you are blocked").
 | Role | Who | You must… |
 | --- | --- | --- |
 | PO | <name> | Get final approval from them. |
-| PM / reviewer | <name or agent> | Expect a written review, including a live review of the UI with Playwright; answer each comment in your PR file. The PM merges approved PRs. |
+| PM | <name or agent> | Ask them anything your assignment does not decide. The PM merges approved PRs. |
+| Reviewer | <names or agents> | Expect a written review, including a live review of the UI with Playwright; answer each comment in your PR file. |
+| Operator | <name> (the person who launched you) | They watch your session and are accountable for your delivery. Questions about scope go to the PM, not to them. |
 | Architect (optional) | <name or agent> | Follow approved designs and ADRs in `docs/adr/`. |
 | Dev | **you** | Implement only the issues in your assignment. |
+
+Human developers follow the same workflow and rules as agents: assignment,
+branch, gate, PR file, review by someone else.
 
 ## Workflow
 

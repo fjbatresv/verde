@@ -1,16 +1,19 @@
 ---
 tipo: encargo
 issues: [<KEY>-<n>]
-agente: <agente>
+responsable: <dev humano | agente>
+operador: <persona, si es un agente>
 estado: borrador | listo | enviado | entregado
 fecha: {{date}}
 ---
 
-# Encargo · <KEY>-<n> <título> — <agente>
+# Encargo · <KEY>-<n> <título> — <responsable>
 
 | Campo | Valor |
 | --- | --- |
 | Origen | <quién lo pidió y por qué; D-xxx> |
+| Responsable | <dev humano, o agente + operador> |
+| Revisor | <persona o agente que no sea el autor> |
 | Issues | <KEY>-<n>, <KEY>-<m> |
 | Rama | `feat/<KEY>-<n>-<slug>` desde `main` |
 | Worktree | Una nueva, sólo para este encargo |

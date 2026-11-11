@@ -13,8 +13,9 @@ git clone <url-del-vault> ../<PROJECT>-vault
 
 ## Reglas
 
-- Lo escriben **sólo el PO y el PM**, con commit y push directo a `main`.
-- Los agentes lo leen y nunca lo modifican; su entregable vive en este repo
-  (`docs/prs/`).
+- Lo escriben **el PO, el PM y los revisores**, con commit y push directo a
+  `main`.
+- Los devs (personas y agentes) lo leen; su entregable vive en este repo
+  (`docs/prs/`) y ahí proponen cambios al vault.
 - `.obsidian/` no se versiona: cada persona tiene su configuración.
 - Nada de secretos, IPs o datos de clientes en el vault.

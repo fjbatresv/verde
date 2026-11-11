@@ -8,5 +8,8 @@ obligatoria; un MINOR agrega guías, plantillas o aclaraciones.
 - Primera versión pública de VERDE / VDD.
 - Estándar `VERDE.md`: principios, cinco pilares, roles, ciclo, convenciones,
   puerta de checks, día 0, higiene de contexto, lecciones y glosario ES/EN.
+- Roles por responsabilidad (PO, PM, revisor, dev, operador), desarrolladores
+  humanos que programan u operan agentes, reglas para equipos de varios
+  integrantes y dos escenarios de práctica.
 - Plantilla de vault (Obsidian) y plantilla de repo con la puerta agnóstica de
   stack (`local-gate.sh` + `gate.steps`).
