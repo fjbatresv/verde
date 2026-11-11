@@ -1,6 +1,6 @@
 # AGENTS.md
 
-> VERDE / VDD v1.0 project. Replace every `<PLACEHOLDER>` before the first
+> VERDE / VDD v1.1 project. Replace every `<PLACEHOLDER>` before the first
 > assignment. Agents read this file first, then their assignment.
 
 ## Project

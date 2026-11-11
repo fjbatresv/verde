@@ -1,6 +1,6 @@
 # VERDE · Vault-Driven Development
 
-**Versión 1.0 · 2026-11-11 · © 2026 Javier Batres · CC BY 4.0**
+**Versión 1.1 · 2026-11-11 · © 2026 Javier Batres · CC BY 4.0**
 
 VERDE es un framework para desarrollar aplicaciones con agentes de IA en un
 equipo con roles fijos. Su nombre resume la regla: **nada avanza si no está en
@@ -390,7 +390,7 @@ ni se suben timeouts para taparlo.
       `templates/repo/`, ambos privados, clonados uno al lado del otro.
 - [ ] Elegir la clave de issues (`<KEY>`) y reemplazar los marcadores `<…>`
       (`grep -rn '<[A-Z]' .`).
-- [ ] Registrar **D-001 · Adoptamos VERDE / VDD v1.0** y las decisiones de
+- [ ] Registrar **D-001 · Adoptamos VERDE / VDD v1.1** y las decisiones de
       arranque (stack, alcance, quién ocupa cada rol).
 - [ ] Ajustar `gate.steps` al stack y correr `make gate` hasta `RESULT GREEN`
       con el esqueleto del proyecto.
@@ -490,7 +490,7 @@ Lo que cuesta ignorar estas reglas:
 
 ## 14. Versión y licencia
 
-Este documento es **VERDE v1.0**. Los cambios se registran en
+Este documento es **VERDE v1.1**. Los cambios se registran en
 [`CHANGELOG.md`](CHANGELOG.md): un cambio MAJOR altera un pilar o una regla
 obligatoria; un MINOR agrega guías o aclaraciones. Cada proyecto anota en su
 D-001 la versión que adoptó.
