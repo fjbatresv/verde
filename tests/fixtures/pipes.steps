@@ -1,0 +1,1 @@
+step p: echo "a b" | grep -q 'a b' && test 1 -eq 1

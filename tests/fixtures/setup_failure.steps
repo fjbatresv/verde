@@ -1,0 +1,3 @@
+setup up: false
+step a: true
+teardown down: touch "$GATE_TMP/down"
