@@ -5,7 +5,8 @@
 # Lee los pasos de GATE_STEPS (por defecto gate.steps), uno por línea:
 #   <kind> <name>: <command>
 #   kind     setup | step | teardown
-#   name     sin espacios; prefijo "?" = opcional (SKIP si falta la herramienta)
+#   name     sin espacios; prefijo "?" = opcional (SKIP si falta la herramienta:
+#            el primer token del comando, ignorando prefijos "cd <dir> &&")
 #   command  se ejecuta con `bash -c`, tal cual
 # Las líneas en blanco y las que empiezan con "#" se ignoran.
 # setup y step corren en el orden del archivo (pon los setup arriba); si un
@@ -61,7 +62,9 @@ run() { # run <index>
   local name="${names[$1]}" cmd="${cmds[$1]}" optional=0
   if [ "${name:0:1}" = "?" ]; then optional=1; name="${name:1}"; fi
   if [ $optional -eq 1 ]; then
-    local tool="${cmd%%[[:space:]]*}"
+    local rest="$cmd" cd_re='^cd[[:space:]]+[^[:space:];&|]+[[:space:]]*&&[[:space:]]*(.+)$'
+    while [[ "$rest" =~ $cd_re ]]; do rest="${BASH_REMATCH[1]}"; done
+    local tool="${rest%%[[:space:]]*}"
     if ! command -v "$tool" > /dev/null 2>&1; then
       echo "SKIP $name"
       echo "== SKIP $name ($tool not found)" >> "$LOG"

@@ -34,6 +34,8 @@ RESULT GREEN · log tmp/gate.log
   puerta local**: el PM la corre y pega la salida en el PR.
 - Los pasos `?opcionales` dan SKIP si la herramienta no está instalada. No
   conviertas un paso obligatorio en opcional para pasar.
+- Si `ports-free` falla, hay otra instancia ocupando los puertos (otra
+  worktree, un stack anterior): bájala y vuelve a correr.
 - Requiere `bash` y `make` (macOS y Linux ya los traen). En Windows: WSL con
   `make`, o Git Bash con `bash tools/ci/local-gate.sh` (Git Bash no trae `make`).
 

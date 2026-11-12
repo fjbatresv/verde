@@ -2,7 +2,7 @@
 
 <Una línea sobre qué es el producto.>
 
-Este repo sigue **VERDE / VDD v1.1** (Vault · Encargo · Revisión · Decisión ·
+Este repo sigue **VERDE / VDD v1.2** (Vault · Encargo · Revisión · Decisión ·
 Evidencia). El contexto, el backlog y las decisiones viven en el vault
 `<PROJECT>-vault` ([cómo clonarlo](docs/vault.md)).
 

@@ -1,0 +1,3 @@
+# opcional con prefijo cd (monorepo)
+step ?missing: cd . && no-such-tool-xyz test
+step ?present: cd . && cd . && true

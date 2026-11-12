@@ -3,6 +3,16 @@
 Las versiones siguen `MAJOR.MINOR`. Un cambio MAJOR altera un pilar o una regla
 obligatoria; un MINOR agrega guías, plantillas o aclaraciones.
 
+## v1.2 — 2026-11-12
+
+- Puerta: los pasos `?opcionales` ignoran prefijos `cd <carpeta> &&` al buscar
+  la herramienta (monorepos), con su prueba.
+- Puerta: los ejemplos de cobertura de Go y .NET fallan bajo el umbral; nota
+  de umbral para Node.
+- Puerta: `setup ports-free` como ejemplo de verificación de precondiciones.
+- Encargos y status nombran al **responsable** (persona o agente), no sólo al
+  agente.
+
 ## v1.1 — 2026-11-11
 
 - Puerta: ejemplos de `gate.steps` para Go, Java, .NET y monorepos.

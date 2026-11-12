@@ -5,7 +5,7 @@ actualizado: {{date}}
 
 # <PROYECTO> · Inicio
 
-Este vault es la memoria del proyecto (pilar **V** de VERDE / VDD v1.1). Si
+Este vault es la memoria del proyecto (pilar **V** de VERDE / VDD v1.2). Si
 algo no está aquí, no se decidió.
 
 ## Estado
@@ -29,7 +29,7 @@ algo no está aquí, no se decidió.
 | --- | --- | --- |
 | `01-Producto/` | Visión, alcance, roadmap | PO, PM |
 | `02-Backlog/` | [[Backlog]]: épicas, issues, criterios | PM (aprueba el PO) |
-| `03-Encargos/` | Un encargo por trabajo asignado a un agente | PM |
+| `03-Encargos/` | Un encargo por trabajo asignado a un responsable (dev humano o agente) | PM |
 | `04-Decisiones/` | [[Registro-de-decisiones]] | PM (aprueba el PO) |
 | `05-Reuniones/` | Notas y acuerdos | PO, PM |
 | `06-Revisiones/` | Revisión de cada PR, con revisión en vivo | Revisores |

@@ -1,6 +1,6 @@
 # VERDE · Vault-Driven Development
 
-**Versión 1.1 · 2026-11-11 · © 2026 Javier Batres · CC BY 4.0**
+**Versión 1.2 · 2026-11-12 · © 2026 Javier Batres · CC BY 4.0**
 
 VERDE es un framework para desarrollar aplicaciones con agentes de IA en un
 equipo con roles fijos. Su nombre resume la regla: **nada avanza si no está en
@@ -324,7 +324,7 @@ y status.
 | Decisión | `D-xxx` | `D-017` |
 | ADR | `docs/adr/NNNN-<tema>.md` | `docs/adr/0003-auth.md` |
 | Rama archivada | tag `archive/<rama>` | `archive/feat/ACME-42-login` |
-| Encargo | `03-Encargos/<KEY>-<n>-<agente>-<tema>.md` | `ACME-42-dev-login.md` |
+| Encargo | `03-Encargos/<KEY>-<n>-<responsable>-<tema>.md` | `ACME-42-ana-login.md` |
 | Revisión | `06-Revisiones/<KEY>-<n>-revision.md` | `ACME-42-revision.md` |
 | Severidad | bloqueante · mayor · menor · nota | — |
 
@@ -360,7 +360,13 @@ step ?snyk: snyk test --severity-threshold=high
 - **`teardown`** corre siempre, al final.
 - **`?nombre`** marca un paso opcional: si la herramienta no está instalada, da
   `SKIP`. Úsalo para servicios con límites o licencias (escáneres de seguridad
-  en la nube), nunca para callar un paso obligatorio.
+  en la nube), nunca para callar un paso obligatorio. La herramienta es el
+  primer token del comando; los prefijos `cd <carpeta> &&` se ignoran.
+- **Cobertura:** el paso debe **fallar** bajo el umbral, no sólo mostrar el
+  porcentaje. Los ejemplos de cada stack ya lo hacen.
+- **Precondiciones:** un `setup` puede verificar antes de levantar nada que el
+  entorno está libre (por ejemplo, `ports-free` revisa que los puertos no
+  estén ocupados por otra instancia).
 
 El código de salida es 0 (verde), 1 (rojo) o 2 (`gate.steps` mal escrito). El
 log completo queda en `tmp/gate.log`.
@@ -390,7 +396,7 @@ ni se suben timeouts para taparlo.
       `templates/repo/`, ambos privados, clonados uno al lado del otro.
 - [ ] Elegir la clave de issues (`<KEY>`) y reemplazar los marcadores `<…>`
       (`grep -rn '<[A-Z]' .`).
-- [ ] Registrar **D-001 · Adoptamos VERDE / VDD v1.1** y las decisiones de
+- [ ] Registrar **D-001 · Adoptamos VERDE / VDD v1.2** y las decisiones de
       arranque (stack, alcance, quién ocupa cada rol).
 - [ ] Ajustar `gate.steps` al stack y correr `make gate` hasta `RESULT GREEN`
       con el esqueleto del proyecto.
@@ -463,7 +469,7 @@ Lo que cuesta ignorar estas reglas:
   que eso detenga el trabajo.
 - **Dos entornos a la vez fallan como si fueran bugs.** Un puerto ocupado por
   otra instancia hace fallar el e2e. La puerta debe verificar sus
-  precondiciones antes de empezar.
+  precondiciones antes de empezar, con un `setup` (ver sección 8).
 - **Menos agentes, más estables.** Un solo dev y un PM que revisa dan un flujo
   más predecible que varios agentes en roles parecidos.
 - **Integrar sólo con squash.** Un merge commit ensucia la historia
@@ -474,7 +480,7 @@ Lo que cuesta ignorar estas reglas:
 | Español | Inglés | Qué es |
 | --- | --- | --- |
 | Vault | Vault | Repo de notas con la memoria del proyecto. |
-| Encargo | Engagement brief | Documento de trabajo para un agente. |
+| Encargo | Engagement brief | Documento de trabajo para un dev, persona o agente. |
 | Revisión | Review | Verificación escrita de un PR, con revisión en vivo. |
 | Decisión | Decision | Entrada numerada `D-xxx` del registro. |
 | Evidencia | Evidence | Salida de la puerta y pruebas de cada criterio. |
@@ -490,7 +496,7 @@ Lo que cuesta ignorar estas reglas:
 
 ## 14. Versión y licencia
 
-Este documento es **VERDE v1.1**. Los cambios se registran en
+Este documento es **VERDE v1.2**. Los cambios se registran en
 [`CHANGELOG.md`](CHANGELOG.md): un cambio MAJOR altera un pilar o una regla
 obligatoria; un MINOR agrega guías o aclaraciones. Cada proyecto anota en su
 D-001 la versión que adoptó.

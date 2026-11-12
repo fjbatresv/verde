@@ -7,7 +7,12 @@
 # "setup" y "step" corren en el orden del archivo: pon cada setup antes de los
 # pasos que lo necesitan. Si un setup falla, se saltan los pasos siguientes.
 # Los "teardown" corren siempre, al final. Cualquier FAIL deja el resultado en RED.
-# En un paso ?opcional, la herramienta debe ser el primer token del comando.
+# En un paso ?opcional, la herramienta es el primer token del comando; se
+# ignoran los prefijos "cd <carpeta> &&" (útil en monorepos).
+# Cobertura: el paso debe FALLAR bajo el umbral (80 % por defecto), no sólo
+# mostrar el porcentaje.
+# Precondiciones: un setup al inicio puede verificar que el entorno está libre
+# (puertos, otra instancia levantada) para no confundir eso con un bug.
 # Mínimo obligatorio en VERDE: formato, lint, test, build, cobertura, e2e y
 # seguridad. Ajusta los comandos a tu stack: deja activo un solo bloque.
 #
@@ -22,7 +27,8 @@ step format: npx prettier --check .
 step lint: npm run lint
 step test: npm test
 step build: npm run build
-step coverage: npm run test:coverage
+step coverage: npm run test:coverage   # con umbral: coverageThreshold (Jest) o coverage.thresholds (Vitest)
+setup ports-free: for p in 3000 5432; do (exec 3<>/dev/tcp/127.0.0.1/$p) 2>/dev/null && { echo "port $p in use"; exit 1; }; done; exit 0   # ajusta los puertos
 setup infra: docker compose up -d --wait
 step e2e: npx playwright test
 teardown infra-down: docker compose down
@@ -41,7 +47,7 @@ step ?snyk: snyk test --severity-threshold=high
 # step format: test -z "$(gofmt -l .)"
 # step lint: go vet ./...
 # step build: go build ./...
-# step test-coverage: go test -cover ./...
+# step test-coverage: mkdir -p tmp && go test -coverprofile=tmp/cover.out ./... && go tool cover -func=tmp/cover.out | awk '/^total:/ { sub("%", "", $3); print "coverage " $3 "%"; exit ($3 < 80) }'
 # setup infra: docker compose up -d --wait
 # step e2e: go test -tags=e2e ./e2e/...
 # teardown infra-down: docker compose down
@@ -58,7 +64,7 @@ step ?snyk: snyk test --severity-threshold=high
 # ---- Ejemplo: .NET ----
 # step format: dotnet format --verify-no-changes
 # step build: dotnet build --warnaserror
-# step test-coverage: dotnet test --collect:"XPlat Code Coverage"
+# step test-coverage: dotnet test /p:CollectCoverage=true /p:Threshold=80   # requiere coverlet.msbuild
 # setup infra: docker compose up -d --wait
 # step e2e: dotnet test tests/E2E
 # teardown infra-down: docker compose down
@@ -67,3 +73,4 @@ step ?snyk: snyk test --severity-threshold=high
 # ---- Monorepo: cada paso indica su carpeta ----
 # step api-test: cd api && go test ./...
 # step web-test: cd web && npm test
+# step ?web-snyk: cd web && snyk test   # SKIP si snyk no está instalado

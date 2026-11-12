@@ -12,7 +12,7 @@ fecha: {{date}}
 
 ## En curso
 
-| Issue | Agente | Estado |
+| Issue | Responsable | Estado |
 | --- | --- | --- |
 
 ## Bloqueos y decisiones del día
