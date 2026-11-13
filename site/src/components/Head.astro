@@ -1,0 +1,29 @@
+---
+import Default from '@astrojs/starlight/components/Head.astro';
+---
+
+<Default />
+
+<script>
+  // Renderiza los diagramas Mermaid sólo en las páginas que los tienen y los
+  // vuelve a dibujar al cambiar entre tema claro y oscuro.
+  const blocks = [...document.querySelectorAll<HTMLElement>('pre.mermaid')];
+  if (blocks.length > 0) {
+    const { default: mermaid } = await import('mermaid');
+    for (const block of blocks) block.dataset.source = block.textContent ?? '';
+    const render = async () => {
+      const dark = document.documentElement.dataset.theme === 'dark';
+      mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'strict' });
+      for (const block of blocks) {
+        block.removeAttribute('data-processed');
+        block.textContent = block.dataset.source ?? '';
+      }
+      await mermaid.run({ nodes: blocks });
+    };
+    await render();
+    new MutationObserver(render).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+  }
+</script>

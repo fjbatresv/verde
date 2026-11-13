@@ -1,0 +1,29 @@
+/* Verde como color de acento, en tema oscuro y claro. */
+:root {
+  --sl-color-accent-low: #0b3320;
+  --sl-color-accent: #23a35f;
+  --sl-color-accent-high: #b8f0cf;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #c9f2da;
+  --sl-color-accent: #146c3c;
+  --sl-color-accent-high: #0a3a20;
+}
+
+pre.mermaid {
+  display: flex;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  margin-block: 1.5rem;
+}
+
+pre.mermaid:not([data-processed]) {
+  visibility: hidden;
+  min-height: 12rem;
+}
+
+.verde-pillars .card .title {
+  font-size: var(--sl-text-h4);
+}

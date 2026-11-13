@@ -1,0 +1,107 @@
+---
+title: VERDE · Vault-Driven Development
+description: Un framework para desarrollar aplicaciones con agentes de IA, con roles fijos, memoria fuera del chat y nada integrado sin evidencia.
+template: splash
+hero:
+  title: Nada avanza si no está en verde
+  tagline: VERDE es un framework para desarrollar aplicaciones con agentes de IA. Roles fijos, memoria fuera del chat y nada integrado sin evidencia.
+  actions:
+    - text: Empezar
+      link: /empezar/
+      icon: right-arrow
+    - text: Leer el estándar
+      link: /estandar/
+      variant: secondary
+    - text: Ver en GitHub
+      link: https://github.com/fjbatresv/verde
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
+
+## Cinco pilares
+
+Las letras de VERDE son sus pilares. Al método también se le llama **VDD**: en
+TDD la prueba va primero; en VDD, el vault.
+
+<div class="verde-pillars">
+<CardGrid>
+  <Card title="V · Vault" icon="open-book">
+    La memoria del proyecto (backlog, encargos, revisiones, decisiones) vive en
+    un repo de notas, no en el código ni en el chat.
+  </Card>
+  <Card title="E · Encargo" icon="document">
+    Todo trabajo entra por escrito, con alcance cerrado y criterios
+    verificables, sea para una persona o para un agente.
+  </Card>
+  <Card title="R · Revisión" icon="magnifier">
+    Alguien que no es el autor verifica la evidencia y abre la aplicación con
+    Playwright y axe. No se aprueba leyendo el diff.
+  </Card>
+  <Card title="D · Decisión" icon="list-format">
+    Cada decisión se numera (`D-xxx`), se fecha y tiene estado. No se borra: se
+    reemplaza.
+  </Card>
+  <Card title="E · Evidencia" icon="approve-check">
+    Nada se integra sin `make gate` en `RESULT GREEN`, sobre el commit exacto.
+  </Card>
+</CardGrid>
+</div>
+
+## El ciclo
+
+<Steps>
+
+1. **Backlog y diseño.** El PM escribe issues con criterios verificables; el PO
+   aprueba las pantallas antes de implementar.
+
+2. **Encargo.** Un archivo con objetivo, alcance y evidencia esperada. Es lo
+   único que recibe el dev, persona o agente.
+
+3. **Implementación y evidencia.** Rama y worktree propias, `make gate` en verde
+   y un archivo de PR con la prueba de cada criterio.
+
+4. **Revisión.** Un revisor que no es el autor reproduce la evidencia y revisa
+   la app en vivo. Los hallazgos `R` bloquean; los `N` llevan destino.
+
+5. **Integración y registro.** El PM corre la puerta sobre el commit exacto,
+   hace squash merge y actualiza backlog, decisiones y status.
+
+</Steps>
+
+## Arranca en un comando
+
+```sh
+git clone https://github.com/fjbatresv/verde.git
+./verde/init.sh acme-salas ACME ~/code
+```
+
+Crea el repo de código y el vault uno al lado del otro, con la clave de issues,
+la decisión D-001 y el primer commit en ambos.
+
+## Para equipos de cualquier tamaño
+
+<CardGrid>
+  <Card title="Equipo mínimo" icon="seti:default">
+    Un PO, un PM que también revisa y agentes. El PO opera los agentes, cada uno
+    en su worktree.
+  </Card>
+  <Card title="Equipos grandes" icon="rocket">
+    Varios devs que programan a mano u operan sus propios agentes. Los roles son
+    responsabilidades, y el autor de una entrega nunca la aprueba.
+  </Card>
+</CardGrid>
+
+<CardGrid>
+  <LinkCard
+    title="Ejemplo resuelto"
+    description="Un issue completo, del encargo a la integración, con dos rondas de revisión."
+    href="/ejemplo/"
+  />
+  <LinkCard
+    title="Guía del revisor"
+    description="Cómo verificar la evidencia, revisar en vivo y calibrar a un agente revisor."
+    href="/guias/revision/"
+  />
+</CardGrid>
