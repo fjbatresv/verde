@@ -9,8 +9,12 @@
 @import '@fontsource-variable/martian-mono/index.css';
 
 :root {
-  --verde-signal: #2bd47a;
+  /* Verde de señal: menos saturado en oscuro, más profundo en claro */
+  --verde-signal: #6cc196;
   --verde-signal-deep: #146c3c;
+  --verde-cta-bg: #5cb88a;
+  --verde-cta-fg: #0b120e;
+  --verde-term-signal: #74c99d;
   --verde-ink: #0b120e;
   --verde-paper: #f3f0e6;
   --verde-fail: #ff6b5e;
@@ -29,9 +33,9 @@
   --sl-color-gray-6: #16211b;
   --sl-color-black: #0b120e;
 
-  --sl-color-accent-low: #0f2e1d;
-  --sl-color-accent: #2bd47a;
-  --sl-color-accent-high: #c3f5d8;
+  --sl-color-accent-low: #12301f;
+  --sl-color-accent: #6cc196;
+  --sl-color-accent-high: #cbead9;
 }
 
 :root[data-theme='light'] {
@@ -45,9 +49,13 @@
   --sl-color-gray-7: #f1ede2;
   --sl-color-black: #f8f6ef;
 
-  --sl-color-accent-low: #cdeedb;
-  --sl-color-accent: #136b3a;
-  --sl-color-accent-high: #0a3a20;
+  --sl-color-accent-low: #d5ecdf;
+  --sl-color-accent: #0f5a31;
+  --sl-color-accent-high: #08341c;
+
+  --verde-signal: #0f5a31;
+  --verde-cta-bg: #146c3c;
+  --verde-cta-fg: #f8f6ef;
 }
 
 /* Titulares en Fraunces, en toda la documentación */
@@ -113,7 +121,7 @@ pre.mermaid:not([data-processed]) {
 
 body:has(.verde-home) {
   background:
-    radial-gradient(60rem 30rem at 85% -5%, color-mix(in srgb, var(--sl-color-accent) 18%, transparent), transparent 70%),
+    radial-gradient(60rem 30rem at 85% -5%, color-mix(in srgb, var(--sl-color-accent) 12%, transparent), transparent 70%),
     var(--sl-color-black);
 }
 

@@ -358,14 +358,13 @@ const copy = {
   }
 
   .btn.primary {
-    background: var(--verde-signal);
-    color: var(--verde-ink);
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--verde-signal) 45%, transparent);
+    background: var(--verde-cta-bg);
+    color: var(--verde-cta-fg);
   }
 
   .btn.primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px -8px color-mix(in srgb, var(--verde-signal) 70%, transparent);
+    box-shadow: 0 10px 28px -12px color-mix(in srgb, var(--verde-cta-bg) 60%, transparent);
   }
 
   .btn.ghost {
@@ -407,8 +406,8 @@ const copy = {
     width: 0.55rem;
     height: 0.55rem;
     border-radius: 50%;
-    background: var(--verde-signal);
-    box-shadow: 0 0 0 0 var(--verde-signal);
+    background: var(--sl-color-accent);
+    box-shadow: 0 0 0 0 var(--sl-color-accent);
     animation: beacon 2.4s ease-out infinite;
   }
 
@@ -498,8 +497,8 @@ const copy = {
 
   .replay:hover,
   .replay:focus-visible {
-    color: var(--verde-signal);
-    border-color: var(--verde-signal);
+    color: var(--verde-term-signal);
+    border-color: var(--verde-term-signal);
   }
 
   .terminal pre {
@@ -532,7 +531,7 @@ const copy = {
 
   .pass b,
   .ln.pass b {
-    color: var(--verde-signal);
+    color: var(--verde-term-signal);
     font-weight: 600;
   }
 
@@ -555,7 +554,7 @@ const copy = {
 
   .ln.result b {
     color: var(--verde-ink);
-    background: var(--verde-signal);
+    background: var(--verde-term-signal);
     padding: 0.1rem 0.45rem;
     border-radius: 4px;
     font-weight: 700;
@@ -890,19 +889,19 @@ const copy = {
 
   @keyframes glow {
     0% {
-      background: color-mix(in srgb, var(--verde-signal) 35%, transparent);
+      background: color-mix(in srgb, var(--verde-term-signal) 28%, transparent);
     }
     100% {
-      background: color-mix(in srgb, var(--verde-signal) 8%, transparent);
+      background: color-mix(in srgb, var(--verde-term-signal) 7%, transparent);
     }
   }
 
   @keyframes frame {
     to {
-      border-color: color-mix(in srgb, var(--verde-signal) 55%, #1f2d25);
+      border-color: color-mix(in srgb, var(--verde-term-signal) 45%, #1f2d25);
       box-shadow:
         0 30px 80px -30px rgb(0 0 0 / 0.7),
-        0 0 60px -12px color-mix(in srgb, var(--verde-signal) 45%, transparent);
+        0 0 50px -16px color-mix(in srgb, var(--verde-term-signal) 35%, transparent);
     }
   }
 
@@ -914,7 +913,7 @@ const copy = {
 
   @keyframes beacon {
     0% {
-      box-shadow: 0 0 0 0 color-mix(in srgb, var(--verde-signal) 60%, transparent);
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--sl-color-accent) 55%, transparent);
     }
     80%,
     100% {
