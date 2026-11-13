@@ -343,7 +343,8 @@ const jsonLd = {
     color: var(--sl-color-accent);
   }
 
-  .verde-home section + section {
+  /* :global porque la sección de herramientas es otro componente (Toolkit) */
+  .verde-home > :global(section + section) {
     margin-top: var(--gap);
   }
 
