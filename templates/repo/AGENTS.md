@@ -1,6 +1,6 @@
 # AGENTS.md
 
-> VERDE / VDD v1.2 project. Replace every `<PLACEHOLDER>` before the first
+> VERDE / VDD v1.3 project. Replace every `<PLACEHOLDER>` before the first
 > assignment. Agents read this file first, then their assignment.
 
 ## Project
@@ -27,6 +27,9 @@ not decided: ask (see "If you are blocked").
 Human developers follow the same workflow and rules as agents: assignment,
 branch, gate, PR file, review by someone else.
 
+If you were launched as the **reviewer**, follow `docs/guides/review.md`
+instead of the workflow below: never edit the code under review.
+
 ## Workflow
 
 1. Create the branch named in the assignment (`feat/<KEY>-<n>-<slug>` or
@@ -39,8 +42,10 @@ branch, gate, PR file, review by someone else.
    output, the gate output, and screenshots for any UI change.
 5. Push your branch, open the PR with `gh pr create` and **stop**. Never merge.
 6. On review feedback, start a **new session**, add commits on the same branch
-   and append a "Round N" section to the PR file answering every comment. You
-   may disagree with the review if you bring evidence.
+   and append a "Round N" section to the PR file answering every finding by its
+   ID (`R1`, `R2`, `N1`…): what you changed (commit) or why you disagree
+   (evidence). `R` findings block the merge; `N` findings follow the
+   destination the reviewer gave them.
 
 ## Hard rules
 

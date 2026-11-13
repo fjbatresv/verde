@@ -13,4 +13,4 @@ decisión no se borra: se reemplaza (🔁) por otra que la cite.
 
 | ID | Fecha | Decisión | Origen | Estado |
 | --- | --- | --- | --- | --- |
-| D-001 | {{date}} | Adoptamos VERDE / VDD v1.2 como forma de trabajo | Arranque del proyecto | ✅ |
+| D-001 | {{date}} | Adoptamos VERDE / VDD v1.3 como forma de trabajo | Arranque del proyecto | ✅ |

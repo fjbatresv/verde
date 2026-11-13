@@ -1,6 +1,6 @@
 # Cómo se trabaja con los agentes
 
-Este proyecto sigue **VERDE / VDD v1.2**: Vault · Encargo · Revisión ·
+Este proyecto sigue **VERDE / VDD v1.3**: Vault · Encargo · Revisión ·
 Decisión · Evidencia. Esta guía es la versión operativa para este repo.
 
 ## Roles
@@ -31,7 +31,8 @@ agentes; en ambos casos sigue el mismo ciclo y su PR lo revisa otro.
    y abre el PR. Se detiene.
 6. **Revisión.** Un revisor que no es el autor lee el diff y la evidencia, **abre la app con
    Playwright**, recorre el flujo, toma capturas, corre axe y escribe la
-   revisión en `06-Revisiones/` con severidades (bloqueante, mayor, menor, nota).
+   revisión en `06-Revisiones/` con hallazgos `R` (bloquean) y `N` (no
+   bloquean). El procedimiento está en [`review.md`](review.md).
 7. **Rondas,** en la misma rama (un agente, en sesión nueva), con "Round N" en el archivo de PR.
 8. **Merge.** Con la revisión aprobada, el PM corre `make gate` sobre el commit
    del PR, pega la salida como comentario y, con `RESULT GREEN`, hace

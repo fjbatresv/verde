@@ -1,6 +1,6 @@
 # VERDE · Vault-Driven Development
 
-**Versión 1.2 · 2026-11-12 · © 2026 Javier Batres · CC BY 4.0**
+**Versión 1.3 · 2026-11-13 · © 2026 Javier Batres · CC BY 4.0**
 
 VERDE es un framework para desarrollar aplicaciones con agentes de IA en un
 equipo con roles fijos. Su nombre resume la regla: **nada avanza si no está en
@@ -106,10 +106,18 @@ la aprobación final la firma una persona con rol de revisor o PM.
 - se verifica cada criterio contra la evidencia;
 - si hay UI, se abre la aplicación con **Playwright**, se recorre el flujo, se
   toman capturas y se corre **axe**;
-- cada hallazgo lleva archivo y severidad: **bloqueante**, **mayor**, **menor**
-  o **nota**;
-- las notas menores pueden ir a un encargo de mantenimiento para no gastar una
-  ronda.
+- se reproduce al menos una prueba de la evidencia de cada criterio, en vez de
+  sólo leerla;
+- cada hallazgo lleva ID, ubicación y severidad. **Bloqueante** y **mayor**
+  (`R1`, `R2`…) se corrigen en este PR; **menor** y **nota** (`N1`…) no
+  bloquean y llevan destino: esta ronda, un encargo de mantenimiento, vigilar o
+  sin acción;
+- el resultado pasa por `cambios-requeridos` → `aprobado-por-revisor` →
+  `aprobado` (PO) → `integrado` (PM).
+
+El procedimiento completo, con lo que hay que mirar en vivo y cómo lanzar y
+calibrar un agente revisor, está en `docs/guides/review.md` de la plantilla de
+repo.
 
 **Anti-patrón:** aprobar leyendo el diff. Los problemas de UI (contraste, un
 botón fuera de lugar, un estado vacío roto) no se ven en el código.
@@ -249,7 +257,8 @@ flowchart TD
 7. **Revisión.** Un revisor que no es el autor verifica criterios, revisa en
    vivo y escribe la revisión.
 8. **Rondas.** Si hay cambios, el dev los hace en la misma rama (un agente, en
-   una **sesión nueva**) y agrega "Round N" al archivo de PR.
+   una **sesión nueva**) y agrega "Round N" al archivo de PR, respondiendo cada
+   hallazgo por su ID. El revisor verifica cada ID en una sección "Ronda N".
 9. **Merge.** El PM corre la puerta sobre el commit del PR, pega la salida en el
    PR y hace squash merge con `--match-head-commit`. La rama se archiva como tag
    `archive/<rama>` y se borra.
@@ -327,6 +336,7 @@ y status.
 | Encargo | `03-Encargos/<KEY>-<n>-<responsable>-<tema>.md` | `ACME-42-ana-login.md` |
 | Revisión | `06-Revisiones/<KEY>-<n>-revision.md` | `ACME-42-revision.md` |
 | Severidad | bloqueante · mayor · menor · nota | — |
+| Hallazgo | `R<n>` (bloquea) · `N<n>` (no bloquea) | `R1`, `N2` |
 
 Un grupo de issues que se entrega en un solo PR puede tener su propia clave.
 Llámalo como prefieras (historia, entrega, *carrier*); el método no lo exige.
@@ -392,11 +402,15 @@ ni se suben timeouts para taparlo.
 
 ## 9. Día 0 de un proyecto nuevo
 
-- [ ] Crear el repo del vault desde `templates/vault/` y el repo de código desde
-      `templates/repo/`, ambos privados, clonados uno al lado del otro.
-- [ ] Elegir la clave de issues (`<KEY>`) y reemplazar los marcadores `<…>`
-      (`grep -rn '<[A-Z]' .`).
-- [ ] Registrar **D-001 · Adoptamos VERDE / VDD v1.2** y las decisiones de
+- [ ] Elegir la clave de issues (`<KEY>`) y correr
+      `./init.sh <proyecto> <KEY> <carpeta>`: crea `<proyecto>/` y
+      `<proyecto>-vault/` uno al lado del otro, reemplaza el proyecto, la clave
+      y las fechas, y hace el primer commit en ambos.
+- [ ] Completar los marcadores que quedan (nombres, URLs, comandos) en
+      `AGENTS.md`, `README.md`, `docs/vault.md`, `docs/guides/` y
+      `00-Inicio.md` del vault. Los `<n>` y `<slug>` de las guías y plantillas
+      son convenciones y se quedan. Subir ambos repos como privados.
+- [ ] Registrar **D-001 · Adoptamos VERDE / VDD v1.3** y las decisiones de
       arranque (stack, alcance, quién ocupa cada rol).
 - [ ] Ajustar `gate.steps` al stack y correr `make gate` hasta `RESULT GREEN`
       con el esqueleto del proyecto.
@@ -409,7 +423,10 @@ ni se suben timeouts para taparlo.
     y sin push directo;
   - cargar los secretos de la CI.
 - [ ] Dar acceso a los dos repos a cada persona del equipo.
-- [ ] Escribir el backlog de la primera entrega y el primer encargo.
+- [ ] Escribir el backlog de la primera entrega y el primer encargo. El
+      ejemplo resuelto `examples/acme/` muestra un issue completo, de su
+      encargo a su integración.
+- [ ] Si un agente va a revisar, calibrarlo primero (sección 11).
 - [ ] Lanzar el primer agente en su worktree y revisar el primer PR con el ciclo
       completo, aunque sea pequeño: así se prueba el proceso antes que el
       producto.
@@ -447,6 +464,17 @@ cd ../<proyecto>-<KEY>-<n>
   stacks a la vez fallan de formas que parecen bugs.
 - El operador vigila la terminal del agente; otro revisa el resultado. Separar
   esas dos tareas evita que el revisor se vuelva coautor.
+
+**Lanzar un revisor.** Igual, pero con una worktree en el commit exacto del PR
+(`git worktree add ../<proyecto>-review-<KEY>-<n> <sha>`), un operador distinto
+del que lanzó al autor y el prompt de `docs/guides/review.md` §8. El agente
+escribe su nota de revisión y la deja en `cambios-requeridos` o
+`aprobado-por-revisor`; la firma una persona.
+
+**Calibrar al revisor.** Antes de confiar en un agente revisor, y cada vez que
+cambie el modelo o la guía, se le da una rama con cuatro fallas sembradas (una
+visual, una de accesibilidad, un criterio con evidencia engañosa y una de
+lógica sin UI). Lo que no encuentre se agrega a la guía (`review.md` §9).
 
 ## 12. Lecciones
 
@@ -487,6 +515,8 @@ Lo que cuesta ignorar estas reglas:
 | Puerta | Gate | `make gate`: todos los checks, verde o rojo. |
 | Archivo de PR | PR file | `docs/prs/…`: evidencia y rondas de un PR. |
 | Ronda | Round | Iteración de cambios tras una revisión. |
+| Hallazgo | Finding | Problema anotado en una revisión: `R<n>` bloquea, `N<n>` no. |
+| Calibración | Calibration | Prueba de un revisor con fallas sembradas a propósito. |
 | Criterio de aceptación | Acceptance criterion (AC) | Condición verificable de un issue. |
 | Dueño del producto | Product owner (PO) | Persona que prioriza y aprueba. |
 | PM | PM | Rol que escribe el vault, asigna e integra. |
@@ -496,7 +526,7 @@ Lo que cuesta ignorar estas reglas:
 
 ## 14. Versión y licencia
 
-Este documento es **VERDE v1.2**. Los cambios se registran en
+Este documento es **VERDE v1.3**. Los cambios se registran en
 [`CHANGELOG.md`](CHANGELOG.md): un cambio MAJOR altera un pilar o una regla
 obligatoria; un MINOR agrega guías o aclaraciones. Cada proyecto anota en su
 D-001 la versión que adoptó.

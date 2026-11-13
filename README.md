@@ -24,11 +24,12 @@ también se le llama **VDD**.
 
 ## Empezar
 
-1. Lee [`VERDE.md`](VERDE.md) (unos 20 minutos).
-2. Copia [`templates/vault/`](templates/vault/) a un repo privado
-   `<proyecto>-vault` y [`templates/repo/`](templates/repo/) a tu repo de
-   código, uno al lado del otro.
-3. Sigue el checklist de **Día 0** (VERDE.md §9): clave de issues, D-001,
+1. Lee [`VERDE.md`](VERDE.md) (unos 20 minutos) y el ejemplo resuelto
+   [`examples/acme/`](examples/acme/).
+2. Crea los dos repos, uno al lado del otro:
+   `./init.sh <proyecto> <KEY> <carpeta>` (por ejemplo,
+   `./init.sh acme-salas ACME ~/code`).
+3. Sigue el checklist de **Día 0** (VERDE.md §9): decisiones de arranque,
    `gate.steps` para tu stack y `make gate` en verde.
 
 ## Contenido
@@ -39,7 +40,10 @@ también se le llama **VDD**.
 | [`templates/vault/`](templates/vault/) | Vault de Obsidian con estructura, registro de decisiones y plantillas (encargo, revisión, decisión, reunión, status) |
 | [`templates/repo/`](templates/repo/) | `AGENTS.md`, plantilla de PR con evidencia, guías, workflows y la puerta |
 | [`templates/repo/tools/ci/local-gate.sh`](templates/repo/tools/ci/local-gate.sh) | La puerta, agnóstica de stack: lee `gate.steps` y responde `RESULT GREEN` o `RED` |
-| [`tests/`](tests/) | Pruebas de la puerta: `bash tests/gate.test.sh` |
+| [`templates/repo/docs/guides/review.md`](templates/repo/docs/guides/review.md) | Guía del revisor: verificar la evidencia, revisar en vivo, hallazgos `R`/`N`, lanzar y calibrar un agente revisor |
+| [`examples/acme/`](examples/acme/) | Ejemplo resuelto: un issue completo, del backlog a la integración, con dos rondas |
+| [`init.sh`](init.sh) | Crea el repo de código y el vault de un proyecto nuevo desde las plantillas |
+| [`tests/`](tests/) | `bash tests/gate.test.sh` (puerta), `bash tests/init.test.sh` (arranque) y `bash tests/examples.test.sh` (convenciones de los ejemplos) |
 | [`CHANGELOG.md`](CHANGELOG.md) | Versiones |
 
 ## Licencia

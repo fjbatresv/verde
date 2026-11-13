@@ -3,6 +3,20 @@
 Las versiones siguen `MAJOR.MINOR`. Un cambio MAJOR altera un pilar o una regla
 obligatoria; un MINOR agrega guías, plantillas o aclaraciones.
 
+## v1.3 — 2026-11-13
+
+- Revisión: guía del revisor (`docs/guides/review.md`) con verificación de la
+  evidencia, qué mirar en vivo, cómo lanzar un agente revisor y cómo
+  calibrarlo con fallas sembradas.
+- Revisión: hallazgos con ID (`R` bloquea, `N` no bloquea y lleva destino),
+  estados `cambios-requeridos` → `aprobado-por-revisor` → `aprobado` →
+  `integrado`, y plantilla de revisión con veredicto, rondas y "Tras el merge".
+- CI: las capturas de `tmp/screenshots/` se suben como artefacto del run.
+- Ejemplo resuelto `examples/acme/`: un issue con dos rondas, una decisión
+  nueva y su status, con prueba de convenciones.
+- `init.sh`: crea el repo de código y el vault de un proyecto nuevo, con su
+  prueba.
+
 ## v1.2 — 2026-11-12
 
 - Puerta: los pasos `?opcionales` ignoran prefijos `cd <carpeta> &&` al buscar

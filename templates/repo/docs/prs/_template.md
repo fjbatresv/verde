@@ -51,5 +51,6 @@ records them in the vault.>
 - [ ] Reviewed by PM — _only the PM ticks this_
 - [ ] Approved by PO — _only the PO ticks this_
 
-<!-- Review rounds: append "## Round N" sections below, answering each review
-comment by number: what you changed (commit) or why you disagree (evidence). -->
+<!-- Review rounds: append "## Round N (<sha>)" sections below with a table
+answering each finding by ID (R1, R2, N1…): what you changed (commit) or why
+you disagree (evidence). -->

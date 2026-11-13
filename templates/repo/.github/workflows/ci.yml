@@ -25,3 +25,13 @@ jobs:
           name: gate-log
           path: tmp/gate.log
           if-no-files-found: ignore
+      # Capturas para el revisor: haz que tus e2e las guarden en tmp/screenshots/
+      # y el revisor las verá en el run sin levantar el entorno. No reemplazan
+      # la revisión en vivo.
+      - name: Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: tmp/screenshots/
+          if-no-files-found: ignore
