@@ -14,6 +14,7 @@ import {
   resolveLink,
   rewriteWikilinks,
   splitFrontmatter,
+  splitVersions,
   sync,
   tasksToSymbols,
 } from './sync-docs.mjs';
@@ -110,7 +111,12 @@ test('an English page that links to its own original points to the Spanish page'
 
 test('sync generates every page in every locale, with no relative links left', () => {
   const docs = mkdtempSync(join(tmpdir(), 'verde-docs-'));
-  assert.equal(sync({ docs }), PAGES.length * Object.keys(LOCALES).length);
+  assert.ok(sync({ docs }) > PAGES.length * Object.keys(LOCALES).length);
+  for (const dir of ['', 'en/']) {
+    for (const version of ['index', 'sin-publicar', 'v1-3-0', 'v1-0']) {
+      assert.ok(existsSync(join(docs, `${dir}changelog/${version}.md`)), `${dir}changelog/${version}.md`);
+    }
+  }
   for (const locale of Object.keys(LOCALES)) {
     for (const base of PAGES) {
       const page = localize(base, locale);
@@ -125,4 +131,17 @@ test('sync generates every page in every locale, with no relative links left', (
       }
     }
   }
+});
+
+test('the changelog is split into one page per version, with the same slugs in every locale', () => {
+  const es = splitVersions('# Changelog\n\nIntro.\n\n## Sin publicar\n\n- Algo.\n\n## v1.3.0 — 2026-11-13\n\n- Otro.\n\n## v1.2 — 2026-11-12\n\n- Más.\n');
+  assert.equal(es.intro, 'Intro.');
+  assert.deepEqual(es.sections.map((s) => [s.slug, s.title, s.date, s.released]), [
+    ['sin-publicar', 'Sin publicar', '', false],
+    ['v1-3-0', 'v1.3.0', '2026-11-13', true],
+    ['v1-2', 'v1.2', '2026-11-12', true],
+  ]);
+  const en = splitVersions('# Changelog\n\n## Unreleased\n\n- Something.\n');
+  assert.equal(en.sections[0].slug, 'sin-publicar');
+  assert.equal(en.sections[0].body, '- Something.');
 });

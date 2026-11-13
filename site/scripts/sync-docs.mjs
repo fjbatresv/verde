@@ -13,8 +13,16 @@ const DOCS = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'content
 
 /** Locales: Spanish at the root, English under /en/ with sources in i18n/en/. */
 export const LOCALES = {
-  es: { prefix: '', dir: '', srcRoot: '', metadata: 'Metadatos de la nota (frontmatter de Obsidian):', screenshot: 'captura' },
-  en: { prefix: '/en', dir: 'en/', srcRoot: 'i18n/en/', metadata: 'Note metadata (Obsidian frontmatter):', screenshot: 'screenshot' },
+  es: {
+    prefix: '', dir: '', srcRoot: '',
+    metadata: 'Metadatos de la nota (frontmatter de Obsidian):', screenshot: 'captura',
+    versions: 'Versiones', released: (date) => `Publicada el ${date}.`, unreleased: 'Cambios que entrarán en la próxima versión.',
+  },
+  en: {
+    prefix: '/en', dir: 'en/', srcRoot: 'i18n/en/',
+    metadata: 'Note metadata (Obsidian frontmatter):', screenshot: 'screenshot',
+    versions: 'Versions', released: (date) => `Released on ${date}.`, unreleased: 'Changes for the next version.',
+  },
 };
 
 /** Repo path → page. `route` and `dest` are the Spanish ones; other locales get a prefix. */
@@ -42,10 +50,12 @@ export const PAGES = [
   },
   {
     src: 'CHANGELOG.md',
-    dest: 'changelog.md',
+    dest: 'changelog/index.md',
     route: '/changelog/',
-    es: { title: 'Changelog', description: 'Versiones de VERDE y qué cambió en cada una.' },
-    en: { title: 'Changelog', description: 'VERDE versions and what changed in each one.' },
+    split: 'versions',
+    order: 0,
+    es: { title: 'Changelog', label: 'Cómo se versiona', description: 'Versiones de VERDE y qué cambió en cada una.' },
+    en: { title: 'Changelog', label: 'Versioning', description: 'VERDE versions and what changed in each one.' },
   },
   {
     src: 'examples/acme/README.md',
@@ -231,16 +241,68 @@ export function renderPage(page, sourceText) {
   return `${head}${content.trimEnd()}\n`;
 }
 
+/**
+ * Splits a changelog into its intro and one section per `## ` heading.
+ * `## v1.3.0 — 2026-11-13` → { slug: 'v1-3-0', title: 'v1.3.0', date: '2026-11-13' };
+ * `## Sin publicar` / `## Unreleased` → { slug: 'sin-publicar', … } (same slug in every locale).
+ */
+export function splitVersions(text) {
+  const { body } = splitFrontmatter(text.replace(/\r\n/g, '\n'));
+  const [intro, ...parts] = dropFirstH1(body).split(/^## /m);
+  const sections = parts.map((part) => {
+    const [heading, ...rest] = part.split('\n');
+    const [title, date = ''] = heading.split(/\s+—\s+/);
+    const isVersion = /^v\d/.test(title.trim());
+    return {
+      slug: isVersion ? title.trim().replaceAll('.', '-') : 'sin-publicar',
+      title: title.trim(),
+      date: date.trim(),
+      released: isVersion,
+      body: rest.join('\n').trim(),
+    };
+  });
+  return { intro: intro.trim(), sections };
+}
+
+/** The changelog's index page plus one page per version. */
+function renderVersions(page, text) {
+  const loc = LOCALES[page.locale];
+  const { intro, sections } = splitVersions(text);
+  const dir = posix.dirname(page.dest);
+  const list = sections
+    .map((v) => `- [${v.title}](${page.route}${v.slug}/)${v.date ? ` · ${v.date}` : ''}`)
+    .join('\n');
+  const files = [[page.dest, renderPage(page, `# ${page.title}\n\n${intro}\n\n## ${loc.versions}\n\n${list}\n`)]];
+  sections.forEach((v, i) => {
+    const versionPage = {
+      ...page,
+      title: v.released ? `VERDE ${v.title}` : v.title,
+      label: v.title,
+      description: v.released ? loc.released(v.date) : loc.unreleased,
+      order: i + 1,
+      dest: `${dir}/${v.slug}.md`,
+      route: `${page.route}${v.slug}/`,
+    };
+    const lead = v.released ? loc.released(v.date) : loc.unreleased;
+    files.push([versionPage.dest, renderPage(versionPage, `# ${v.title}\n\n${lead}\n\n${v.body}\n`)]);
+  });
+  return files;
+}
+
 export function sync({ root = ROOT, docs = DOCS } = {}) {
   let count = 0;
   for (const [locale, { dir }] of Object.entries(LOCALES)) {
-    for (const sub of ['guias', 'ejemplo']) rmSync(join(docs, dir, sub), { recursive: true, force: true });
+    for (const sub of ['guias', 'ejemplo', 'changelog', 'changelog.md']) rmSync(join(docs, dir, sub), { recursive: true, force: true });
     for (const base of PAGES) {
       const page = localize(base, locale, root);
-      const out = join(docs, page.dest);
-      mkdirSync(dirname(out), { recursive: true });
-      writeFileSync(out, renderPage(page, readFileSync(join(root, page.src), 'utf8')));
-      count += 1;
+      const text = readFileSync(join(root, page.src), 'utf8');
+      const files = page.split === 'versions' ? renderVersions(page, text) : [[page.dest, renderPage(page, text)]];
+      for (const [dest, content] of files) {
+        const out = join(docs, dest);
+        mkdirSync(dirname(out), { recursive: true });
+        writeFileSync(out, content);
+        count += 1;
+      }
     }
   }
   return count;

@@ -11,9 +11,9 @@ const base = lang === 'en' ? '/en' : '';
 
 // En el build import.meta.url apunta al código compilado: se usa la carpeta del proyecto.
 const publicDir = `${process.cwd()}/public/`;
-// Logo oficial opcional: public/logos/<id>.svg (o .png / .webp).
+// Logo oficial opcional: public/logos/<id>.webp (o .svg / .png).
 const logoFor = (id: string) => {
-  const ext = ['svg', 'png', 'webp'].find((e) => existsSync(`${publicDir}logos/${id}.${e}`));
+  const ext = ['webp', 'svg', 'png'].find((e) => existsSync(`${publicDir}logos/${id}.${e}`));
   return ext ? `/logos/${id}.${ext}` : null;
 };
 
@@ -58,7 +58,7 @@ const copy = {
                   <a class="tile" href={tool.url} rel="noopener">
                     <span class:list={['mark', { 'has-logo': logo }]}>
                       {logo ? (
-                        <img src={logo} alt={copy.logoAlt(tool.name)} width="28" height="28" loading="lazy" decoding="async" />
+                        <img src={logo} alt={copy.logoAlt(tool.name)} width="34" height="34" loading="lazy" decoding="async" />
                       ) : (
                         <span class="mono" aria-hidden="true">{tool.monogram}</span>
                       )}
@@ -227,9 +227,10 @@ const copy = {
   }
 
   .mark img {
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 2.1rem;
+    height: 2.1rem;
     object-fit: contain;
+    border-radius: 6px;
   }
 
   .mono {
@@ -363,6 +364,10 @@ const copy = {
     .mark {
       width: 2.2rem;
       height: 2.2rem;
+    }
+    .mark img {
+      width: 1.8rem;
+      height: 1.8rem;
     }
     .mono {
       font-size: 1rem;

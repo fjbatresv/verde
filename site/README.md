@@ -27,29 +27,30 @@ La sección "Herramientas y agentes" de la portada muestra un monograma por
 herramienta. Para usar el logo oficial, descárgalo del kit de marca (*brand
 assets* o *press kit*) de cada servicio, respeta sus condiciones de uso y
 guárdalo en `public/logos/` con el nombre de su `id`. Se detecta solo en el
-build (`.svg`, `.png` o `.webp`) y lleva su texto alternativo ("Logo de Orca",
-"Orca logo").
+build (`.webp`, `.svg` o `.png`, en ese orden) y lleva su texto alternativo
+("Logo de Orca", "Orca logo"). Los logos actuales están en `.webp` de 160×160,
+recortados al símbolo.
 
 | Herramienta | Archivo |
 | --- | --- |
-| Orca | `orca.svg` |
-| Obsidian | `obsidian.svg` |
-| Stitch | `stitch.svg` |
-| Kiro | `kiro.svg` |
-| Claude Code | `claude-code.svg` |
-| Codex | `codex.svg` |
-| CodeRabbit | `coderabbit.svg` |
-| Cursor | `cursor.svg` |
-| Gemini CLI | `gemini-cli.svg` |
-| opencode | `opencode.svg` |
-| GitHub Actions | `github-actions.svg` |
-| Playwright | `playwright.svg` |
-| axe | `axe.svg` |
-| Snyk | `snyk.svg` |
-| Dependabot | `dependabot.svg` |
-| SonarQube Server | `sonarqube.svg` |
-| SonarQube Cloud | `sonarcloud.svg` |
-| Sentry | `sentry.svg` |
+| Orca | `orca.webp` |
+| Obsidian | `obsidian.webp` |
+| Stitch | `stitch.webp` |
+| Kiro | `kiro.webp` |
+| Claude Code | `claude-code.webp` |
+| Codex | `codex.webp` |
+| CodeRabbit | `coderabbit.webp` |
+| Cursor | `cursor.webp` |
+| Gemini CLI | `gemini-cli.webp` |
+| opencode | `opencode.webp` |
+| GitHub Actions | `github-actions.webp` |
+| Playwright | `playwright.webp` |
+| axe | `axe.webp` |
+| Snyk | `snyk.webp` |
+| Dependabot | `dependabot.webp` |
+| SonarQube Server | `sonarqube.webp` |
+| SonarQube Cloud | `sonarcloud.webp` |
+| Sentry | `sentry.webp` |
 
 Los `id` están en `src/data/toolkit.ts`. Prefiere la versión cuadrada del logo
 (el isotipo, sin el nombre): la ficha ya muestra el nombre en texto.

@@ -60,7 +60,7 @@ export default defineConfig({
           translations: { en: 'Worked example' },
           items: [{ autogenerate: { directory: 'ejemplo' } }],
         },
-        { label: 'Changelog', slug: 'changelog' },
+        { label: 'Changelog', items: [{ autogenerate: { directory: 'changelog' } }] },
       ],
     }),
   ],
