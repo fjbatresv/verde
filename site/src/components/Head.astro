@@ -13,7 +13,11 @@ import Default from '@astrojs/starlight/components/Head.astro';
     for (const block of blocks) block.dataset.source = block.textContent ?? '';
     const render = async () => {
       const dark = document.documentElement.dataset.theme === 'dark';
-      mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'strict' });
+      const font = "'Instrument Sans Variable', system-ui, sans-serif";
+      const themeVariables = dark
+        ? { background: '#0b120e', primaryColor: '#16211b', primaryTextColor: '#f3f0e6', primaryBorderColor: '#2bd47a', lineColor: '#8f9a8f', textColor: '#f3f0e6', edgeLabelBackground: '#16211b', tertiaryColor: '#0f2e1d', fontFamily: font }
+        : { background: '#f8f6ef', primaryColor: '#e9e5d8', primaryTextColor: '#0e1a13', primaryBorderColor: '#136b3a', lineColor: '#4f5d54', textColor: '#0e1a13', edgeLabelBackground: '#f1ede2', tertiaryColor: '#cdeedb', fontFamily: font };
+      mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables, securityLevel: 'strict' });
       for (const block of blocks) {
         block.removeAttribute('data-processed');
         block.textContent = block.dataset.source ?? '';
