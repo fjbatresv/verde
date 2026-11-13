@@ -16,6 +16,20 @@ export default defineConfig({
         'Vault-Driven Development: un framework para desarrollar aplicaciones con agentes de IA, con roles fijos, memoria fuera del chat y nada integrado sin evidencia.',
       logo: { src: './src/assets/logo.svg', alt: 'VERDE' },
       favicon: '/favicon.svg',
+      head: [
+        { tag: 'meta', attrs: { property: 'og:image', content: 'https://verde.fjbatresv.com/og.png' } },
+        { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
+        { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:image:alt',
+            content: 'VERDE · Vault-Driven Development · make gate → RESULT GREEN',
+          },
+        },
+        { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' } },
+        { tag: 'meta', attrs: { name: 'author', content: 'Javier Batres' } },
+      ],
       defaultLocale: 'root',
       locales: {
         root: { label: 'Español', lang: 'es' },

@@ -1,5 +1,8 @@
 ---
 // Portada de VERDE: la señal de la puerta. Textos en español e inglés.
+import Toolkit from './Toolkit.astro';
+import { allTools } from '../data/toolkit';
+
 interface Props {
   lang?: 'es' | 'en';
 }
@@ -115,7 +118,46 @@ const copy = {
     signature: 'A framework created by',
   },
 }[lang];
+
+// Datos estructurados (schema.org) para buscadores: qué es VERDE, quién lo
+// creó y qué herramientas menciona.
+const site = 'https://verde.fjbatresv.com';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${site}/#website`,
+      url: `${site}${base}/`,
+      name: 'VERDE · Vault-Driven Development',
+      inLanguage: lang,
+      publisher: { '@id': 'https://fjbatresv.com/#person' },
+    },
+    {
+      '@type': 'Person',
+      '@id': 'https://fjbatresv.com/#person',
+      name: 'Javier Batres',
+      url: 'https://fjbatresv.com',
+    },
+    {
+      '@type': 'SoftwareSourceCode',
+      name: 'VERDE',
+      alternateName: ['VDD', 'Vault-Driven Development'],
+      description: copy.lede,
+      url: `${site}${base}/`,
+      codeRepository: 'https://github.com/fjbatresv/verde',
+      version: '1.3.0',
+      inLanguage: ['es', 'en'],
+      license: ['https://creativecommons.org/licenses/by/4.0/', 'https://opensource.org/licenses/MIT'],
+      author: { '@id': 'https://fjbatresv.com/#person' },
+      keywords: ['AI agents', 'agentes de IA', 'framework', 'code review', 'Playwright', 'Vault-Driven Development'],
+      mentions: allTools.map((tool) => ({ '@type': 'SoftwareApplication', name: tool.name, url: tool.url })),
+    },
+  ],
+};
 ---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
 <div class="verde-home not-content">
   <!-- 1 · Hero -->
@@ -235,6 +277,9 @@ const copy = {
   4. Sube ambos repos y protege main.</span></pre>
     </figure>
   </section>
+
+  <!-- 5 · Herramientas y agentes -->
+  <Toolkit lang={lang} />
 
   <!-- 6 · Cierre -->
   <section class="finale" aria-labelledby="cierre">

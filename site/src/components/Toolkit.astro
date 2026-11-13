@@ -1,0 +1,364 @@
+---
+// Tablero de señales: herramientas y agentes por rol del ciclo.
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { lanes, type Lang } from '../data/toolkit';
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = 'es' } = Astro.props;
+const base = lang === 'en' ? '/en' : '';
+
+const publicDir = fileURLToPath(new URL('../../public/', import.meta.url));
+const logoFor = (id: string) => (existsSync(`${publicDir}logos/${id}.svg`) ? `/logos/${id}.svg` : null);
+
+const copy = {
+  es: {
+    kicker: '05 · Herramientas y agentes',
+    title: 'Un equipo, muchas manos.',
+    text: 'VERDE no exige ninguna herramienta. Estas son las que recomendamos para montarlo, ordenadas por el rol que cumplen en el ciclo.',
+    logoAlt: (name: string) => `Logo de ${name}`,
+    more: 'Cómo se conecta cada una',
+  },
+  en: {
+    kicker: '05 · Tools and agents',
+    title: 'One team, many hands.',
+    text: 'VERDE requires no tool. These are the ones we recommend to set it up, grouped by the role they play in the cycle.',
+    logoAlt: (name: string) => `${name} logo`,
+    more: 'How each one connects',
+  },
+}[lang];
+---
+
+<section class="toolkit" aria-labelledby="herramientas">
+  <header class="tk-head">
+    <p class="tk-kicker">{copy.kicker}</p>
+    <h2 id="herramientas">{copy.title}</h2>
+    <p class="tk-text">{copy.text}</p>
+  </header>
+
+  <ol class="board">
+    {
+      lanes.map((lane, li) => (
+        <li class="lane" style={`--lane:${li}`}>
+          <div class="lane-label">
+            <span class="lane-title">{lane.title[lang]}</span>
+            <span class="lane-who">{lane.who[lang]}</span>
+          </div>
+          <ul class="tiles">
+            {lane.tools.map((tool, ti) => {
+              const logo = logoFor(tool.id);
+              return (
+                <li style={`--tile:${ti}`}>
+                  <a class="tile" href={tool.url} rel="noopener">
+                    <span class="mark">
+                      {logo ? (
+                        <img src={logo} alt={copy.logoAlt(tool.name)} width="28" height="28" loading="lazy" decoding="async" />
+                      ) : (
+                        <span class="mono" aria-hidden="true">{tool.monogram}</span>
+                      )}
+                      <span class="led" aria-hidden="true" />
+                    </span>
+                    <span class="tile-text">
+                      <span class="tile-name">{tool.name}</span>
+                      <span class="tile-role">{tool.role[lang]}</span>
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </li>
+      ))
+    }
+  </ol>
+
+  <a class="tk-more" href={`${base}/guias/herramientas/`}>{copy.more} <span aria-hidden="true">→</span></a>
+</section>
+
+<style>
+  .toolkit {
+    --line: color-mix(in srgb, var(--sl-color-white) 12%, transparent);
+    --tile-bg: color-mix(in srgb, var(--sl-color-white) 3%, transparent);
+    --tile-border: color-mix(in srgb, var(--sl-color-white) 11%, transparent);
+  }
+
+  .tk-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.75rem 3rem;
+    align-items: end;
+    margin-bottom: 2.25rem;
+  }
+
+  .tk-kicker {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-family: var(--sl-font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sl-color-gray-3);
+  }
+
+  .tk-head h2 {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: var(--verde-display);
+    font-variation-settings: 'SOFT' 50, 'WONK' 1;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--sl-color-white);
+  }
+
+  .tk-text {
+    margin: 0;
+    max-width: 34rem;
+  }
+
+  /* Tablero: un carril por rol, unidos por la vía de la izquierda */
+  .board {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .lane {
+    display: grid;
+    grid-template-columns: 12.5rem minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: center;
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--line);
+    margin: 0;
+  }
+
+  .lane-label {
+    position: relative;
+    display: grid;
+    gap: 0.2rem;
+    padding-left: 1.6rem;
+  }
+
+  .lane-label::before {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.45rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    border: 2px solid var(--sl-color-accent);
+    background: var(--sl-color-black);
+  }
+
+  .lane-title {
+    font-family: var(--verde-display);
+    font-variation-settings: 'SOFT' 50, 'WONK' 0;
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--sl-color-white);
+  }
+
+  .lane-who {
+    font-family: var(--sl-font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    color: var(--sl-color-gray-3);
+  }
+
+  .tiles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .tiles li {
+    margin: 0;
+  }
+
+  .tile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 13.5rem;
+    padding: 0.55rem 0.95rem 0.55rem 0.55rem;
+    border: 1px solid var(--tile-border);
+    border-radius: 12px;
+    background: var(--tile-bg);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      border-color 180ms ease,
+      background 180ms ease,
+      transform 180ms ease;
+  }
+
+  .mark {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--sl-color-accent) 12%, var(--sl-color-black));
+    border: 1px solid color-mix(in srgb, var(--sl-color-accent) 28%, transparent);
+  }
+
+  .mark img {
+    width: 1.6rem;
+    height: 1.6rem;
+    object-fit: contain;
+  }
+
+  .mono {
+    font-family: var(--verde-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.15rem;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+    color: var(--sl-color-accent);
+    letter-spacing: -0.02em;
+  }
+
+  .led {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--sl-color-gray-5);
+    border: 2px solid var(--sl-color-black);
+    transition:
+      background 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  .tile-text {
+    display: grid;
+    gap: 0.05rem;
+    min-width: 0;
+  }
+
+  .tile-name {
+    font-weight: 600;
+    font-size: 0.98rem;
+    color: var(--sl-color-white);
+    line-height: 1.2;
+  }
+
+  .tile-role {
+    overflow-wrap: anywhere;
+    font-family: var(--sl-font-mono);
+    font-size: 0.66rem;
+    color: var(--sl-color-gray-3);
+    letter-spacing: 0.02em;
+  }
+
+  .tile:hover,
+  .tile:focus-visible {
+    border-color: color-mix(in srgb, var(--sl-color-accent) 55%, transparent);
+    background: color-mix(in srgb, var(--sl-color-accent) 7%, transparent);
+    transform: translateY(-2px);
+  }
+
+  .tile:hover .led,
+  .tile:focus-visible .led {
+    background: var(--sl-color-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--sl-color-accent) 22%, transparent);
+  }
+
+  .tile:focus-visible {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 3px;
+  }
+
+  /* Entrada escalonada cuando el tablero aparece en pantalla */
+  @supports (animation-timeline: view()) {
+    .tiles li {
+      animation: tile-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+
+  @keyframes tile-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .tk-more {
+    display: inline-flex;
+    gap: 0.4rem;
+    margin-top: 1.75rem;
+    font-weight: 600;
+    color: var(--sl-color-accent);
+    text-decoration: none;
+  }
+
+  .tk-more:hover {
+    text-decoration: underline;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tiles li {
+      animation: none !important;
+    }
+    .tile,
+    .led {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 60rem) {
+    .tk-head {
+      grid-template-columns: 1fr;
+    }
+    .lane {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+    .tile {
+      min-width: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(9.75rem, 1fr));
+      gap: 0.5rem;
+    }
+    .tile {
+      gap: 0.6rem;
+      padding: 0.5rem 0.6rem 0.5rem 0.5rem;
+    }
+    .mark {
+      width: 2.2rem;
+      height: 2.2rem;
+    }
+    .mono {
+      font-size: 1rem;
+    }
+    .tile-name {
+      font-size: 0.9rem;
+    }
+  }
+</style>
