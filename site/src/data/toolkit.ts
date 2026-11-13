@@ -68,7 +68,8 @@ export const lanes: Lane[] = [
       { id: 'axe', name: 'axe', monogram: 'ax', url: 'https://github.com/dequelabs/axe-core', role: { es: 'Accesibilidad', en: 'Accessibility' } },
       { id: 'snyk', name: 'Snyk', monogram: 'Sn', url: 'https://snyk.io', role: { es: 'Vulnerabilidades', en: 'Vulnerabilities' } },
       { id: 'dependabot', name: 'Dependabot', monogram: 'Db', url: 'https://docs.github.com/code-security/dependabot', role: { es: 'Dependencias al día', en: 'Dependencies up to date' } },
-      { id: 'sonarqube', name: 'SonarQube', monogram: 'Sq', url: 'https://www.sonarsource.com/products/sonarqube/', role: { es: 'Calidad y cobertura', en: 'Quality and coverage' } },
+      { id: 'sonarqube', name: 'SonarQube Server', monogram: 'Sq', url: 'https://www.sonarsource.com/products/sonarqube/', role: { es: 'Calidad, en tu servidor', en: 'Quality, self-hosted' } },
+      { id: 'sonarcloud', name: 'SonarQube Cloud', monogram: 'SC', url: 'https://www.sonarsource.com/products/sonarqube/cloud/', role: { es: 'Calidad como servicio', en: 'Quality as a service' } },
     ],
   },
   {

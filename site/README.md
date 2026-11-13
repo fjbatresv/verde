@@ -47,7 +47,8 @@ build (`.svg`, `.png` o `.webp`) y lleva su texto alternativo ("Logo de Orca",
 | axe | `axe.svg` |
 | Snyk | `snyk.svg` |
 | Dependabot | `dependabot.svg` |
-| SonarQube | `sonarqube.svg` |
+| SonarQube Server | `sonarqube.svg` |
+| SonarQube Cloud | `sonarcloud.svg` |
 | Sentry | `sentry.svg` |
 
 Los `id` están en `src/data/toolkit.ts`. Prefiere la versión cuadrada del logo
