@@ -129,3 +129,8 @@ body:has(.verde-home) .sl-container {
 body:has(.verde-home) .content-panel:first-of-type:has(h1#_top) {
   display: none;
 }
+
+/* En la portada la firma ya está al final de la página */
+body:has(.verde-home) .verde-credit {
+  display: none;
+}

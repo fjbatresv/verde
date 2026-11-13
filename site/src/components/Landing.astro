@@ -1,5 +1,11 @@
 ---
-// Portada de VERDE: la señal de la puerta.
+// Portada de VERDE: la señal de la puerta. Textos en español e inglés.
+interface Props {
+  lang?: 'es' | 'en';
+}
+const { lang = 'es' } = Astro.props;
+const base = lang === 'en' ? '/en' : '';
+
 const gate = [
   ['PASS', 'format'],
   ['PASS', 'lint'],
@@ -13,59 +19,102 @@ const gate = [
   ['SKIP', 'snyk'],
 ];
 
-const pillars = [
-  {
-    letter: 'V',
-    name: 'Vault',
-    en: 'Vault',
-    text: 'La memoria del proyecto vive fuera del código y del chat. Si no está en el vault, no se decidió.',
-    where: 'proyecto-vault/',
+const copy = {
+  es: {
+    titleBefore: 'Nada avanza si no está en',
+    titleWord: 'verde',
+    lede: 'Un framework para desarrollar aplicaciones con agentes de IA. Roles fijos, memoria fuera del chat y nada integrado sin evidencia.',
+    start: 'Empezar',
+    read: 'Leer el estándar',
+    gateLabel: 'Salida de make gate: nueve pasos PASS, snyk SKIP y RESULT GREEN',
+    replay: 'Volver a correr la puerta',
+    pillarsKicker: '01 · Los pilares',
+    pillarsTitle: 'Cinco letras, cinco reglas.',
+    pillarsText: 'El nombre es el método. En TDD la prueba va primero; en VDD, el vault. Lo que no está en el vault no se decidió, y lo que no tiene evidencia no está hecho.',
+    pillars: [
+      { letter: 'V', name: 'Vault', alt: 'Vault', text: 'La memoria del proyecto vive fuera del código y del chat. Si no está en el vault, no se decidió.', where: 'proyecto-vault/' },
+      { letter: 'E', name: 'Encargo', alt: 'Engagement brief', text: 'Todo trabajo entra por escrito, con alcance cerrado y la evidencia que se espera de cada criterio.', where: '03-Encargos/' },
+      { letter: 'R', name: 'Revisión', alt: 'Review', text: 'Alguien que no es el autor reproduce la evidencia y abre la aplicación con Playwright y axe.', where: '06-Revisiones/' },
+      { letter: 'D', name: 'Decisión', alt: 'Decision', text: 'Toda decisión se numera, se fecha y tiene un estado. No se borra: se reemplaza.', where: 'D-xxx' },
+      { letter: 'E', name: 'Evidencia', alt: 'Evidence', text: 'Nada se integra sin la puerta en verde, corrida sobre el commit exacto.', where: 'make gate' },
+    ],
+    cycleKicker: '02 · El ciclo',
+    cycleTitle: 'Una vía, una señal.',
+    cycleText: 'Cada entrega recorre las mismas estaciones, la haga una persona o un agente. Si la revisión pide cambios, vuelve a la puerta en una ronda nueva.',
+    cycle: [
+      { name: 'Backlog', who: 'PM · PO', text: 'Issues con criterios verificables.' },
+      { name: 'Encargo', who: 'PM', text: 'Un archivo: objetivo, alcance, evidencia.' },
+      { name: 'Implementación', who: 'dev · persona o agente', text: 'Rama y worktree propias.' },
+      { name: 'Puerta', who: 'dev', text: 'make gate y archivo de PR.' },
+      { name: 'Revisión', who: 'revisor ≠ autor', text: 'Evidencia, diff y app en vivo.' },
+      { name: 'Integración', who: 'PM', text: 'Squash, tag y registro.' },
+    ],
+    loop: 'Revisión con cambios → ronda N en la misma rama, en sesión nueva → puerta',
+    rulesKicker: '03 · Lo que no se negocia',
+    rules: ['Si no está en el vault, no se decidió.', 'Quien escribe no aprueba.', 'La puerta decide el merge, no la prisa.', 'Causas, no síntomas.'],
+    startKicker: '04 · Día 0',
+    startTitle: 'Arranca en un comando.',
+    startText: ['crea el repo de código y el vault uno al lado del otro, con tu clave de issues, la decisión', 'y el primer commit en ambos.'],
+    startButton: 'Checklist del Día 0',
+    initLabel: 'Ejemplo de ./verde/init.sh acme-salas ACME ~/code',
+    finaleBefore: '¿Listo para pasar',
+    finaleWord: 'la puerta',
+    finaleAfter: '?',
+    paths: [
+      { href: '/ejemplo/', kicker: 'Ejemplo resuelto', title: 'Un issue, del encargo a la integración', more: 'Dos rondas y una prueba que pasaba sin probar nada →' },
+      { href: '/guias/revision/', kicker: 'Guía del revisor', title: 'Verificar, no redescubrir', more: 'Revisión en vivo y calibración de agentes →' },
+      { href: '/plantillas/', kicker: 'Plantillas', title: 'Vault y repo listos para copiar', more: 'Encargo, revisión, decisión, la puerta →' },
+    ],
+    signature: 'Un framework creado por',
   },
-  {
-    letter: 'E',
-    name: 'Encargo',
-    en: 'Engagement brief',
-    text: 'Todo trabajo entra por escrito, con alcance cerrado y la evidencia que se espera de cada criterio.',
-    where: '03-Encargos/',
+  en: {
+    titleBefore: 'Nothing moves forward unless it’s',
+    titleWord: 'green',
+    lede: 'A framework for building applications with AI agents. Fixed roles, memory outside the chat and nothing merged without evidence.',
+    start: 'Get started',
+    read: 'Read the standard',
+    gateLabel: 'make gate output: nine PASS steps, snyk SKIP and RESULT GREEN',
+    replay: 'Run the gate again',
+    pillarsKicker: '01 · The pillars',
+    pillarsTitle: 'Five letters, five rules.',
+    pillarsText: 'The name is the method. In TDD the test comes first; in VDD, the vault. What is not in the vault was not decided, and what has no evidence is not done.',
+    pillars: [
+      { letter: 'V', name: 'Vault', alt: 'Vault', text: 'The project’s memory lives outside the code and the chat. If it is not in the vault, it was not decided.', where: 'project-vault/' },
+      { letter: 'E', name: 'Engagement brief', alt: 'Encargo', text: 'All work comes in writing, with closed scope and the evidence expected for each criterion.', where: '03-Encargos/' },
+      { letter: 'R', name: 'Review', alt: 'Revisión', text: 'Someone who is not the author reproduces the evidence and opens the app with Playwright and axe.', where: '06-Revisiones/' },
+      { letter: 'D', name: 'Decision', alt: 'Decisión', text: 'Every decision is numbered, dated and has a status. It is never deleted: it is superseded.', where: 'D-xxx' },
+      { letter: 'E', name: 'Evidence', alt: 'Evidencia', text: 'Nothing is merged without the gate green, run on the exact commit.', where: 'make gate' },
+    ],
+    cycleKicker: '02 · The cycle',
+    cycleTitle: 'One track, one signal.',
+    cycleText: 'Every delivery goes through the same stations, whether a person or an agent makes it. If the review asks for changes, it goes back to the gate in a new round.',
+    cycle: [
+      { name: 'Backlog', who: 'PM · PO', text: 'Issues with verifiable criteria.' },
+      { name: 'Brief', who: 'PM', text: 'One file: goal, scope, evidence.' },
+      { name: 'Implementation', who: 'dev · person or agent', text: 'Its own branch and worktree.' },
+      { name: 'Gate', who: 'dev', text: 'make gate and the PR file.' },
+      { name: 'Review', who: 'reviewer ≠ author', text: 'Evidence, diff and the live app.' },
+      { name: 'Merge', who: 'PM', text: 'Squash, tag and record.' },
+    ],
+    loop: 'Review with changes → round N on the same branch, in a new session → gate',
+    rulesKicker: '03 · Non-negotiable',
+    rules: ['If it’s not in the vault, it wasn’t decided.', 'Whoever writes doesn’t approve.', 'The gate decides the merge, not the hurry.', 'Causes, not symptoms.'],
+    startKicker: '04 · Day 0',
+    startTitle: 'Start with one command.',
+    startText: ['creates the code repo and the vault side by side, with your issue key, decision', 'and the first commit in both.'],
+    startButton: 'Day 0 checklist',
+    initLabel: 'Example of ./verde/init.sh acme-salas ACME ~/code',
+    finaleBefore: 'Ready to go through',
+    finaleWord: 'the gate',
+    finaleAfter: '?',
+    paths: [
+      { href: '/ejemplo/', kicker: 'Worked example', title: 'One issue, from brief to merge', more: 'Two rounds and a test that passed without proving anything →' },
+      { href: '/guias/revision/', kicker: 'Reviewer guide', title: 'Verify, don’t rediscover', more: 'Live review and agent calibration →' },
+      { href: '/plantillas/', kicker: 'Templates', title: 'Vault and repo ready to copy', more: 'Brief, review, decision, the gate →' },
+    ],
+    signature: 'A framework created by',
   },
-  {
-    letter: 'R',
-    name: 'Revisión',
-    en: 'Review',
-    text: 'Alguien que no es el autor reproduce la evidencia y abre la aplicación con Playwright y axe.',
-    where: '06-Revisiones/',
-  },
-  {
-    letter: 'D',
-    name: 'Decisión',
-    en: 'Decision',
-    text: 'Toda decisión se numera, se fecha y tiene un estado. No se borra: se reemplaza.',
-    where: 'D-xxx',
-  },
-  {
-    letter: 'E',
-    name: 'Evidencia',
-    en: 'Evidence',
-    text: 'Nada se integra sin la puerta en verde, corrida sobre el commit exacto.',
-    where: 'make gate',
-  },
-];
-
-const cycle = [
-  { name: 'Backlog', who: 'PM · PO', text: 'Issues con criterios verificables.' },
-  { name: 'Encargo', who: 'PM', text: 'Un archivo: objetivo, alcance, evidencia.' },
-  { name: 'Implementación', who: 'dev · persona o agente', text: 'Rama y worktree propias.' },
-  { name: 'Puerta', who: 'dev', text: 'make gate y archivo de PR.' },
-  { name: 'Revisión', who: 'revisor ≠ autor', text: 'Evidencia, diff y app en vivo.' },
-  { name: 'Integración', who: 'PM', text: 'Squash, tag y registro.' },
-];
-
-const rules = [
-  'Si no está en el vault, no se decidió.',
-  'Quien escribe no aprueba.',
-  'La puerta decide el merge, no la prisa.',
-  'Causas, no síntomas.',
-];
+}[lang];
 ---
 
 <div class="verde-home not-content">
@@ -77,24 +126,21 @@ const rules = [
         VDD · Vault-Driven Development · v1.3.0
       </p>
       <h1 id="verde-title">
-        Nada avanza si no está en <em>verde<span class="ink" aria-hidden="true"></span></em>.
+        {copy.titleBefore} <em>{copy.titleWord}<span class="ink" aria-hidden="true"></span></em>.
       </h1>
-      <p class="lede">
-        Un framework para desarrollar aplicaciones con agentes de IA. Roles fijos, memoria fuera del
-        chat y nada integrado sin evidencia.
-      </p>
+      <p class="lede">{copy.lede}</p>
       <div class="actions">
-        <a class="btn primary" href="/empezar/">Empezar <span aria-hidden="true">→</span></a>
-        <a class="btn ghost" href="/estandar/">Leer el estándar</a>
+        <a class="btn primary" href={`${base}/empezar/`}>{copy.start} <span aria-hidden="true">→</span></a>
+        <a class="btn ghost" href={`${base}/estandar/`}>{copy.read}</a>
         <a class="btn link" href="https://github.com/fjbatresv/verde">GitHub ↗</a>
       </div>
     </div>
 
-    <figure class="terminal gate-run" aria-label="Salida de make gate: nueve pasos PASS, snyk SKIP y RESULT GREEN">
+    <figure class="terminal gate-run" aria-label={copy.gateLabel}>
       <div class="term-bar">
         <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
         <code aria-hidden="true">tools/ci/local-gate.sh</code>
-        <button class="replay" type="button" aria-label="Volver a correr la puerta">↻</button>
+        <button class="replay" type="button" aria-label={copy.replay}>↻</button>
       </div>
       <pre aria-hidden="true"><span class="ln prompt" style="--i:0">$ make gate</span><span class="ln dim" style="--i:1">head 06ec2d3 · 2026-11-13 09:42:07</span>{
         gate.map(([state, step], i) => (
@@ -107,21 +153,18 @@ const rules = [
   <!-- 2 · Acróstico de pilares -->
   <section class="pillars" aria-labelledby="pilares">
     <header class="section-head">
-      <p class="kicker">01 · Los pilares</p>
-      <h2 id="pilares">Cinco letras, cinco reglas.</h2>
-      <p>
-        El nombre es el método. En TDD la prueba va primero; en VDD, el vault. Lo que no está en el
-        vault no se decidió, y lo que no tiene evidencia no está hecho.
-      </p>
+      <p class="kicker">{copy.pillarsKicker}</p>
+      <h2 id="pilares">{copy.pillarsTitle}</h2>
+      <p>{copy.pillarsText}</p>
     </header>
     <ol class="acrostic">
       {
-        pillars.map((p) => (
+        copy.pillars.map((p) => (
           <li>
             <span class="letter" aria-hidden="true">{p.letter}</span>
             <div class="what">
               <h3>{p.name}</h3>
-              <span class="en">{p.en}</span>
+              <span class="en" lang={lang === 'en' ? 'es' : 'en'}>{p.alt}</span>
             </div>
             <p>{p.text}</p>
             <code class="where">{p.where}</code>
@@ -134,16 +177,13 @@ const rules = [
   <!-- 3 · El ciclo como una vía con señal -->
   <section class="cycle" aria-labelledby="ciclo">
     <header class="section-head">
-      <p class="kicker">02 · El ciclo</p>
-      <h2 id="ciclo">Una vía, una señal.</h2>
-      <p>
-        Cada entrega recorre las mismas estaciones, la haga una persona o un agente. Si la revisión
-        pide cambios, vuelve a la puerta en una ronda nueva.
-      </p>
+      <p class="kicker">{copy.cycleKicker}</p>
+      <h2 id="ciclo">{copy.cycleTitle}</h2>
+      <p>{copy.cycleText}</p>
     </header>
     <ol class="rail">
       {
-        cycle.map((s, i) => (
+        copy.cycle.map((s, i) => (
           <li style={`--i:${i}`}>
             <span class="node" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <h3>{s.name}</h3>
@@ -153,15 +193,15 @@ const rules = [
         ))
       }
     </ol>
-    <p class="loop"><span aria-hidden="true">↺</span> Revisión con cambios → ronda N en la misma rama, en sesión nueva → puerta</p>
+    <p class="loop"><span aria-hidden="true">↺</span> {copy.loop}</p>
   </section>
 
   <!-- 4 · Lo que no se negocia -->
   <section class="rules" aria-labelledby="reglas">
-    <p class="kicker" id="reglas">03 · Lo que no se negocia</p>
+    <p class="kicker" id="reglas">{copy.rulesKicker}</p>
     <ul>
       {
-        rules.map((r, i) => (
+        copy.rules.map((r, i) => (
           <li>
             <span class="num">{String(i + 1).padStart(2, '0')}</span>
             <blockquote>{r}</blockquote>
@@ -174,17 +214,16 @@ const rules = [
   <!-- 5 · Arranque -->
   <section class="start" aria-labelledby="arranque">
     <div>
-      <p class="kicker">04 · Día 0</p>
-      <h2 id="arranque">Arranca en un comando.</h2>
+      <p class="kicker">{copy.startKicker}</p>
+      <h2 id="arranque">{copy.startTitle}</h2>
       <p>
-        <code>init.sh</code> crea el repo de código y el vault uno al lado del otro, con tu clave de
-        issues, la decisión <code>D-001</code> y el primer commit en ambos.
+        <code>init.sh</code> {copy.startText[0]} <code>D-001</code> {copy.startText[1]}
       </p>
-      <a class="btn ghost" href="/empezar/">Checklist del Día 0</a>
+      <a class="btn ghost" href={`${base}/empezar/`}>{copy.startButton}</a>
     </div>
-    <figure class="terminal static" aria-label="Ejemplo de ./verde/init.sh acme-salas ACME ~/code">
+    <figure class="terminal static" aria-label={copy.initLabel}>
       <div class="term-bar" aria-hidden="true"><span></span><span></span><span></span><code>~/code</code></div>
-      <pre><span class="prompt">$ ./verde/init.sh acme-salas ACME ~/code</span>
+      <pre lang="es"><span class="prompt">$ ./verde/init.sh acme-salas ACME ~/code</span>
 <span class="pass"><b>Listo:</b></span> VERDE / VDD v1.3.0
   código  ~/code/acme-salas
   vault   ~/code/acme-salas-vault
@@ -199,24 +238,23 @@ const rules = [
 
   <!-- 6 · Cierre -->
   <section class="finale" aria-labelledby="cierre">
-    <h2 id="cierre">¿Listo para pasar <em>la puerta</em>?</h2>
+    <h2 id="cierre">{copy.finaleBefore} <em>{copy.finaleWord}</em>{copy.finaleAfter}</h2>
     <div class="paths">
-      <a href="/ejemplo/">
-        <span class="kicker">Ejemplo resuelto</span>
-        <strong>Un issue, del encargo a la integración</strong>
-        <span class="more">Dos rondas y una prueba que pasaba sin probar nada →</span>
-      </a>
-      <a href="/guias/revision/">
-        <span class="kicker">Guía del revisor</span>
-        <strong>Verificar, no redescubrir</strong>
-        <span class="more">Revisión en vivo y calibración de agentes →</span>
-      </a>
-      <a href="/plantillas/">
-        <span class="kicker">Plantillas</span>
-        <strong>Vault y repo listos para copiar</strong>
-        <span class="more">Encargo, revisión, decisión, la puerta →</span>
-      </a>
+      {
+        copy.paths.map((path) => (
+          <a href={`${base}${path.href}`}>
+            <span class="kicker">{path.kicker}</span>
+            <strong>{path.title}</strong>
+            <span class="more">{path.more}</span>
+          </a>
+        ))
+      }
     </div>
+    <p class="signature">
+      {copy.signature} <a href="https://fjbatresv.com">Javier Batres</a>
+      <span aria-hidden="true">·</span>
+      <a class="site" href="https://fjbatresv.com">fjbatresv.com ↗</a>
+    </p>
   </section>
 </div>
 
@@ -804,6 +842,36 @@ const rules = [
   .more {
     font-size: 0.9rem;
     color: var(--sl-color-accent);
+  }
+
+  .signature {
+    margin: 3.5rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--sl-font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: baseline;
+  }
+
+  .signature a {
+    color: var(--sl-color-white);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .signature a.site {
+    color: var(--sl-color-accent);
+    font-weight: 500;
+  }
+
+  .signature a:hover {
+    color: var(--sl-color-accent);
+    text-decoration: underline;
   }
 
   .verde-home a:focus-visible,

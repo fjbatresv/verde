@@ -12,6 +12,12 @@
   versionan ni se editan aquí: se edita el Markdown original y el sitio se
   regenera. El script reescribe los enlaces relativos (a páginas del sitio o a
   GitHub), convierte los enlaces de Obsidian y escapa los marcadores `<…>`.
+- **Idiomas:** español en la raíz (`/`) e inglés en `/en/`. Las páginas en
+  inglés se generan desde `i18n/en/` (misma ruta que el original); si falta una
+  traducción, se usa el original. Las páginas a mano en inglés están en
+  `src/content/docs/en/` y la portada recibe `lang="en"`.
+- **Autoría:** `src/components/Footer.astro` agrega el crédito y la licencia
+  en todas las páginas; la portada lo lleva al final.
 - **Diagramas:** los bloques `mermaid` se dibujan en el navegador
   (`src/plugins/remark-mermaid.mjs` y `src/components/Head.astro`).
 

@@ -1,0 +1,61 @@
+---
+title: Get started
+description: How to start a project with VERDE, from cloning the template to the first reviewed PR.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+VERDE is documents and templates: there is nothing to install beyond `git`,
+`bash` and `make`. A project lives in two private repos, side by side: the
+**code** and the **vault**.
+
+<Steps>
+
+1. **Read the standard and the example.** [The standard](/en/estandar/) takes
+   about 20 minutes to read. The [worked example](/en/ejemplo/) shows a
+   complete issue.
+
+2. **Create both repos.**
+
+   ```sh
+   git clone https://github.com/fjbatresv/verde.git
+   ./verde/init.sh <project> <KEY> <folder>
+   ```
+
+   For example, `./verde/init.sh acme-salas ACME ~/code` creates
+   `~/code/acme-salas/` and `~/code/acme-salas-vault/`, sets the key `ACME`,
+   records `D-001` with today's date and makes the first commit in both.
+
+3. **Follow the Day 0 checklist.** It is in
+   [the standard, section 9](/en/estandar/#9-day-0-of-a-new-project): kickoff
+   decisions, roles, `gate.steps` for your stack and `make gate` until
+   `RESULT GREEN`.
+
+4. **Protect `main`.** Required PRs, squash only, the `gate` check required and
+   the repo variable `ISSUE_KEY`.
+
+5. **Write the first brief and review it end to end.** However small: that
+   tests the process before the product. If an agent is going to review,
+   [calibrate it](/en/guias/revision/#9-calibrating-the-reviewer-seeded-faults)
+   first.
+
+</Steps>
+
+<Aside type="tip" title="Operating systems">
+The gate needs `bash` and `make`. macOS and Linux already have them. On
+Windows, use WSL with `make` or Git Bash (no `make`: run
+`bash tools/ci/local-gate.sh`).
+</Aside>
+
+<Aside type="note" title="The templates are in Spanish">
+The standard and the guides are available in English, but the templates that
+`init.sh` copies (folders such as `03-Encargos/`, the note templates and the
+review states) are in Spanish. The [glossary](/en/estandar/#13-glossary) maps
+every term.
+</Aside>
+
+## Versions
+
+VERDE follows [Semantic Versioning](https://semver.org/). Each project records
+in its `D-001` the version it adopted; the changes are in the
+[changelog](/en/changelog/).

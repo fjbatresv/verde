@@ -16,8 +16,10 @@ export default defineConfig({
         'Vault-Driven Development: un framework para desarrollar aplicaciones con agentes de IA, con roles fijos, memoria fuera del chat y nada integrado sin evidencia.',
       logo: { src: './src/assets/logo.svg', alt: 'VERDE' },
       favicon: '/favicon.svg',
+      defaultLocale: 'root',
       locales: {
         root: { label: 'Español', lang: 'es' },
+        en: { label: 'English', lang: 'en' },
       },
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/fjbatresv/verde' },
@@ -25,19 +27,25 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
       components: {
         Head: './src/components/Head.astro',
+        Footer: './src/components/Footer.astro',
       },
       sidebar: [
-        { label: 'Empezar', link: '/empezar/' },
-        { label: 'El estándar', link: '/estandar/' },
+        { label: 'Empezar', translations: { en: 'Get started' }, slug: 'empezar' },
+        { label: 'El estándar', translations: { en: 'The standard' }, slug: 'estandar' },
         {
           label: 'Guías',
+          translations: { en: 'Guides' },
           items: [
-            { label: 'Guía del revisor', link: '/guias/revision/' },
-            { label: 'Plantillas', link: '/plantillas/' },
+            { label: 'Guía del revisor', translations: { en: 'Reviewer guide' }, slug: 'guias/revision' },
+            { label: 'Plantillas', translations: { en: 'Templates' }, slug: 'plantillas' },
           ],
         },
-        { label: 'Ejemplo resuelto', items: [{ autogenerate: { directory: 'ejemplo' } }] },
-        { label: 'Changelog', link: '/changelog/' },
+        {
+          label: 'Ejemplo resuelto',
+          translations: { en: 'Worked example' },
+          items: [{ autogenerate: { directory: 'ejemplo' } }],
+        },
+        { label: 'Changelog', slug: 'changelog' },
       ],
     }),
   ],

@@ -11,89 +11,106 @@ export const REPO_URL = 'https://github.com/fjbatresv/verde';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const DOCS = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'content', 'docs');
 
-/** Repo path → page. `route` is the site URL; `dest` the generated file. */
+/** Locales: Spanish at the root, English under /en/ with sources in i18n/en/. */
+export const LOCALES = {
+  es: { prefix: '', dir: '', srcRoot: '', metadata: 'Metadatos de la nota (frontmatter de Obsidian):', screenshot: 'captura' },
+  en: { prefix: '/en', dir: 'en/', srcRoot: 'i18n/en/', metadata: 'Note metadata (Obsidian frontmatter):', screenshot: 'screenshot' },
+};
+
+/** Repo path → page. `route` and `dest` are the Spanish ones; other locales get a prefix. */
 export const PAGES = [
   {
     src: 'VERDE.md',
     dest: 'estandar.md',
     route: '/estandar/',
-    title: 'El estándar',
-    description: 'VERDE completo: principios, pilares, roles, ciclo, convenciones, puerta, día 0, lecciones y glosario.',
+    es: { title: 'El estándar', description: 'VERDE completo: principios, pilares, roles, ciclo, convenciones, puerta, día 0, lecciones y glosario.' },
+    en: { title: 'The standard', description: 'All of VERDE: principles, pillars, roles, cycle, conventions, gate, day 0, lessons and glossary.' },
   },
   {
     src: 'templates/repo/docs/guides/review.md',
     dest: 'guias/revision.md',
     route: '/guias/revision/',
-    title: 'Guía del revisor',
-    description: 'Cómo se revisa una entrega: verificar la evidencia, revisar en vivo, hallazgos R y N, lanzar y calibrar un agente revisor.',
+    es: { title: 'Guía del revisor', description: 'Cómo se revisa una entrega: verificar la evidencia, revisar en vivo, hallazgos R y N, lanzar y calibrar un agente revisor.' },
+    en: { title: 'Reviewer guide', description: 'How a delivery is reviewed: verify the evidence, review live, R and N findings, launch and calibrate a reviewer agent.' },
   },
   {
     src: 'CHANGELOG.md',
     dest: 'changelog.md',
     route: '/changelog/',
-    title: 'Changelog',
-    description: 'Versiones de VERDE y qué cambió en cada una.',
+    es: { title: 'Changelog', description: 'Versiones de VERDE y qué cambió en cada una.' },
+    en: { title: 'Changelog', description: 'VERDE versions and what changed in each one.' },
   },
   {
     src: 'examples/acme/README.md',
     dest: 'ejemplo/index.md',
     route: '/ejemplo/',
-    title: 'Ejemplo resuelto · ACME Salas',
-    label: 'Introducción',
     order: 0,
+    es: { title: 'Ejemplo resuelto · ACME Salas', label: 'Introducción' },
+    en: { title: 'Worked example · ACME Salas', label: 'Introduction' },
   },
   {
     src: 'examples/acme/vault/02-Backlog/Backlog.md',
     dest: 'ejemplo/backlog.md',
     route: '/ejemplo/backlog/',
-    title: 'Backlog',
-    label: '1. Backlog',
     order: 1,
+    es: { title: 'Backlog', label: '1. Backlog' },
+    en: { title: 'Backlog', label: '1. Backlog' },
   },
   {
     src: 'examples/acme/vault/03-Encargos/ACME-12-agente1-cancelar-reserva.md',
     dest: 'ejemplo/encargo.md',
     route: '/ejemplo/encargo/',
-    title: 'Encargo · ACME-12',
-    label: '2. Encargo',
     order: 2,
+    es: { title: 'Encargo · ACME-12', label: '2. Encargo' },
+    en: { title: 'Brief · ACME-12', label: '2. Brief' },
   },
   {
     src: 'examples/acme/repo/docs/prs/ACME-12-cancelar-reserva.md',
     dest: 'ejemplo/archivo-de-pr.md',
     route: '/ejemplo/archivo-de-pr/',
-    title: 'Archivo de PR · ACME-12',
-    label: '3. Archivo de PR',
     order: 3,
+    es: { title: 'Archivo de PR · ACME-12', label: '3. Archivo de PR' },
+    en: { title: 'PR file · ACME-12', label: '3. PR file' },
   },
   {
     src: 'examples/acme/vault/06-Revisiones/ACME-12-revision.md',
     dest: 'ejemplo/revision.md',
     route: '/ejemplo/revision/',
-    title: 'Revisión · ACME-12',
-    label: '4. Revisión',
     order: 4,
+    es: { title: 'Revisión · ACME-12', label: '4. Revisión' },
+    en: { title: 'Review · ACME-12', label: '4. Review' },
   },
   {
     src: 'examples/acme/vault/04-Decisiones/Registro-de-decisiones.md',
     dest: 'ejemplo/decisiones.md',
     route: '/ejemplo/decisiones/',
-    title: 'Registro de decisiones',
-    label: '5. Decisiones',
     order: 5,
+    es: { title: 'Registro de decisiones', label: '5. Decisiones' },
+    en: { title: 'Decision record', label: '5. Decisions' },
   },
   {
     src: 'examples/acme/vault/08-Status/2026-11-19 Status.md',
     dest: 'ejemplo/status.md',
     route: '/ejemplo/status/',
-    title: 'Status · 2026-11-19',
-    label: '6. Status del día',
     order: 6,
+    es: { title: 'Status · 2026-11-19', label: '6. Status del día' },
+    en: { title: 'Status · 2026-11-19', label: '6. Day status' },
   },
 ];
 
+/** A page as seen by one locale: its source (translation if it exists), file and route. */
+export function localize(page, locale = 'es', root = ROOT) {
+  const loc = LOCALES[locale];
+  const translated = loc.srcRoot + page.src;
+  const src = loc.srcRoot && existsSync(join(root, translated)) ? translated : page.src;
+  return { ...page, ...page[locale], locale, src, dest: loc.dir + page.dest, route: loc.prefix + page.route };
+}
+
 /** Pages written by hand in src/content/docs, so links to them resolve too. */
 const EXTRA_ROUTES = { 'README.md': '/' };
+
+/** `i18n/en/VERDE.md` → `VERDE.md`: the path a translation stands for. */
+const canonical = (path) => path.replace(/^i18n\/[a-z]{2}\//, '');
 
 const HTML_TAGS = new Set(['br', 'i', 'b', 'em', 'strong', 'sub', 'sup', 'kbd', 'details', 'summary', 'img', 'a', 'span', 'div', 'p']);
 
@@ -120,34 +137,40 @@ export function escapePlaceholders(text) {
   );
 }
 
-const routeBySrc = () => Object.fromEntries([...PAGES.map((p) => [p.src, p.route]), ...Object.entries(EXTRA_ROUTES)]);
+const routeBySrc = (locale) =>
+  Object.fromEntries([
+    ...PAGES.map((p) => [p.src, LOCALES[locale].prefix + p.route]),
+    ...Object.entries(EXTRA_ROUTES).map(([src, route]) => [src, LOCALES[locale].prefix + route]),
+  ]);
 
 /** Resolves a relative link of `fromSrc` to a site route or to the file on GitHub. */
-export function resolveLink(target, fromSrc) {
+export function resolveLink(target, fromSrc, locale = 'es') {
   if (/^([a-z]+:|#|\/)/i.test(target)) return target;
   const [rawPath, hash = ''] = target.split('#');
-  const path = posix.normalize(posix.join(posix.dirname(fromSrc), decodeURI(rawPath)));
+  let path = posix.normalize(posix.join(posix.dirname(fromSrc), decodeURI(rawPath)));
   const anchor = hash ? `#${hash}` : '';
-  const route = routeBySrc()[path.replace(/\/$/, '')];
+  const route = routeBySrc(locale)[canonical(path).replace(/\/$/, '')];
   if (route) return route + anchor;
+  if (!existsSync(join(ROOT, path))) path = canonical(path);
   const onDisk = join(ROOT, path);
   const isDir = rawPath.endsWith('/') || (existsSync(onDisk) && statSync(onDisk).isDirectory());
   return `${REPO_URL}/${isDir ? 'tree' : 'blob'}/main/${encodeURI(path.replace(/\/$/, ''))}${anchor}`;
 }
 
 /** Rewrites Markdown links `[text](target)` that point inside the repo. */
-export function rewriteLinks(markdown, fromSrc) {
+export function rewriteLinks(markdown, fromSrc, locale = 'es') {
   return mapOutsideCode(markdown, (text) =>
-    text.replace(/(\]\()([^)\s]+)(\))/g, (_, open, target, close) => open + resolveLink(target, fromSrc) + close),
+    text.replace(/(\]\()([^)\s]+)(\))/g, (_, open, target, close) => open + resolveLink(target, fromSrc, locale) + close),
   );
 }
 
 /** Obsidian links: [[note]] → page link (or plain text); ![[image.png]] → a short note. */
-export function rewriteWikilinks(markdown) {
-  const byName = Object.fromEntries(PAGES.map((p) => [posix.basename(p.src, '.md'), p.route]));
+export function rewriteWikilinks(markdown, locale = 'es') {
+  const { prefix, screenshot } = LOCALES[locale];
+  const byName = Object.fromEntries(PAGES.map((p) => [posix.basename(p.src, '.md'), prefix + p.route]));
   return mapOutsideCode(markdown, (text) =>
     text
-      .replace(/!\[\[([^\]|]+)(\|[^\]]*)?\]\]/g, (_, file) => `*(captura: ${file})*`)
+      .replace(/!\[\[([^\]|]+)(\|[^\]]*)?\]\]/g, (_, file) => `*(${screenshot}: ${file})*`)
       .replace(/\[\[([^\]|]+)(?:\|([^\]]*))?\]\]/g, (_, name, alias) => {
         const label = alias || name;
         return byName[name] ? `[${label}](${byName[name]})` : label;
@@ -169,16 +192,19 @@ export function dropFirstH1(markdown) {
 
 const yamlString = (value) => JSON.stringify(value);
 
-/** Builds the generated page for one entry of PAGES. */
+/** Builds the generated page for one localized entry of PAGES (see `localize`). */
 export function renderPage(page, sourceText) {
+  const locale = page.locale ?? 'es';
   const { frontmatter, body } = splitFrontmatter(sourceText.replace(/\r\n/g, '\n'));
   let content = dropFirstH1(body);
-  content = rewriteWikilinks(content);
-  content = rewriteLinks(content, page.src);
+  content = rewriteWikilinks(content, locale);
+  content = rewriteLinks(content, page.src, locale);
+  // "English translation of X" points to X itself: send it to the original page.
+  if (LOCALES[locale].prefix) content = content.replaceAll(`](${page.route})`, `](${page.route.slice(LOCALES[locale].prefix.length)})`);
   content = mapOutsideCode(content, escapePlaceholders);
   content = tasksToSymbols(content);
   if (frontmatter) {
-    content = `Metadatos de la nota (frontmatter de Obsidian):\n\n\`\`\`yaml\n${frontmatter}\n\`\`\`\n\n${content}`;
+    content = `${LOCALES[locale].metadata}\n\n\`\`\`yaml\n${frontmatter}\n\`\`\`\n\n${content}`;
   }
   const head = [
     '---',
@@ -199,13 +225,18 @@ export function renderPage(page, sourceText) {
 }
 
 export function sync({ root = ROOT, docs = DOCS } = {}) {
-  for (const dir of ['guias', 'ejemplo']) rmSync(join(docs, dir), { recursive: true, force: true });
-  for (const page of PAGES) {
-    const out = join(docs, page.dest);
-    mkdirSync(dirname(out), { recursive: true });
-    writeFileSync(out, renderPage(page, readFileSync(join(root, page.src), 'utf8')));
+  let count = 0;
+  for (const [locale, { dir }] of Object.entries(LOCALES)) {
+    for (const sub of ['guias', 'ejemplo']) rmSync(join(docs, dir, sub), { recursive: true, force: true });
+    for (const base of PAGES) {
+      const page = localize(base, locale, root);
+      const out = join(docs, page.dest);
+      mkdirSync(dirname(out), { recursive: true });
+      writeFileSync(out, renderPage(page, readFileSync(join(root, page.src), 'utf8')));
+      count += 1;
+    }
   }
-  return PAGES.length;
+  return count;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

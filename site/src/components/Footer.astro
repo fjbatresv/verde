@@ -1,0 +1,66 @@
+---
+// Pie de página de Starlight + autoría y licencia de VERDE.
+import Default from '@astrojs/starlight/components/Footer.astro';
+
+const lang = Astro.locals.starlightRoute.lang?.startsWith('en') ? 'en' : 'es';
+const text = {
+  es: { by: 'VERDE es un framework creado por', license: 'Textos bajo CC BY 4.0 · código bajo MIT' },
+  en: { by: 'VERDE is a framework created by', license: 'Text under CC BY 4.0 · code under MIT' },
+}[lang];
+---
+
+<Default />
+
+<div class="verde-credit">
+  <p>
+    {text.by} <a href="https://fjbatresv.com">Javier Batres</a>
+    <span aria-hidden="true">·</span>
+    <a class="site" href="https://fjbatresv.com">fjbatresv.com ↗</a>
+  </p>
+  <p class="license">
+    <a href="https://github.com/fjbatresv/verde">{text.license}</a>
+  </p>
+</div>
+
+<style>
+  .verde-credit {
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--sl-color-hairline-light);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    font-family: var(--sl-font-mono);
+    font-size: 0.72rem;
+    color: var(--sl-color-gray-3);
+  }
+
+  .verde-credit p {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: baseline;
+  }
+
+  .verde-credit a {
+    color: var(--sl-color-white);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .verde-credit a.site {
+    color: var(--sl-color-text-accent);
+    font-weight: 500;
+  }
+
+  .verde-credit .license a {
+    color: var(--sl-color-gray-3);
+    font-weight: 400;
+  }
+
+  .verde-credit a:hover {
+    text-decoration: underline;
+  }
+</style>
