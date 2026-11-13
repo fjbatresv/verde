@@ -9,12 +9,12 @@
 @import '@fontsource-variable/martian-mono/index.css';
 
 :root {
-  /* Verde de señal: menos saturado en oscuro, más profundo en claro */
-  --verde-signal: #6cc196;
+  /* Verde de señal: vivo sin llegar a neón en oscuro, más profundo en claro */
+  --verde-signal: #4ccd8a;
   --verde-signal-deep: #146c3c;
-  --verde-cta-bg: #5cb88a;
+  --verde-cta-bg: #3cc880;
   --verde-cta-fg: #0b120e;
-  --verde-term-signal: #74c99d;
+  --verde-term-signal: #54cf8f;
   --verde-ink: #0b120e;
   --verde-paper: #f3f0e6;
   --verde-fail: #ff6b5e;
@@ -34,8 +34,8 @@
   --sl-color-black: #0b120e;
 
   --sl-color-accent-low: #12301f;
-  --sl-color-accent: #6cc196;
-  --sl-color-accent-high: #cbead9;
+  --sl-color-accent: #4ccd8a;
+  --sl-color-accent-high: #c3efd6;
 }
 
 :root[data-theme='light'] {
