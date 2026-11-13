@@ -17,6 +17,10 @@
 
 ## Comandos
 
+Usa la versión de Node de `.nvmrc` (24, la LTS activa; el mínimo que exige
+Astro es 22.23.4): con nvm, `nvm use` dentro de `site/`.
+
+
 | Comando | Qué hace |
 | --- | --- |
 | `npm ci` | Instala las dependencias (versiones exactas) |
