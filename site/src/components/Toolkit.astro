@@ -1,7 +1,6 @@
 ---
 // Tablero de señales: herramientas y agentes por rol del ciclo.
 import { existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { lanes, type Lang } from '../data/toolkit';
 
 interface Props {
@@ -10,8 +9,13 @@ interface Props {
 const { lang = 'es' } = Astro.props;
 const base = lang === 'en' ? '/en' : '';
 
-const publicDir = fileURLToPath(new URL('../../public/', import.meta.url));
-const logoFor = (id: string) => (existsSync(`${publicDir}logos/${id}.svg`) ? `/logos/${id}.svg` : null);
+// En el build import.meta.url apunta al código compilado: se usa la carpeta del proyecto.
+const publicDir = `${process.cwd()}/public/`;
+// Logo oficial opcional: public/logos/<id>.svg (o .png / .webp).
+const logoFor = (id: string) => {
+  const ext = ['svg', 'png', 'webp'].find((e) => existsSync(`${publicDir}logos/${id}.${e}`));
+  return ext ? `/logos/${id}.${ext}` : null;
+};
 
 const copy = {
   es: {
@@ -52,7 +56,7 @@ const copy = {
               return (
                 <li style={`--tile:${ti}`}>
                   <a class="tile" href={tool.url} rel="noopener">
-                    <span class="mark">
+                    <span class:list={['mark', { 'has-logo': logo }]}>
                       {logo ? (
                         <img src={logo} alt={copy.logoAlt(tool.name)} width="28" height="28" loading="lazy" decoding="async" />
                       ) : (
@@ -214,6 +218,12 @@ const copy = {
     border-radius: 9px;
     background: color-mix(in srgb, var(--sl-color-accent) 12%, var(--sl-color-black));
     border: 1px solid color-mix(in srgb, var(--sl-color-accent) 28%, transparent);
+  }
+
+  /* Con logo oficial: fondo claro neutro para que se lea su color en ambos temas */
+  .mark.has-logo {
+    background: #fbfaf6;
+    border-color: color-mix(in srgb, var(--sl-color-white) 14%, transparent);
   }
 
   .mark img {

@@ -21,6 +21,38 @@
 - **Diagramas:** los bloques `mermaid` se dibujan en el navegador
   (`src/plugins/remark-mermaid.mjs` y `src/components/Head.astro`).
 
+## Logos de herramientas
+
+La sección "Herramientas y agentes" de la portada muestra un monograma por
+herramienta. Para usar el logo oficial, descárgalo del kit de marca (*brand
+assets* o *press kit*) de cada servicio, respeta sus condiciones de uso y
+guárdalo en `public/logos/` con el nombre de su `id`. Se detecta solo en el
+build (`.svg`, `.png` o `.webp`) y lleva su texto alternativo ("Logo de Orca",
+"Orca logo").
+
+| Herramienta | Archivo |
+| --- | --- |
+| Orca | `orca.svg` |
+| Obsidian | `obsidian.svg` |
+| Stitch | `stitch.svg` |
+| Kiro | `kiro.svg` |
+| Claude Code | `claude-code.svg` |
+| Codex | `codex.svg` |
+| CodeRabbit | `coderabbit.svg` |
+| Cursor | `cursor.svg` |
+| Gemini CLI | `gemini-cli.svg` |
+| opencode | `opencode.svg` |
+| GitHub Actions | `github-actions.svg` |
+| Playwright | `playwright.svg` |
+| axe | `axe.svg` |
+| Snyk | `snyk.svg` |
+| Dependabot | `dependabot.svg` |
+| SonarQube | `sonarqube.svg` |
+| Sentry | `sentry.svg` |
+
+Los `id` están en `src/data/toolkit.ts`. Prefiere la versión cuadrada del logo
+(el isotipo, sin el nombre): la ficha ya muestra el nombre en texto.
+
 ## Comandos
 
 Usa la versión de Node de `.nvmrc` (24, la LTS activa; el mínimo que exige
