@@ -34,6 +34,13 @@ export const PAGES = [
     en: { title: 'Reviewer guide', description: 'How a delivery is reviewed: verify the evidence, review live, R and N findings, launch and calibrate a reviewer agent.' },
   },
   {
+    src: 'guias/herramientas.md',
+    dest: 'guias/herramientas.md',
+    route: '/guias/herramientas/',
+    es: { title: 'Herramientas recomendadas', description: 'Cómo montar VERDE: Orca, agentes por rol, Stitch, GitHub Actions, Snyk, SonarQube, CodeRabbit y Sentry, y dónde entra cada uno.' },
+    en: { title: 'Recommended tools', description: 'How to set up VERDE: Orca, agents by role, Stitch, GitHub Actions, Snyk, SonarQube, CodeRabbit and Sentry, and where each one fits.' },
+  },
+  {
     src: 'CHANGELOG.md',
     dest: 'changelog.md',
     route: '/changelog/',

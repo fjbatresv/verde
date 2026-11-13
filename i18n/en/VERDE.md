@@ -423,6 +423,9 @@ are never raised to hide it.
       conventions and stay. Push both repos as private.
 - [ ] Record **D-001 · We adopt VERDE / VDD v1.3.0** and the kickoff decisions
       (stack, scope, who holds each role).
+- [ ] Choose the tools (agents by role, orchestration, design, CI, security,
+      quality, observability) with [`guias/herramientas.md`](guias/herramientas.md)
+      and record them as decisions.
 - [ ] Adjust `gate.steps` to the stack and run `make gate` until
       `RESULT GREEN` with the project skeleton.
 - [ ] Assign the roles: PO, PM, reviewers, devs and operators. Write them in the

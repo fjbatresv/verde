@@ -36,6 +36,7 @@ export default defineConfig({
           label: 'Guías',
           translations: { en: 'Guides' },
           items: [
+            { label: 'Herramientas recomendadas', translations: { en: 'Recommended tools' }, slug: 'guias/herramientas' },
             { label: 'Guía del revisor', translations: { en: 'Reviewer guide' }, slug: 'guias/revision' },
             { label: 'Plantillas', translations: { en: 'Templates' }, slug: 'plantillas' },
           ],

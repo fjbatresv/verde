@@ -44,6 +44,7 @@ también se le llama **VDD**.
 | [`templates/repo/`](templates/repo/) | `AGENTS.md`, plantilla de PR con evidencia, guías, workflows y la puerta |
 | [`templates/repo/tools/ci/local-gate.sh`](templates/repo/tools/ci/local-gate.sh) | La puerta, agnóstica de stack: lee `gate.steps` y responde `RESULT GREEN` o `RED` |
 | [`templates/repo/docs/guides/review.md`](templates/repo/docs/guides/review.md) | Guía del revisor: verificar la evidencia, revisar en vivo, hallazgos `R`/`N`, lanzar y calibrar un agente revisor |
+| [`guias/herramientas.md`](guias/herramientas.md) | Cómo montarlo: Orca, agentes por rol, Stitch, GitHub Actions, Snyk, SonarQube, CodeRabbit y Sentry |
 | [`examples/acme/`](examples/acme/) | Ejemplo resuelto: un issue completo, del backlog a la integración, con dos rondas |
 | [`init.sh`](init.sh) | Crea el repo de código y el vault de un proyecto nuevo desde las plantillas |
 | [`i18n/en/`](i18n/en/) | Traducción al inglés del estándar, la guía del revisor, el ejemplo y el changelog. El español es la referencia |

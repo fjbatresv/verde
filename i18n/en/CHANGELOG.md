@@ -18,6 +18,10 @@ Earlier versions used `MAJOR.MINOR`: v1.0, v1.1 and v1.2 are equivalent to
 
 ## Unreleased
 
+- `guias/herramientas.md` guide: recommended tools to set up VERDE (Orca,
+  agents by role, Stitch, GitHub Actions, Snyk, Dependabot, SonarQube,
+  CodeRabbit and Sentry), with where each one fits and how it connects to the
+  gate.
 - English translation of the standard, the reviewer guide, the worked example
   and this changelog, in `i18n/en/`. The Spanish text remains the reference.
 

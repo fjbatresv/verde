@@ -16,6 +16,9 @@ Las versiones anteriores usaban `MAJOR.MINOR`: v1.0, v1.1 y v1.2 equivalen a
 
 ## Sin publicar
 
+- Guía `guias/herramientas.md`: herramientas recomendadas para montar VERDE
+  (Orca, agentes por rol, Stitch, GitHub Actions, Snyk, Dependabot, SonarQube,
+  CodeRabbit y Sentry), con dónde entra cada una y cómo se conecta a la puerta.
 - Traducción al inglés del estándar, la guía del revisor, el ejemplo resuelto
   y este changelog, en `i18n/en/`. El texto en español sigue siendo la
   referencia.
