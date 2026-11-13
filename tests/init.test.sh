@@ -30,7 +30,7 @@ check templates_keep_date 'grep -q "{{date}}" "$V/07-Plantillas/Plantilla-Encarg
 check gate_executable '[ -x "$R/tools/ci/local-gate.sh" ]'
 check first_commits '[ "$(git -C "$R" rev-list --count HEAD)" = 1 ] && [ "$(git -C "$V" rev-list --count HEAD)" = 1 ] && [ "$(git -C "$R" branch --show-current)" = main ]'
 check clean_trees '[ -z "$(git -C "$R" status --porcelain)" ] && [ -z "$(git -C "$V" status --porcelain)" ]'
-check version_in_commit 'git -C "$R" log -1 --format=%s | grep -qE "^chore: arranque con VERDE / VDD v[0-9]+\.[0-9]+$"'
+check version_in_commit 'git -C "$R" log -1 --format=%s | grep -qE "^chore: arranque con VERDE / VDD v[0-9]+\.[0-9]+\.[0-9]+$"'
 G="$(cd "$R" && GATE_STEPS="$FIX/all_pass.steps" make -s gate 2>&1)"
 check gate_green_in_new_repo 'printf "%s\n" "$G" | grep -q "^RESULT GREEN"'
 

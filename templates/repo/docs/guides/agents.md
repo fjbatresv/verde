@@ -1,6 +1,6 @@
 # Cómo se trabaja con los agentes
 
-Este proyecto sigue **VERDE / VDD v1.3**: Vault · Encargo · Revisión ·
+Este proyecto sigue **VERDE / VDD v1.3.0**: Vault · Encargo · Revisión ·
 Decisión · Evidencia. Esta guía es la versión operativa para este repo.
 
 ## Roles

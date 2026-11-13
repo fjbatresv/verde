@@ -1,10 +1,22 @@
 # Changelog
 
-Las versiones siguen `MAJOR.MINOR`. Un cambio MAJOR altera un pilar o una regla
-obligatoria; un MINOR agrega guías, plantillas o aclaraciones.
+Desde v1.3.0, VERDE sigue [Versionado Semántico](https://semver.org/lang/es/)
+(`MAJOR.MINOR.PATCH`), con las reglas de `VERDE.md` §14:
 
-## v1.3 — 2026-11-13
+- **MAJOR:** cambia un pilar, un principio o una regla obligatoria, o rompe algo
+  de lo que dependen los proyectos (formato de `gate.steps`, salida y códigos de
+  la puerta, convenciones de §7, interfaz de `init.sh`, estructura de las
+  plantillas). Trae notas de migración.
+- **MINOR:** agrega guías, plantillas, ejemplos o capacidades compatibles.
+- **PATCH:** corrige errores, textos o ejemplos sin cambiar reglas ni agregar
+  contenido.
 
+Las versiones anteriores usaban `MAJOR.MINOR`: v1.0, v1.1 y v1.2 equivalen a
+1.0.0, 1.1.0 y 1.2.0.
+
+## v1.3.0 — 2026-11-13
+
+- Versionado semántico (`MAJOR.MINOR.PATCH`) para el framework.
 - Revisión: guía del revisor (`docs/guides/review.md`) con verificación de la
   evidencia, qué mirar en vivo, cómo lanzar un agente revisor y cómo
   calibrarlo con fallas sembradas.

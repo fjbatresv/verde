@@ -5,7 +5,7 @@ actualizado: {{date}}
 
 # <PROYECTO> · Inicio
 
-Este vault es la memoria del proyecto (pilar **V** de VERDE / VDD v1.3). Si
+Este vault es la memoria del proyecto (pilar **V** de VERDE / VDD v1.3.0). Si
 algo no está aquí, no se decidió.
 
 ## Estado

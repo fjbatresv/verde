@@ -9,7 +9,7 @@ actualizado: 2026-11-18
 
 | ID | Fecha | Decisión | Origen | Estado |
 | --- | --- | --- | --- | --- |
-| D-001 | 2026-11-02 | Adoptamos VERDE / VDD v1.3 como forma de trabajo | Arranque del proyecto | ✅ |
+| D-001 | 2026-11-02 | Adoptamos VERDE / VDD v1.3.0 como forma de trabajo | Arranque del proyecto | ✅ |
 | D-002 | 2026-11-02 | Roles: Marta PO; Diego PM y revisor; Ana operadora; Luis dev | Arranque del proyecto | ✅ |
 | D-003 | 2026-11-03 | Las horas se guardan en UTC y se muestran en la zona horaria de la sede | Reunión 2026-11-03 | ✅ |
 | D-004 | 2026-11-10 | Las reservas no se borran: cancelar cambia el estado a `cancelada` | Reunión 2026-11-10 | ✅ |

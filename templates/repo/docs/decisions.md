@@ -8,4 +8,4 @@ afectan al código, para encontrarlas desde el repo.
 
 | ID | Decisión | ADR | Estado |
 | --- | --- | --- | --- |
-| D-001 | Adoptamos VERDE / VDD v1.3 | — | ✅ |
+| D-001 | Adoptamos VERDE / VDD v1.3.0 | — | ✅ |

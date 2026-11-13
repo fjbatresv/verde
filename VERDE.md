@@ -1,6 +1,6 @@
 # VERDE · Vault-Driven Development
 
-**Versión 1.3 · 2026-11-13 · © 2026 Javier Batres · CC BY 4.0**
+**Versión 1.3.0 · 2026-11-13 · © 2026 Javier Batres · CC BY 4.0**
 
 VERDE es un framework para desarrollar aplicaciones con agentes de IA en un
 equipo con roles fijos. Su nombre resume la regla: **nada avanza si no está en
@@ -410,7 +410,7 @@ ni se suben timeouts para taparlo.
       `AGENTS.md`, `README.md`, `docs/vault.md`, `docs/guides/` y
       `00-Inicio.md` del vault. Los `<n>` y `<slug>` de las guías y plantillas
       son convenciones y se quedan. Subir ambos repos como privados.
-- [ ] Registrar **D-001 · Adoptamos VERDE / VDD v1.3** y las decisiones de
+- [ ] Registrar **D-001 · Adoptamos VERDE / VDD v1.3.0** y las decisiones de
       arranque (stack, alcance, quién ocupa cada rol).
 - [ ] Ajustar `gate.steps` al stack y correr `make gate` hasta `RESULT GREEN`
       con el esqueleto del proyecto.
@@ -526,10 +526,18 @@ Lo que cuesta ignorar estas reglas:
 
 ## 14. Versión y licencia
 
-Este documento es **VERDE v1.3**. Los cambios se registran en
-[`CHANGELOG.md`](CHANGELOG.md): un cambio MAJOR altera un pilar o una regla
-obligatoria; un MINOR agrega guías o aclaraciones. Cada proyecto anota en su
-D-001 la versión que adoptó.
+Este documento es **VERDE v1.3.0**. VERDE sigue
+[Versionado Semántico](https://semver.org/lang/es/) y registra los cambios en
+[`CHANGELOG.md`](CHANGELOG.md):
+
+| Cambio | Cuándo | Qué hace un proyecto |
+| --- | --- | --- |
+| **MAJOR** (`2.0.0`) | Cambia un pilar, un principio o una regla obligatoria, o rompe algo de lo que dependen los proyectos: formato de `gate.steps`, salida y códigos de la puerta, convenciones de §7, interfaz de `init.sh` o estructura de las plantillas | Lee las notas de migración y registra una decisión antes de adoptarla |
+| **MINOR** (`1.4.0`) | Agrega guías, plantillas, ejemplos o capacidades compatibles | Adopta lo que le sirva, sin migrar |
+| **PATCH** (`1.3.1`) | Corrige errores, textos o ejemplos sin cambiar reglas ni agregar contenido | Puede actualizar sin más |
+
+Cada proyecto anota en su D-001 la versión que adoptó, y registra una decisión
+nueva cuando adopta otra.
 
 Texto bajo [CC BY 4.0](LICENSE); scripts y plantillas de código bajo
 [MIT](LICENSE-CODE). © 2026 Javier Batres.
