@@ -9,6 +9,8 @@ on:
       - 'CHANGELOG.md'
       - 'examples/**'
       - 'templates/repo/docs/guides/**'
+      - 'guias/**'
+      - 'i18n/**'
       - '.github/workflows/site.yml'
   pull_request:
     paths:
@@ -17,6 +19,8 @@ on:
       - 'CHANGELOG.md'
       - 'examples/**'
       - 'templates/repo/docs/guides/**'
+      - 'guias/**'
+      - 'i18n/**'
       - '.github/workflows/site.yml'
   workflow_dispatch:
 

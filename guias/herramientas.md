@@ -143,13 +143,24 @@ de repo trae dos workflows:
 - `pr-title.yml` exige el formato `<KEY>-<n>: …`.
 
 Protege `main` con el check `gate` requerido, PR obligatorio y squash only. Si
-la CI no está disponible (facturación, límites), manda la puerta local.
+la CI no está disponible (facturación, límites), manda la puerta local, pero el
+check `gate` no se publica y GitHub bloquea el merge. Para ese caso:
+
+1. Sólo quien administra el repo (el PO, o quien él designe en una decisión
+   `D-xxx`) relaja la protección, y sólo para ese PR.
+2. El PM corre `make gate` sobre el commit exacto del PR y pega la salida en un
+   comentario del PR, con el sha y la razón por la que falta la CI. Es
+   evidencia local, no un check de CI.
+3. Se integra con `--match-head-commit <sha>` y, en seguida, quien relajó la
+   protección la restaura y lo anota en el mismo PR.
 
 ### Snyk y Dependabot
 
 [Snyk](https://snyk.io) encuentra vulnerabilidades en dependencias, código e
-imágenes. Va como paso **opcional** porque su plan gratuito tiene límites de
-pruebas:
+imágenes. Va como paso **opcional** (el prefijo `?`) porque su plan gratuito
+tiene límites de pruebas: si `snyk` no está instalado, la puerta lo marca
+`SKIP` y no cambia el resultado. Si está instalado y encuentra
+vulnerabilidades sobre el umbral, el paso falla como cualquier otro:
 
 ```text
 step ?snyk: snyk test --severity-threshold=high

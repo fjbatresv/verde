@@ -145,3 +145,21 @@ test('the changelog is split into one page per version, with the same slugs in e
   assert.equal(en.sections[0].slug, 'sin-publicar');
   assert.equal(en.sections[0].body, '- Something.');
 });
+
+test('indented code fences (inside lists) keep their content literally', () => {
+  // The real block from templates/repo/docs/guides/review.md §1.
+  const md = [
+    '2. Abre una worktree **en el commit exacto** que vas a revisar:',
+    '',
+    '   ```sh',
+    '   git fetch origin',
+    '   git worktree add ../<PROJECT>-review-<KEY>-<n> <sha>',
+    '   ```',
+    '',
+    'Después, <KEY> fuera del código.',
+  ].join('\n');
+  const out = mapOutsideCode(md, escapePlaceholders);
+  assert.match(out, /^ {3}git worktree add \.\.\/<PROJECT>-review-<KEY>-<n> <sha>$/m);
+  assert.doesNotMatch(out, /&lt;PROJECT>/);
+  assert.match(out, /Después, &lt;KEY> fuera del código\./);
+});

@@ -140,7 +140,8 @@ export function splitFrontmatter(text) {
 /** Applies `fn` only to the parts of the Markdown outside code (fenced and inline). */
 export function mapOutsideCode(markdown, fn) {
   return markdown
-    .split(/(^```[\s\S]*?^```[^\n]*$)/m)
+    // Cercas de código, también con sangría (dentro de listas): su contenido no se toca.
+    .split(/(^[ \t]*```[\s\S]*?^[ \t]*```[^\n]*$)/m)
     .map((chunk, i) =>
       i % 2 === 1 ? chunk : chunk.split(/(`[^`\n]*`)/).map((part, j) => (j % 2 === 1 ? part : fn(part))).join(''),
     )

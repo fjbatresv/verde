@@ -21,10 +21,16 @@ const broken = [];
 for (const [from, html] of pages) {
   for (const [, href] of html.matchAll(/<a\s[^>]*href="([^"]+)"/g)) {
     if (/^(https?:|mailto:|#$)/.test(href)) continue;
-    const [rawPath, hash] = href.split('#');
-    const path = rawPath === '' ? from : decodeURI(rawPath);
+    // Resuelve el href contra la página de origen: rutas relativas (../x/),
+    // sin la query; el hash se conserva para validar el ancla.
+    const url = new URL(href, `http://site${from}`);
+    const path = decodeURI(url.pathname);
+    const hash = url.hash.slice(1);
     const target = pages.get(path) ?? pages.get(path.endsWith('/') ? path : path + '/');
-    if (target === undefined && !existsSync(join(dist, path))) {
+    // Un directorio no es un destino válido si no tiene su página (index.html).
+    const onDisk = join(dist, path);
+    const isFile = existsSync(onDisk) && statSync(onDisk).isFile();
+    if (target === undefined && !isFile) {
       broken.push(`${from} → ${href} (no existe)`);
     } else if (hash && target !== undefined && !ids(target).has(decodeURIComponent(hash))) {
       broken.push(`${from} → ${href} (no existe el ancla)`);

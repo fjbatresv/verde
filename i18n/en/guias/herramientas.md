@@ -145,12 +145,24 @@ template ships two workflows:
 - `pr-title.yml` enforces the `<KEY>-<n>: …` format.
 
 Protect `main` with the `gate` check required, PRs required and squash only. If
-CI is not available (billing, limits), the local gate rules.
+CI is not available (billing, limits), the local gate rules, but the `gate`
+check is not published and GitHub blocks the merge. For that case:
+
+1. Only whoever administers the repo (the PO, or whoever they appoint in a
+   `D-xxx` decision) relaxes the protection, and only for that PR.
+2. The PM runs `make gate` on the PR's exact commit and pastes the output in a
+   PR comment, with the sha and the reason CI is missing. It is local
+   evidence, not a CI check.
+3. The PR is merged with `--match-head-commit <sha>` and, right after, whoever
+   relaxed the protection restores it and notes it in the same PR.
 
 ### Snyk and Dependabot
 
 [Snyk](https://snyk.io) finds vulnerabilities in dependencies, code and images.
-It is an **optional** step because its free plan has test limits:
+It is an **optional** step (the `?` prefix) because its free plan has test
+limits: if `snyk` is not installed, the gate marks it `SKIP` and the result does
+not change. If it is installed and finds vulnerabilities above the threshold,
+the step fails like any other:
 
 ```text
 step ?snyk: snyk test --severity-threshold=high
