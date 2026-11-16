@@ -137,11 +137,46 @@ export function splitFrontmatter(text) {
   return match ? { frontmatter: match[1], body: text.slice(match[0].length) } : { frontmatter: '', body: text };
 }
 
+/**
+ * Splits Markdown into [outside, code, outside, code, …] by fenced code blocks
+ * (CommonMark): the opening fence sets the character (` or ~) and the length; a
+ * line closes the block only with the same character, at least that length and
+ * nothing after it but spaces. An unclosed block runs to the end. Indentation is
+ * allowed so fences inside list items count too.
+ */
+export function splitFences(markdown) {
+  const chunks = [];
+  let current = '';
+  let fence = null;
+  for (const line of markdown.split(/(?<=\n)/)) {
+    const text = line.replace(/\r?\n$/, '');
+    if (!fence) {
+      const open = /^[ \t]*(`{3,}|~{3,})(.*)$/.exec(text);
+      if (open && !(open[1][0] === '`' && open[2].includes('`'))) {
+        chunks.push(current);
+        current = line;
+        fence = { char: open[1][0], length: open[1].length };
+        continue;
+      }
+      current += line;
+    } else {
+      current += line;
+      const close = /^[ \t]*(`{3,}|~{3,})[ \t]*$/.exec(text);
+      if (close && close[1][0] === fence.char && close[1].length >= fence.length) {
+        chunks.push(current);
+        current = '';
+        fence = null;
+      }
+    }
+  }
+  chunks.push(current);
+  if (fence) chunks.push('');
+  return chunks;
+}
+
 /** Applies `fn` only to the parts of the Markdown outside code (fenced and inline). */
 export function mapOutsideCode(markdown, fn) {
-  return markdown
-    // Cercas de código, también con sangría (dentro de listas): su contenido no se toca.
-    .split(/(^[ \t]*```[\s\S]*?^[ \t]*```[^\n]*$)/m)
+  return splitFences(markdown)
     .map((chunk, i) =>
       i % 2 === 1 ? chunk : chunk.split(/(`[^`\n]*`)/).map((part, j) => (j % 2 === 1 ? part : fn(part))).join(''),
     )

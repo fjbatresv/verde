@@ -163,3 +163,30 @@ test('indented code fences (inside lists) keep their content literally', () => {
   assert.doesNotMatch(out, /&lt;PROJECT>/);
   assert.match(out, /Después, &lt;KEY> fuera del código\./);
 });
+
+test('a fence line with text after it does not close the block (regression)', () => {
+  const block = [
+    '   ```sh',
+    '   git worktree add ../<PROJECT>-review-<KEY>-<n> <sha>',
+    '   ```js no cierra',
+    '   cd ../<PROJECT>-review-<KEY>-<n>',
+    '   ```',
+  ].join('\n');
+  const out = mapOutsideCode(`${block}\n\nFuera: <KEY>`, escapePlaceholders);
+  assert.ok(out.startsWith(block), 'the code block (and its copied command) is unchanged');
+  assert.match(out, /Fuera: &lt;KEY>$/);
+});
+
+test('a shorter or different fence does not close a longer one', () => {
+  const block = ['````md', '```sh', 'echo <KEY>', '```', '~~~', '````'].join('\n');
+  const out = mapOutsideCode(`${block}\n<KEY>`, escapePlaceholders);
+  assert.ok(out.startsWith(block));
+  assert.match(out, /\n&lt;KEY>$/);
+  const tilde = ['~~~text', 'echo <KEY>', '```', '~~~  '].join('\n');
+  assert.equal(mapOutsideCode(tilde, escapePlaceholders), tilde);
+});
+
+test('an unclosed fence runs to the end of the document', () => {
+  const md = 'Antes <KEY>\n```sh\necho <KEY>';
+  assert.equal(mapOutsideCode(md, escapePlaceholders), 'Antes &lt;KEY>\n```sh\necho <KEY>');
+});
