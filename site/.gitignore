@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+# Generadas por scripts/sync-docs.mjs desde los Markdown del repo
+src/content/docs/estandar.md
+src/content/docs/changelog/
+src/content/docs/guias/
+src/content/docs/ejemplo/
+src/content/docs/en/estandar.md
+src/content/docs/en/changelog/
+src/content/docs/en/guias/
+src/content/docs/en/ejemplo/

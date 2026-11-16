@@ -22,6 +22,9 @@ responsabilidades, y el autor de una entrega nunca la aprueba.
 En inglés: Vault · Engagement brief · Review · Decision · Evidence. Al método
 también se le llama **VDD**.
 
+**Sitio web:** [verde.fjbatresv.com](https://verde.fjbatresv.com) ·
+**English:** [`i18n/en/VERDE.md`](i18n/en/VERDE.md)
+
 ## Empezar
 
 1. Lee [`VERDE.md`](VERDE.md) (unos 20 minutos) y el ejemplo resuelto
@@ -41,8 +44,11 @@ también se le llama **VDD**.
 | [`templates/repo/`](templates/repo/) | `AGENTS.md`, plantilla de PR con evidencia, guías, workflows y la puerta |
 | [`templates/repo/tools/ci/local-gate.sh`](templates/repo/tools/ci/local-gate.sh) | La puerta, agnóstica de stack: lee `gate.steps` y responde `RESULT GREEN` o `RED` |
 | [`templates/repo/docs/guides/review.md`](templates/repo/docs/guides/review.md) | Guía del revisor: verificar la evidencia, revisar en vivo, hallazgos `R`/`N`, lanzar y calibrar un agente revisor |
+| [`guias/herramientas.md`](guias/herramientas.md) | Cómo montarlo: Orca, agentes por rol, Stitch, GitHub Actions, Snyk, SonarQube, CodeRabbit y Sentry |
 | [`examples/acme/`](examples/acme/) | Ejemplo resuelto: un issue completo, del backlog a la integración, con dos rondas |
 | [`init.sh`](init.sh) | Crea el repo de código y el vault de un proyecto nuevo desde las plantillas |
+| [`i18n/en/`](i18n/en/) | Traducción al inglés del estándar, la guía del revisor, el ejemplo y el changelog. El español es la referencia |
+| [`site/`](site/) | El sitio web (Astro Starlight). Genera sus páginas desde los Markdown del repo: `cd site && npm ci && npm run dev` |
 | [`tests/`](tests/) | `bash tests/gate.test.sh` (puerta), `bash tests/init.test.sh` (arranque) y `bash tests/examples.test.sh` (convenciones de los ejemplos) |
 | [`CHANGELOG.md`](CHANGELOG.md) | Versiones |
 

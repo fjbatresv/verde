@@ -1,0 +1,1065 @@
+---
+// Portada de VERDE: la señal de la puerta. Textos en español e inglés.
+import Toolkit from './Toolkit.astro';
+import { allTools } from '../data/toolkit';
+
+interface Props {
+  lang?: 'es' | 'en';
+}
+const { lang = 'es' } = Astro.props;
+const base = lang === 'en' ? '/en' : '';
+
+const gate = [
+  ['PASS', 'format'],
+  ['PASS', 'lint'],
+  ['PASS', 'test'],
+  ['PASS', 'build'],
+  ['PASS', 'coverage'],
+  ['PASS', 'ports-free'],
+  ['PASS', 'infra'],
+  ['PASS', 'e2e'],
+  ['PASS', 'infra-down'],
+  ['SKIP', 'snyk'],
+];
+
+const copy = {
+  es: {
+    titleBefore: 'Nada avanza si no está en',
+    titleWord: 'verde',
+    lede: 'Un framework para desarrollar aplicaciones con agentes de IA. Roles fijos, memoria fuera del chat y nada integrado sin evidencia.',
+    start: 'Empezar',
+    read: 'Leer el estándar',
+    gateLabel: 'Salida de make gate: nueve pasos PASS, snyk SKIP y RESULT GREEN',
+    replay: 'Volver a correr la puerta',
+    pillarsKicker: '01 · Los pilares',
+    pillarsTitle: 'Cinco letras, cinco reglas.',
+    pillarsText: 'El nombre es el método. En TDD la prueba va primero; en VDD, el vault. Lo que no está en el vault no se decidió, y lo que no tiene evidencia no está hecho.',
+    pillars: [
+      { letter: 'V', name: 'Vault', alt: 'Vault', text: 'La memoria del proyecto vive fuera del código y del chat. Si no está en el vault, no se decidió.', where: 'proyecto-vault/' },
+      { letter: 'E', name: 'Encargo', alt: 'Engagement brief', text: 'Todo trabajo entra por escrito, con alcance cerrado y la evidencia que se espera de cada criterio.', where: '03-Encargos/' },
+      { letter: 'R', name: 'Revisión', alt: 'Review', text: 'Alguien que no es el autor reproduce la evidencia y abre la aplicación con Playwright y axe.', where: '06-Revisiones/' },
+      { letter: 'D', name: 'Decisión', alt: 'Decision', text: 'Toda decisión se numera, se fecha y tiene un estado. No se borra: se reemplaza.', where: 'D-xxx' },
+      { letter: 'E', name: 'Evidencia', alt: 'Evidence', text: 'Nada se integra sin la puerta en verde, corrida sobre el commit exacto.', where: 'make gate' },
+    ],
+    cycleKicker: '02 · El ciclo',
+    cycleTitle: 'Una vía, una señal.',
+    cycleText: 'Cada entrega recorre las mismas estaciones, la haga una persona o un agente. Si la revisión pide cambios, vuelve a la puerta en una ronda nueva.',
+    cycle: [
+      { name: 'Backlog', who: 'PM · PO', text: 'Issues con criterios verificables.' },
+      { name: 'Encargo', who: 'PM', text: 'Un archivo: objetivo, alcance, evidencia.' },
+      { name: 'Implementación', who: 'dev · persona o agente', text: 'Rama y worktree propias.' },
+      { name: 'Puerta', who: 'dev', text: 'make gate y archivo de PR.' },
+      { name: 'Revisión', who: 'revisor ≠ autor', text: 'Evidencia, diff y app en vivo.' },
+      { name: 'Integración', who: 'PM', text: 'Squash, tag y registro.' },
+    ],
+    loop: 'Revisión con cambios → ronda N en la misma rama, en sesión nueva → puerta',
+    rulesKicker: '03 · Lo que no se negocia',
+    rules: ['Si no está en el vault, no se decidió.', 'Quien escribe no aprueba.', 'La puerta decide el merge, no la prisa.', 'Causas, no síntomas.'],
+    startKicker: '04 · Día 0',
+    startTitle: 'Arranca en un comando.',
+    startText: ['crea el repo de código y el vault uno al lado del otro, con tu clave de issues, la decisión', 'y el primer commit en ambos.'],
+    startButton: 'Checklist del Día 0',
+    initLabel: 'Ejemplo de ./verde/init.sh acme-salas ACME ~/code',
+    finaleBefore: '¿Listo para pasar',
+    finaleWord: 'la puerta',
+    finaleAfter: '?',
+    paths: [
+      { href: '/ejemplo/', kicker: 'Ejemplo resuelto', title: 'Un issue, del encargo a la integración', more: 'Dos rondas y una prueba que pasaba sin probar nada →' },
+      { href: '/guias/revision/', kicker: 'Guía del revisor', title: 'Verificar, no redescubrir', more: 'Revisión en vivo y calibración de agentes →' },
+      { href: '/plantillas/', kicker: 'Plantillas', title: 'Vault y repo listos para copiar', more: 'Encargo, revisión, decisión, la puerta →' },
+    ],
+    signature: 'Un framework creado por',
+  },
+  en: {
+    titleBefore: 'Nothing moves forward unless it’s',
+    titleWord: 'green',
+    lede: 'A framework for building applications with AI agents. Fixed roles, memory outside the chat and nothing merged without evidence.',
+    start: 'Get started',
+    read: 'Read the standard',
+    gateLabel: 'make gate output: nine PASS steps, snyk SKIP and RESULT GREEN',
+    replay: 'Run the gate again',
+    pillarsKicker: '01 · The pillars',
+    pillarsTitle: 'Five letters, five rules.',
+    pillarsText: 'The name is the method. In TDD the test comes first; in VDD, the vault. What is not in the vault was not decided, and what has no evidence is not done.',
+    pillars: [
+      { letter: 'V', name: 'Vault', alt: 'Vault', text: 'The project’s memory lives outside the code and the chat. If it is not in the vault, it was not decided.', where: 'project-vault/' },
+      { letter: 'E', name: 'Engagement brief', alt: 'Encargo', text: 'All work comes in writing, with closed scope and the evidence expected for each criterion.', where: '03-Encargos/' },
+      { letter: 'R', name: 'Review', alt: 'Revisión', text: 'Someone who is not the author reproduces the evidence and opens the app with Playwright and axe.', where: '06-Revisiones/' },
+      { letter: 'D', name: 'Decision', alt: 'Decisión', text: 'Every decision is numbered, dated and has a status. It is never deleted: it is superseded.', where: 'D-xxx' },
+      { letter: 'E', name: 'Evidence', alt: 'Evidencia', text: 'Nothing is merged without the gate green, run on the exact commit.', where: 'make gate' },
+    ],
+    cycleKicker: '02 · The cycle',
+    cycleTitle: 'One track, one signal.',
+    cycleText: 'Every delivery goes through the same stations, whether a person or an agent makes it. If the review asks for changes, it goes back to the gate in a new round.',
+    cycle: [
+      { name: 'Backlog', who: 'PM · PO', text: 'Issues with verifiable criteria.' },
+      { name: 'Brief', who: 'PM', text: 'One file: goal, scope, evidence.' },
+      { name: 'Implementation', who: 'dev · person or agent', text: 'Its own branch and worktree.' },
+      { name: 'Gate', who: 'dev', text: 'make gate and the PR file.' },
+      { name: 'Review', who: 'reviewer ≠ author', text: 'Evidence, diff and the live app.' },
+      { name: 'Merge', who: 'PM', text: 'Squash, tag and record.' },
+    ],
+    loop: 'Review with changes → round N on the same branch, in a new session → gate',
+    rulesKicker: '03 · Non-negotiable',
+    rules: ['If it’s not in the vault, it wasn’t decided.', 'Whoever writes doesn’t approve.', 'The gate decides the merge, not the hurry.', 'Causes, not symptoms.'],
+    startKicker: '04 · Day 0',
+    startTitle: 'Start with one command.',
+    startText: ['creates the code repo and the vault side by side, with your issue key, decision', 'and the first commit in both.'],
+    startButton: 'Day 0 checklist',
+    initLabel: 'Example of ./verde/init.sh acme-salas ACME ~/code',
+    finaleBefore: 'Ready to go through',
+    finaleWord: 'the gate',
+    finaleAfter: '?',
+    paths: [
+      { href: '/ejemplo/', kicker: 'Worked example', title: 'One issue, from brief to merge', more: 'Two rounds and a test that passed without proving anything →' },
+      { href: '/guias/revision/', kicker: 'Reviewer guide', title: 'Verify, don’t rediscover', more: 'Live review and agent calibration →' },
+      { href: '/plantillas/', kicker: 'Templates', title: 'Vault and repo ready to copy', more: 'Brief, review, decision, the gate →' },
+    ],
+    signature: 'A framework created by',
+  },
+}[lang];
+
+// Datos estructurados (schema.org) para buscadores: qué es VERDE, quién lo
+// creó y qué herramientas menciona.
+const site = 'https://verde.fjbatresv.com';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${site}/#website`,
+      url: `${site}${base}/`,
+      name: 'VERDE · Vault-Driven Development',
+      inLanguage: lang,
+      publisher: { '@id': 'https://fjbatresv.com/#person' },
+    },
+    {
+      '@type': 'Person',
+      '@id': 'https://fjbatresv.com/#person',
+      name: 'Javier Batres',
+      url: 'https://fjbatresv.com',
+    },
+    {
+      '@type': 'SoftwareSourceCode',
+      name: 'VERDE',
+      alternateName: ['VDD', 'Vault-Driven Development'],
+      description: copy.lede,
+      url: `${site}${base}/`,
+      codeRepository: 'https://github.com/fjbatresv/verde',
+      version: '1.3.0',
+      inLanguage: ['es', 'en'],
+      license: ['https://creativecommons.org/licenses/by/4.0/', 'https://opensource.org/licenses/MIT'],
+      author: { '@id': 'https://fjbatresv.com/#person' },
+      keywords: ['AI agents', 'agentes de IA', 'framework', 'code review', 'Playwright', 'Vault-Driven Development'],
+      mentions: allTools.map((tool) => ({ '@type': 'SoftwareApplication', name: tool.name, url: tool.url })),
+    },
+  ],
+};
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<div class="verde-home not-content">
+  <!-- 1 · Hero -->
+  <section class="hero" aria-labelledby="verde-title">
+    <div class="hero-copy">
+      <p class="eyebrow">
+        <span class="dot" aria-hidden="true"></span>
+        VDD · Vault-Driven Development · v1.3.0
+      </p>
+      <h1 id="verde-title">
+        {copy.titleBefore} <em>{copy.titleWord}<span class="ink" aria-hidden="true"></span></em>.
+      </h1>
+      <p class="lede">{copy.lede}</p>
+      <div class="actions">
+        <a class="btn primary" href={`${base}/empezar/`}>{copy.start} <span aria-hidden="true">→</span></a>
+        <a class="btn ghost" href={`${base}/estandar/`}>{copy.read}</a>
+        <a class="btn link" href="https://github.com/fjbatresv/verde">GitHub ↗</a>
+      </div>
+    </div>
+
+    <figure class="terminal gate-run" aria-label={copy.gateLabel}>
+      <div class="term-bar">
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+        <code aria-hidden="true">tools/ci/local-gate.sh</code>
+        <button class="replay" type="button" aria-label={copy.replay}>↻</button>
+      </div>
+      <pre aria-hidden="true"><span class="ln prompt" style="--i:0">$ make gate</span><span class="ln dim" style="--i:1">head 06ec2d3 · 2026-11-13 09:42:07</span>{
+        gate.map(([state, step], i) => (
+          <span class={`ln ${state.toLowerCase()}`} style={`--i:${i + 2}`}><b>{state}</b> {step}</span>
+        ))
+      }<span class="ln result" style={`--i:${gate.length + 2}`}><b>RESULT GREEN</b> · log tmp/gate.log</span></pre>
+    </figure>
+  </section>
+
+  <!-- 2 · Acróstico de pilares -->
+  <section class="pillars" aria-labelledby="pilares">
+    <header class="section-head">
+      <p class="kicker">{copy.pillarsKicker}</p>
+      <h2 id="pilares">{copy.pillarsTitle}</h2>
+      <p>{copy.pillarsText}</p>
+    </header>
+    <ol class="acrostic">
+      {
+        copy.pillars.map((p) => (
+          <li>
+            <span class="letter" aria-hidden="true">{p.letter}</span>
+            <div class="what">
+              <h3>{p.name}</h3>
+              <span class="en" lang={lang === 'en' ? 'es' : 'en'}>{p.alt}</span>
+            </div>
+            <p>{p.text}</p>
+            <code class="where">{p.where}</code>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- 3 · El ciclo como una vía con señal -->
+  <section class="cycle" aria-labelledby="ciclo">
+    <header class="section-head">
+      <p class="kicker">{copy.cycleKicker}</p>
+      <h2 id="ciclo">{copy.cycleTitle}</h2>
+      <p>{copy.cycleText}</p>
+    </header>
+    <ol class="rail">
+      {
+        copy.cycle.map((s, i) => (
+          <li style={`--i:${i}`}>
+            <span class="node" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{s.name}</h3>
+            <span class="who">{s.who}</span>
+            <p>{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="loop"><span aria-hidden="true">↺</span> {copy.loop}</p>
+  </section>
+
+  <!-- 4 · Lo que no se negocia -->
+  <section class="rules" aria-labelledby="reglas">
+    <p class="kicker" id="reglas">{copy.rulesKicker}</p>
+    <ul>
+      {
+        copy.rules.map((r, i) => (
+          <li>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <blockquote>{r}</blockquote>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- 5 · Arranque -->
+  <section class="start" aria-labelledby="arranque">
+    <div>
+      <p class="kicker">{copy.startKicker}</p>
+      <h2 id="arranque">{copy.startTitle}</h2>
+      <p>
+        <code>init.sh</code> {copy.startText[0]} <code>D-001</code> {copy.startText[1]}
+      </p>
+      <a class="btn ghost" href={`${base}/empezar/`}>{copy.startButton}</a>
+    </div>
+    <figure class="terminal static" aria-label={copy.initLabel}>
+      <div class="term-bar" aria-hidden="true"><span></span><span></span><span></span><code>~/code</code></div>
+      <pre lang="es"><span class="prompt">$ ./verde/init.sh acme-salas ACME ~/code</span>
+<span class="pass"><b>Listo:</b></span> VERDE / VDD v1.3.0
+  código  ~/code/acme-salas
+  vault   ~/code/acme-salas-vault
+
+<span class="dim">Siguientes pasos (VERDE.md §9):
+  1. Completa nombres, URLs y comandos.
+  2. Registra las decisiones de arranque.
+  3. Ajusta gate.steps y corre make gate.
+  4. Sube ambos repos y protege main.</span></pre>
+    </figure>
+  </section>
+
+  <!-- 5 · Herramientas y agentes -->
+  <Toolkit lang={lang} />
+
+  <!-- 6 · Cierre -->
+  <section class="finale" aria-labelledby="cierre">
+    <h2 id="cierre">{copy.finaleBefore} <em>{copy.finaleWord}</em>{copy.finaleAfter}</h2>
+    <div class="paths">
+      {
+        copy.paths.map((path) => (
+          <a href={`${base}${path.href}`}>
+            <span class="kicker">{path.kicker}</span>
+            <strong>{path.title}</strong>
+            <span class="more">{path.more}</span>
+          </a>
+        ))
+      }
+    </div>
+    <p class="signature">
+      {copy.signature} <a href="https://fjbatresv.com">Javier Batres</a>
+      <span aria-hidden="true">·</span>
+      <a class="site" href="https://fjbatresv.com">fjbatresv.com ↗</a>
+    </p>
+  </section>
+</div>
+
+<script>
+  // ↻ vuelve a correr la animación de la puerta.
+  for (const button of document.querySelectorAll<HTMLButtonElement>('.gate-run .replay')) {
+    button.addEventListener('click', () => {
+      const run = button.closest('.gate-run');
+      if (!run) return;
+      run.classList.remove('gate-run');
+      void (run as HTMLElement).offsetWidth;
+      run.classList.add('gate-run');
+    });
+  }
+</script>
+
+<style>
+  .verde-home {
+    --gap: clamp(4.5rem, 10vw, 8rem);
+    --line: color-mix(in srgb, var(--sl-color-white) 12%, transparent);
+    --muted: var(--sl-color-gray-3);
+    color: var(--sl-color-gray-2);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    padding-block: 1rem 2rem;
+  }
+
+  .verde-home :is(h1, h2, h3) {
+    font-family: var(--verde-display);
+    color: var(--sl-color-white);
+    font-variation-settings: 'SOFT' 50, 'WONK' 1;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+
+  .verde-home em {
+    font-style: italic;
+    color: var(--sl-color-accent);
+  }
+
+  /* :global porque la sección de herramientas es otro componente (Toolkit) */
+  .verde-home > :global(section + section) {
+    margin-top: var(--gap);
+  }
+
+  .kicker,
+  .eyebrow {
+    font-family: var(--sl-font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.75rem 3rem;
+    align-items: end;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-head .kicker {
+    grid-column: 1 / -1;
+  }
+
+  .section-head h2 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 500;
+  }
+
+  .section-head p:not(.kicker) {
+    margin: 0;
+    max-width: 34rem;
+  }
+
+  /* Botones */
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.35rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      transform 160ms ease,
+      background 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .btn.primary {
+    background: var(--verde-cta-bg);
+    color: var(--verde-cta-fg);
+  }
+
+  .btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px -12px color-mix(in srgb, var(--verde-cta-bg) 60%, transparent);
+  }
+
+  .btn.ghost {
+    color: var(--sl-color-white);
+    border: 1px solid var(--line);
+  }
+
+  .btn.ghost:hover {
+    border-color: var(--sl-color-accent);
+    color: var(--sl-color-accent);
+  }
+
+  .btn.link {
+    color: var(--sl-color-gray-2);
+    padding-inline: 0.25rem;
+  }
+
+  .btn.link:hover {
+    color: var(--sl-color-accent);
+  }
+
+  /* 1 · Hero */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+    min-height: min(78vh, 46rem);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--sl-color-accent);
+    box-shadow: 0 0 0 0 var(--sl-color-accent);
+    animation: beacon 2.4s ease-out infinite;
+  }
+
+  .hero h1 {
+    font-size: clamp(3.1rem, 8.5vw, 6.6rem);
+    font-weight: 600;
+    line-height: 0.95;
+  }
+
+  .hero h1 em {
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .hero h1 .ink {
+    position: absolute;
+    left: 0.02em;
+    right: 0.05em;
+    bottom: 0.02em;
+    height: 0.08em;
+    border-radius: 99px;
+    background: var(--sl-color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: ink 700ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    animation-delay: calc(13 * 140ms + 600ms);
+  }
+
+  .lede {
+    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+    max-width: 32rem;
+    margin: 1.75rem 0 0;
+    color: var(--sl-color-gray-2);
+  }
+
+  /* Terminal */
+  .terminal {
+    margin: 0;
+    background: #0a0f0c;
+    border: 1px solid #1f2d25;
+    border-radius: 14px;
+    overflow: hidden;
+    color: #c8d1c8;
+    font-family: var(--sl-font-mono);
+    font-size: 0.8rem;
+    box-shadow:
+      0 30px 80px -30px rgb(0 0 0 / 0.7),
+      inset 0 1px 0 rgb(255 255 255 / 0.04);
+  }
+
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid #1a261f;
+    background: #0e1511;
+  }
+
+  .term-bar > span {
+    width: 0.62rem;
+    height: 0.62rem;
+    border-radius: 50%;
+    background: #26332b;
+  }
+
+  .term-bar code {
+    margin-left: 0.6rem;
+    color: #8a998f;
+    font-size: 0.7rem;
+    background: none;
+    padding: 0;
+  }
+
+  .replay {
+    margin-left: auto;
+    background: none;
+    border: 1px solid #26332b;
+    color: #8fa196;
+    border-radius: 6px;
+    width: 1.7rem;
+    height: 1.7rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1;
+  }
+
+  .replay:hover,
+  .replay:focus-visible {
+    color: var(--verde-term-signal);
+    border-color: var(--verde-term-signal);
+  }
+
+  .terminal pre {
+    margin: 0;
+    padding: 1.1rem 1.25rem 1.3rem;
+    background: none;
+    border: 0;
+    overflow-x: auto;
+    line-height: 1.85;
+  }
+
+  .ln {
+    display: block;
+  }
+
+  .gate-run .ln {
+    opacity: 0;
+    transform: translateY(4px);
+    animation: line-in 260ms ease-out forwards;
+    animation-delay: calc(var(--i) * 140ms + 300ms);
+  }
+
+  .prompt {
+    color: #e9ece4;
+  }
+
+  .dim {
+    color: #8a998f;
+  }
+
+  .pass b,
+  .ln.pass b {
+    color: var(--verde-term-signal);
+    font-weight: 600;
+  }
+
+  .ln.skip {
+    color: #8a998f;
+  }
+
+  .ln.skip b {
+    color: #c5a442;
+    font-weight: 600;
+  }
+
+  .ln.result {
+    margin-top: 0.5rem;
+    padding: 0.35rem 0.6rem;
+    margin-inline: -0.6rem;
+    border-radius: 6px;
+    color: #c8d1c8;
+  }
+
+  .ln.result b {
+    color: var(--verde-ink);
+    background: var(--verde-term-signal);
+    padding: 0.1rem 0.45rem;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  .gate-run .ln.result {
+    animation:
+      line-in 260ms ease-out forwards,
+      glow 1.6s ease-out forwards;
+    animation-delay: calc(var(--i) * 140ms + 300ms);
+  }
+
+  .gate-run {
+    animation: frame 1.6s ease-out forwards;
+    animation-delay: calc(13 * 140ms + 300ms);
+  }
+
+  /* 2 · Acróstico */
+  .acrostic {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .acrostic li {
+    display: grid;
+    grid-template-columns: clamp(4.5rem, 11vw, 8.5rem) 13rem minmax(0, 1fr) 10rem;
+    gap: 0 2rem;
+    align-items: center;
+    padding-block: 0.9rem;
+    border-bottom: 1px solid var(--line);
+    margin: 0;
+  }
+
+  .letter {
+    font-family: var(--verde-display);
+    font-size: clamp(4.5rem, 11vw, 8.5rem);
+    font-style: italic;
+    font-weight: 700;
+    line-height: 0.85;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--sl-color-accent);
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+    transition: color 260ms ease;
+  }
+
+  .acrostic li:hover .letter {
+    color: var(--sl-color-accent);
+  }
+
+  .acrostic h3 {
+    font-size: 1.7rem;
+    font-weight: 600;
+  }
+
+  .en {
+    font-family: var(--sl-font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .acrostic p {
+    margin: 0;
+  }
+
+  .where {
+    font-family: var(--sl-font-mono);
+    font-size: 0.75rem;
+    color: var(--sl-color-accent);
+    background: color-mix(in srgb, var(--sl-color-accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--sl-color-accent) 30%, transparent);
+    padding: 0.3rem 0.55rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    justify-self: end;
+  }
+
+  /* 3 · Vía del ciclo */
+  .rail {
+    --rail-y: 1.15rem;
+    position: relative;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .rail::before,
+  .rail::after {
+    content: '';
+    position: absolute;
+    left: 1.15rem;
+    right: 1.15rem;
+    top: var(--rail-y);
+    height: 2px;
+    background: var(--line);
+  }
+
+  .rail::after {
+    right: auto;
+    width: 4rem;
+    background: linear-gradient(90deg, transparent, var(--sl-color-accent));
+    border-radius: 2px;
+    animation: travel 7s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+  }
+
+  .rail li {
+    position: relative;
+    margin: 0;
+  }
+
+  .node {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 50%;
+    background: var(--sl-color-black);
+    border: 2px solid var(--sl-color-accent);
+    color: var(--sl-color-accent);
+    font-family: var(--sl-font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-bottom: 1.1rem;
+  }
+
+  .rail li:nth-child(4) .node {
+    background: var(--sl-color-accent);
+    color: var(--sl-color-black);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--sl-color-accent) 18%, transparent);
+  }
+
+  .rail h3 {
+    font-size: 1.35rem;
+    font-weight: 600;
+  }
+
+  .who {
+    display: inline-block;
+    margin: 0.35rem 0 0.5rem;
+    font-family: var(--sl-font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+
+  .rail p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .loop {
+    margin: 2rem 0 0;
+    font-family: var(--sl-font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .loop span {
+    color: var(--sl-color-accent);
+    font-size: 1rem;
+    margin-right: 0.35rem;
+  }
+
+  /* 4 · Reglas */
+  .rules {
+    border-block: 1px solid var(--line);
+    padding-block: 3rem;
+  }
+
+  .rules ul {
+    list-style: none;
+    padding: 0;
+    margin: 1.75rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.25rem 3rem;
+  }
+
+  .rules li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.1rem;
+    align-items: baseline;
+    margin: 0;
+  }
+
+  .num {
+    font-family: var(--sl-font-mono);
+    font-size: 0.75rem;
+    color: var(--sl-color-accent);
+  }
+
+  .rules blockquote {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: var(--verde-display);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.12;
+    color: var(--sl-color-white);
+    font-variation-settings: 'SOFT' 100, 'WONK' 1;
+  }
+
+  /* 5 · Arranque */
+  .start {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .start h2 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 500;
+    margin: 0.75rem 0 1rem;
+  }
+
+  .start p:not(.kicker) {
+    margin: 0 0 1.75rem;
+    max-width: 30rem;
+  }
+
+  .start p code {
+    font-size: 0.85em;
+  }
+
+  .static pre {
+    white-space: pre;
+  }
+
+  /* 6 · Cierre */
+  .finale h2 {
+    font-size: clamp(2.6rem, 7vw, 5.4rem);
+    font-weight: 600;
+    max-width: 16ch;
+    margin-bottom: 2.5rem;
+  }
+
+  .paths {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .paths a {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+    padding: 1.4rem 1.4rem 1.6rem;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    text-decoration: none;
+    color: var(--sl-color-gray-2);
+    background: color-mix(in srgb, var(--sl-color-white) 2%, transparent);
+    transition:
+      border-color 180ms ease,
+      transform 180ms ease,
+      background 180ms ease;
+  }
+
+  .paths a:hover {
+    border-color: var(--sl-color-accent);
+    transform: translateY(-3px);
+    background: color-mix(in srgb, var(--sl-color-accent) 6%, transparent);
+  }
+
+  .paths strong {
+    font-family: var(--verde-display);
+    font-size: 1.45rem;
+    line-height: 1.15;
+    font-weight: 600;
+    color: var(--sl-color-white);
+  }
+
+  .more {
+    font-size: 0.9rem;
+    color: var(--sl-color-accent);
+  }
+
+  .signature {
+    margin: 3.5rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--sl-font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: baseline;
+  }
+
+  .signature a {
+    color: var(--sl-color-white);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .signature a.site {
+    color: var(--sl-color-accent);
+    font-weight: 500;
+  }
+
+  .signature a:hover {
+    color: var(--sl-color-accent);
+    text-decoration: underline;
+  }
+
+  .verde-home a:focus-visible,
+  .verde-home button:focus-visible {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 3px;
+  }
+
+  /* Animaciones */
+  @keyframes line-in {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes glow {
+    0% {
+      background: color-mix(in srgb, var(--verde-term-signal) 28%, transparent);
+    }
+    100% {
+      background: color-mix(in srgb, var(--verde-term-signal) 7%, transparent);
+    }
+  }
+
+  @keyframes frame {
+    to {
+      border-color: color-mix(in srgb, var(--verde-term-signal) 45%, #1f2d25);
+      box-shadow:
+        0 30px 80px -30px rgb(0 0 0 / 0.7),
+        0 0 50px -16px color-mix(in srgb, var(--verde-term-signal) 35%, transparent);
+    }
+  }
+
+  @keyframes ink {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes beacon {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--sl-color-accent) 55%, transparent);
+    }
+    80%,
+    100% {
+      box-shadow: 0 0 0 10px transparent;
+    }
+  }
+
+  @keyframes travel {
+    0% {
+      left: 0;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    85% {
+      opacity: 1;
+    }
+    100% {
+      left: calc(100% - 4rem);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .verde-home *,
+    .verde-home *::before,
+    .verde-home *::after {
+      animation-duration: 1ms !important;
+      animation-delay: 0ms !important;
+      animation-iteration-count: 1 !important;
+      transition: none !important;
+    }
+    .rail::after {
+      display: none;
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 60rem) {
+    .hero,
+    .start {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+    .hero {
+      padding-top: 1.5rem;
+    }
+    .section-head {
+      grid-template-columns: 1fr;
+    }
+    .acrostic li {
+      grid-template-columns: clamp(3.6rem, 16vw, 5rem) 1fr;
+      grid-template-areas:
+        'l w'
+        'l p'
+        'l c';
+      gap: 0.35rem 1.25rem;
+      align-items: start;
+    }
+    .letter {
+      grid-area: l;
+      font-size: clamp(3.6rem, 16vw, 5rem);
+    }
+    .what {
+      grid-area: w;
+    }
+    .acrostic p {
+      grid-area: p;
+    }
+    .where {
+      grid-area: c;
+      justify-self: start;
+      margin-top: 0.35rem;
+    }
+    .rail {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+      padding-left: 3.4rem;
+    }
+    .rail::before {
+      left: 1.15rem;
+      right: auto;
+      top: 0.5rem;
+      bottom: 0.5rem;
+      width: 2px;
+      height: auto;
+    }
+    .rail::after {
+      display: none;
+    }
+    .node {
+      position: absolute;
+      left: -3.4rem;
+      top: 0;
+      margin: 0;
+    }
+    .rules ul,
+    .paths {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

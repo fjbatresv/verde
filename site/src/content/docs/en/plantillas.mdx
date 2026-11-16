@@ -1,0 +1,88 @@
+---
+title: Templates
+description: What the vault template and the code repo template include, and what each file is for.
+---
+
+import { FileTree, LinkButton } from '@astrojs/starlight/components';
+
+`init.sh` copies these two templates into your project. The files live in
+[`templates/`](https://github.com/fjbatresv/verde/tree/main/templates) in the
+repo. Folder and file names are in Spanish, as they ship.
+
+## Vault
+
+The vault is the project's memory: a private repo of Markdown notes, designed
+for Obsidian.
+
+<FileTree>
+- your-project-vault/
+  - 00-Inicio.md status, team and map of the vault
+  - 01-Producto/ vision, scope and roadmap
+  - 02-Backlog/
+    - Backlog.md epics, issues and criteria
+  - 03-Encargos/ one brief per assigned piece of work
+  - 04-Decisiones/
+    - Registro-de-decisiones.md `D-xxx` with date, origin and status
+  - 05-Reuniones/ meetings
+  - 06-Revisiones/ one note per PR, with its rounds
+  - 07-Plantillas/ note templates
+    - Plantilla-Encargo.md brief
+    - Plantilla-Revision.md review
+    - Plantilla-Decision.md decision
+    - Plantilla-Reunion.md meeting
+    - Plantilla-Status.md status
+  - 08-Status/ day status
+  - 99-Adjuntos/ screenshots and diagrams
+</FileTree>
+
+<LinkButton href="https://github.com/fjbatresv/verde/tree/main/templates/vault" variant="secondary" icon="external">
+  See the vault template
+</LinkButton>
+
+## Code repo
+
+<FileTree>
+- your-project/
+  - AGENTS.md rules for agents (in English)
+  - gate.steps gate steps for your stack
+  - Makefile `make gate`
+  - tools/ci/local-gate.sh the gate, stack-agnostic
+  - docs/
+    - prs/_template.md PR file with evidence (in English)
+    - guides/
+      - agents.md how we work with agents
+      - review.md [reviewer guide](/en/guias/revision/)
+      - runbook.md daily operations and the gate
+    - adr/ technical decisions
+    - decisions.md index of decisions that touch the code
+    - vault.md how to clone the vault
+  - .github/
+    - workflows/ci.yml the same gate in CI
+    - workflows/pr-title.yml `<KEY>-<n>: …` format
+    - pull_request_template.md
+  - .env.example
+</FileTree>
+
+<LinkButton href="https://github.com/fjbatresv/verde/tree/main/templates/repo" variant="secondary" icon="external">
+  See the repo template
+</LinkButton>
+
+## The gate
+
+`gate.steps` declares the steps; `local-gate.sh` runs them and answers green or
+red. The template ships examples for Node, Python, Go, Java, .NET and
+monorepos.
+
+```text
+# <kind> <name>: <command>
+step format: npx prettier --check .
+step lint: npm run lint
+step test: npm test
+setup ports-free: for p in 3000 5432; do (exec 3<>/dev/tcp/127.0.0.1/$p) 2>/dev/null && exit 1; done; exit 0
+setup infra: docker compose up -d --wait
+step e2e: npx playwright test
+teardown infra-down: docker compose down
+step ?snyk: snyk test --severity-threshold=high
+```
+
+The full rules are in [the standard, section 8](/en/estandar/#8-the-gate).

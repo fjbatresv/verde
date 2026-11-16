@@ -1,0 +1,33 @@
+---
+import Default from '@astrojs/starlight/components/Head.astro';
+---
+
+<Default />
+
+<script>
+  // Renderiza los diagramas Mermaid sólo en las páginas que los tienen y los
+  // vuelve a dibujar al cambiar entre tema claro y oscuro.
+  const blocks = [...document.querySelectorAll<HTMLElement>('pre.mermaid')];
+  if (blocks.length > 0) {
+    const { default: mermaid } = await import('mermaid');
+    for (const block of blocks) block.dataset.source = block.textContent ?? '';
+    const render = async () => {
+      const dark = document.documentElement.dataset.theme === 'dark';
+      const font = "'Instrument Sans Variable', system-ui, sans-serif";
+      const themeVariables = dark
+        ? { background: '#0b120e', primaryColor: '#16211b', primaryTextColor: '#f3f0e6', primaryBorderColor: '#4ccd8a', lineColor: '#8f9a8f', textColor: '#f3f0e6', edgeLabelBackground: '#16211b', tertiaryColor: '#12301f', fontFamily: font }
+        : { background: '#f8f6ef', primaryColor: '#e9e5d8', primaryTextColor: '#0e1a13', primaryBorderColor: '#0f5a31', lineColor: '#4f5d54', textColor: '#0e1a13', edgeLabelBackground: '#f1ede2', tertiaryColor: '#cdeedb', fontFamily: font };
+      mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables, securityLevel: 'strict' });
+      for (const block of blocks) {
+        block.removeAttribute('data-processed');
+        block.textContent = block.dataset.source ?? '';
+      }
+      await mermaid.run({ nodes: blocks });
+    };
+    await render();
+    new MutationObserver(render).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+  }
+</script>

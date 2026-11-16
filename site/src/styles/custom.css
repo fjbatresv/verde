@@ -1,0 +1,144 @@
+/*
+ * VERDE · identidad del sitio
+ * "La señal de la puerta": negro verdoso, verde de señal, papel cálido.
+ * Fraunces (titulares) · Instrument Sans (texto) · Martian Mono (terminal y etiquetas).
+ */
+@import '@fontsource-variable/fraunces/full.css';
+@import '@fontsource-variable/fraunces/full-italic.css';
+@import '@fontsource-variable/instrument-sans/index.css';
+@import '@fontsource-variable/martian-mono/index.css';
+
+:root {
+  /* Verde de señal: vivo sin llegar a neón en oscuro, más profundo en claro */
+  --verde-signal: #4ccd8a;
+  --verde-signal-deep: #146c3c;
+  --verde-cta-bg: #3cc880;
+  --verde-cta-fg: #0b120e;
+  --verde-term-signal: #54cf8f;
+  --verde-ink: #0b120e;
+  --verde-paper: #f3f0e6;
+  --verde-fail: #ff6b5e;
+  --verde-display: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+
+  --sl-font: 'Instrument Sans Variable', system-ui, sans-serif;
+  --sl-font-mono: 'Martian Mono Variable', ui-monospace, monospace;
+
+  /* Tema oscuro (por defecto): grises con matiz verde */
+  --sl-color-white: #f3f0e6;
+  --sl-color-gray-1: #e2e2d6;
+  --sl-color-gray-2: #c3c8bb;
+  --sl-color-gray-3: #8f9a8f;
+  --sl-color-gray-4: #5a675e;
+  --sl-color-gray-5: #2c3a31;
+  --sl-color-gray-6: #16211b;
+  --sl-color-black: #0b120e;
+
+  --sl-color-accent-low: #12301f;
+  --sl-color-accent: #4ccd8a;
+  --sl-color-accent-high: #c3efd6;
+}
+
+:root[data-theme='light'] {
+  --sl-color-white: #0e1a13;
+  --sl-color-gray-1: #1b2a21;
+  --sl-color-gray-2: #2d3c33;
+  --sl-color-gray-3: #4f5d54;
+  --sl-color-gray-4: #86908a;
+  --sl-color-gray-5: #c8ccbf;
+  --sl-color-gray-6: #e9e5d8;
+  --sl-color-gray-7: #f1ede2;
+  --sl-color-black: #f8f6ef;
+
+  --sl-color-accent-low: #d5ecdf;
+  --sl-color-accent: #0f5a31;
+  --sl-color-accent-high: #08341c;
+
+  --verde-signal: #0f5a31;
+  --verde-cta-bg: #146c3c;
+  --verde-cta-fg: #f8f6ef;
+}
+
+/* Titulares en Fraunces, en toda la documentación */
+.sl-markdown-content :is(h1, h2, h3),
+h1#_top,
+.site-title {
+  font-family: var(--verde-display);
+  font-variation-settings: 'SOFT' 50, 'WONK' 0;
+  letter-spacing: -0.01em;
+}
+
+h1#_top {
+  font-weight: 600;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  line-height: 1.05;
+}
+
+.sl-markdown-content h2 {
+  font-weight: 600;
+}
+
+.site-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--sl-color-white);
+  gap: 0.6rem;
+}
+
+/* Etiquetas y código con carácter de terminal */
+.sl-markdown-content code:not(pre code) {
+  font-size: 0.82em;
+  padding: 0.1em 0.35em;
+  border-radius: 0.3em;
+}
+
+.sl-markdown-content table th {
+  font-family: var(--sl-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Diagramas Mermaid */
+pre.mermaid {
+  display: flex;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  margin-block: 1.5rem;
+}
+
+pre.mermaid:not([data-processed]) {
+  visibility: hidden;
+  min-height: 12rem;
+}
+
+/* La portada ocupa todo el ancho y define su propio fondo */
+[data-has-hero] .main-pane,
+.verde-home-page .main-pane {
+  isolation: isolate;
+}
+
+body:has(.verde-home) {
+  background:
+    radial-gradient(60rem 30rem at 85% -5%, color-mix(in srgb, var(--sl-color-accent) 12%, transparent), transparent 70%),
+    var(--sl-color-black);
+}
+
+body:has(.verde-home) .content-panel {
+  padding-top: 0;
+}
+
+body:has(.verde-home) .sl-container {
+  max-width: 76rem;
+}
+
+/* La portada trae su propio h1 */
+body:has(.verde-home) .content-panel:first-of-type:has(h1#_top) {
+  display: none;
+}
+
+/* En la portada la firma ya está al final de la página */
+body:has(.verde-home) .verde-credit {
+  display: none;
+}

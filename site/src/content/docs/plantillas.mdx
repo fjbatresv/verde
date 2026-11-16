@@ -1,0 +1,86 @@
+---
+title: Plantillas
+description: Qué trae la plantilla del vault y la del repo de código, y para qué sirve cada archivo.
+---
+
+import { FileTree, LinkButton } from '@astrojs/starlight/components';
+
+`init.sh` copia estas dos plantillas a tu proyecto. Los archivos viven en
+[`templates/`](https://github.com/fjbatresv/verde/tree/main/templates) del repo.
+
+## Vault
+
+El vault es la memoria del proyecto: un repo privado de notas en Markdown,
+pensado para Obsidian.
+
+<FileTree>
+- tu-proyecto-vault/
+  - 00-Inicio.md estado, equipo y mapa del vault
+  - 01-Producto/ visión, alcance y roadmap
+  - 02-Backlog/
+    - Backlog.md épicas, issues y criterios
+  - 03-Encargos/ un encargo por trabajo asignado
+  - 04-Decisiones/
+    - Registro-de-decisiones.md `D-xxx` con fecha, origen y estado
+  - 05-Reuniones/
+  - 06-Revisiones/ una nota por PR, con sus rondas
+  - 07-Plantillas/
+    - Plantilla-Encargo.md
+    - Plantilla-Revision.md
+    - Plantilla-Decision.md
+    - Plantilla-Reunion.md
+    - Plantilla-Status.md
+  - 08-Status/ status del día
+  - 99-Adjuntos/ capturas y diagramas
+</FileTree>
+
+<LinkButton href="https://github.com/fjbatresv/verde/tree/main/templates/vault" variant="secondary" icon="external">
+  Ver la plantilla del vault
+</LinkButton>
+
+## Repo de código
+
+<FileTree>
+- tu-proyecto/
+  - AGENTS.md reglas para agentes (en inglés)
+  - gate.steps pasos de la puerta para tu stack
+  - Makefile `make gate`
+  - tools/ci/local-gate.sh la puerta, agnóstica de stack
+  - docs/
+    - prs/_template.md archivo de PR con evidencia
+    - guides/
+      - agents.md cómo se trabaja con agentes
+      - review.md [guía del revisor](/guias/revision/)
+      - runbook.md operación diaria y la puerta
+    - adr/ decisiones técnicas
+    - decisions.md índice de decisiones que tocan el código
+    - vault.md cómo clonar el vault
+  - .github/
+    - workflows/ci.yml la misma puerta en la CI
+    - workflows/pr-title.yml formato `<KEY>-<n>: …`
+    - pull_request_template.md
+  - .env.example
+</FileTree>
+
+<LinkButton href="https://github.com/fjbatresv/verde/tree/main/templates/repo" variant="secondary" icon="external">
+  Ver la plantilla del repo
+</LinkButton>
+
+## La puerta
+
+`gate.steps` declara los pasos; `local-gate.sh` los corre y responde verde o
+rojo. La plantilla trae ejemplos para Node, Python, Go, Java, .NET y monorepos.
+
+```text
+# <kind> <name>: <command>
+step format: npx prettier --check .
+step lint: npm run lint
+step test: npm test
+setup ports-free: for p in 3000 5432; do (exec 3<>/dev/tcp/127.0.0.1/$p) 2>/dev/null && exit 1; done; exit 0
+setup infra: docker compose up -d --wait
+step e2e: npx playwright test
+teardown infra-down: docker compose down
+step ?snyk: snyk test --severity-threshold=high
+```
+
+Las reglas completas están en [el estándar, sección 8](/estandar/#8-la-puerta).

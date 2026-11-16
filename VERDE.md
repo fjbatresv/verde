@@ -412,6 +412,10 @@ ni se suben timeouts para taparlo.
       son convenciones y se quedan. Subir ambos repos como privados.
 - [ ] Registrar **D-001 · Adoptamos VERDE / VDD v1.3.0** y las decisiones de
       arranque (stack, alcance, quién ocupa cada rol).
+- [ ] Elegir las herramientas (agentes por rol, orquestación, diseño, CI,
+      seguridad, calidad, observabilidad) con
+      [`guias/herramientas.md`](guias/herramientas.md) y registrarlas como
+      decisiones.
 - [ ] Ajustar `gate.steps` al stack y correr `make gate` hasta `RESULT GREEN`
       con el esqueleto del proyecto.
 - [ ] Asignar los roles: PO, PM, revisores, devs y operadores. Anotarlos en

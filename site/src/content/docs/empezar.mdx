@@ -1,0 +1,53 @@
+---
+title: Empezar
+description: Cómo arrancar un proyecto con VERDE, del clon de la plantilla al primer PR revisado.
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+VERDE son documentos y plantillas: no hay nada que instalar más allá de `git`,
+`bash` y `make`. Un proyecto vive en dos repos privados, uno al lado del otro:
+el **código** y el **vault**.
+
+<Steps>
+
+1. **Lee el estándar y el ejemplo.** [El estándar](/estandar/) se lee en unos
+   20 minutos. El [ejemplo resuelto](/ejemplo/) muestra un issue completo, y
+   [las herramientas recomendadas](/guias/herramientas/) muestran cómo montarlo
+   con agentes, CI y diseño.
+
+2. **Crea los dos repos.**
+
+   ```sh
+   git clone https://github.com/fjbatresv/verde.git
+   ./verde/init.sh <proyecto> <KEY> <carpeta>
+   ```
+
+   Por ejemplo, `./verde/init.sh acme-salas ACME ~/code` crea
+   `~/code/acme-salas/` y `~/code/acme-salas-vault/`, pone la clave `ACME`,
+   registra `D-001` con la fecha de hoy y hace el primer commit en ambos.
+
+3. **Sigue el checklist del Día 0.** Está en
+   [el estándar, sección 9](/estandar/#9-día-0-de-un-proyecto-nuevo): decisiones
+   de arranque, roles, `gate.steps` para tu stack y `make gate` hasta
+   `RESULT GREEN`.
+
+4. **Protege `main`.** PR obligatorio, squash only, el check `gate` requerido y
+   la variable de repo `ISSUE_KEY`.
+
+5. **Escribe el primer encargo y revísalo completo.** Aunque sea pequeño: así
+   se prueba el proceso antes que el producto. Si un agente va a revisar,
+   [calíbralo](/guias/revision/#9-calibrar-al-revisor-errores-sembrados) primero.
+
+</Steps>
+
+<Aside type="tip" title="Sistemas operativos">
+La puerta necesita `bash` y `make`. En macOS y Linux ya vienen. En Windows, usa
+WSL con `make` o Git Bash (sin `make`: corre `bash tools/ci/local-gate.sh`).
+</Aside>
+
+## Versiones
+
+VERDE sigue [Versionado Semántico](https://semver.org/lang/es/). Cada proyecto
+anota en su `D-001` la versión que adoptó; los cambios están en el
+[changelog](/changelog/).
