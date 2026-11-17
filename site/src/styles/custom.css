@@ -133,9 +133,10 @@ body:has(.verde-home) .sl-container {
   max-width: 76rem;
 }
 
-/* La portada trae su propio h1 */
-body:has(.verde-home) .content-panel:first-of-type:has(h1#_top) {
-  display: none;
+/* La portada trae su propio h1: el primer panel sólo guarda el ancla #_top */
+body:has(.verde-home) .content-panel:first-of-type:has(.verde-top-anchor) {
+  padding: 0;
+  border: 0;
 }
 
 /* En la portada la firma ya está al final de la página */

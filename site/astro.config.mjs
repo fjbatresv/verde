@@ -42,6 +42,7 @@ export default defineConfig({
       components: {
         Head: './src/components/Head.astro',
         Footer: './src/components/Footer.astro',
+        PageTitle: './src/components/PageTitle.astro',
       },
       sidebar: [
         { label: 'Empezar', translations: { en: 'Get started' }, slug: 'empezar' },
