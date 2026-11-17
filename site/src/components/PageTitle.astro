@@ -1,0 +1,10 @@
+---
+// En la portada el h1 (y el destino #_top de "Saltar al contenido") lo pone
+// Landing.astro, para que la página tenga un único h1.
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+
+const { id } = Astro.locals.starlightRoute;
+const isHome = id === '' || id === 'en';
+---
+
+{!isHome && <Default />}
