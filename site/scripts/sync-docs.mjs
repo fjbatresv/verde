@@ -18,14 +18,16 @@ export const LOCALES = {
     metadata: 'Metadatos de la nota (frontmatter de Obsidian):', screenshot: 'captura',
     versions: 'Versiones', released: (date) => `Publicada el ${date}.`, unreleased: 'Cambios que entrarán en la próxima versión.',
     versionDescription: (title, date) => `Notas de la versión ${title} de VERDE, publicada el ${date}: qué cambió en el estándar respecto a la versión anterior.`,
-    unreleasedDescription: 'Cambios de VERDE que entrarán en la próxima versión del estándar.',
+    unreleasedDescription: 'Cambios de VERDE ya integrados que todavía no tienen versión: lo que entrará en la próxima versión del estándar.',
+    versionTitle: (title) => `Versión ${title.replace(/^v/, '')}`,
   },
   en: {
     prefix: '/en', dir: 'en/', srcRoot: 'i18n/en/',
     metadata: 'Note metadata (Obsidian frontmatter):', screenshot: 'screenshot',
     versions: 'Versions', released: (date) => `Released on ${date}.`, unreleased: 'Changes for the next version.',
     versionDescription: (title, date) => `Release notes for VERDE ${title}, released on ${date}: what changed in the standard since the previous version.`,
-    unreleasedDescription: 'VERDE changes that will ship in the next version of the standard.',
+    unreleasedDescription: 'VERDE changes already merged but not yet released: what will ship in the next version of the standard.',
+    versionTitle: (title) => `Version ${title.replace(/^v/, '')}`,
   },
 };
 
@@ -58,8 +60,8 @@ export const PAGES = [
     route: '/changelog/',
     split: 'versions',
     order: 0,
-    es: { title: 'Changelog', label: 'Cómo se versiona', description: 'Versiones de VERDE y qué cambió en cada una.' },
-    en: { title: 'Changelog', label: 'Versioning', description: 'VERDE versions and what changed in each one.' },
+    es: { title: 'Changelog', label: 'Cómo se versiona', description: 'Historial de versiones de VERDE, el estándar para desarrollar con agentes de IA: qué cambió en cada versión y qué entrará en la próxima.' },
+    en: { title: 'Changelog', label: 'Versioning', description: 'Version history of VERDE, the standard for building with AI agents: what changed in each version and what ships in the next one.' },
   },
   {
     src: 'examples/acme/README.md',
@@ -316,7 +318,7 @@ function renderVersions(page, text) {
   sections.forEach((v, i) => {
     const versionPage = {
       ...page,
-      title: v.released ? `VERDE ${v.title}` : v.title,
+      title: v.released ? loc.versionTitle(v.title) : v.title,
       label: v.title,
       description: v.released ? loc.versionDescription(v.title, v.date) : loc.unreleasedDescription,
       order: i + 1,
