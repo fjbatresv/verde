@@ -60,14 +60,14 @@
 
 /* Titulares en Fraunces, en toda la documentación */
 .sl-markdown-content :is(h1, h2, h3),
-h1#_top,
+.sl-container > h1#_top,
 .site-title {
   font-family: var(--verde-display);
   font-variation-settings: 'SOFT' 50, 'WONK' 0;
   letter-spacing: -0.01em;
 }
 
-h1#_top {
+.sl-container > h1#_top {
   font-weight: 600;
   font-size: clamp(2.2rem, 5vw, 3.2rem);
   line-height: 1.05;
@@ -133,10 +133,9 @@ body:has(.verde-home) .sl-container {
   max-width: 76rem;
 }
 
-/* La portada trae su propio h1: el primer panel sólo guarda el ancla #_top */
-body:has(.verde-home) .content-panel:first-of-type:has(.verde-top-anchor) {
-  padding: 0;
-  border: 0;
+/* La portada trae su propio h1 (#_top): el panel del título queda vacío */
+body:has(.verde-home) .content-panel:first-of-type:not(:has(.verde-home)) {
+  display: none;
 }
 
 /* En la portada la firma ya está al final de la página */
