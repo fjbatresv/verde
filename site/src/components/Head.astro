@@ -1,5 +1,7 @@
 ---
 import Default from '@astrojs/starlight/components/Head.astro';
+import frauncesLatin from '@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2?url';
+import instrumentLatin from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2?url';
 
 const SITE = 'https://verde.fjbatresv.com';
 const route = Astro.locals.starlightRoute;
@@ -56,6 +58,8 @@ if (!isHome && !is404) {
 
 <Default />
 
+<link rel="preload" href={frauncesLatin} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={instrumentLatin} as="font" type="font/woff2" crossorigin />
 {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 
 <script>
