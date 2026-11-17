@@ -15,6 +15,13 @@ if (is404) {
   route.head.push({ tag: 'meta', attrs: { name: 'robots', content: 'noindex, follow' }, content: undefined });
 }
 
+// La portada es el sitio, no un artículo.
+if (isHome) {
+  route.head = route.head.map((tag) =>
+    tag.tag === 'meta' && tag.attrs?.property === 'og:type' ? { ...tag, attrs: { ...tag.attrs, content: 'website' } } : tag,
+  );
+}
+
 // Datos estructurados de las páginas internas; la portada trae los suyos (Landing.astro).
 let jsonLd: object | null = null;
 if (!isHome && !is404) {
